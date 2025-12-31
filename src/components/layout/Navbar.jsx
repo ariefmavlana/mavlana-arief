@@ -91,8 +91,8 @@ const Navbar = () => {
             </div>
 
             {/* Mobile Menu - Glassmorphism */}
-            <div className={`md:hidden absolute top-full left-0 right-0 bg-black/60 backdrop-blur-xl border-b border-white/5 transition-all duration-300 overflow-hidden ${isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-                <div className="px-5 py-6 flex flex-col gap-4">
+            <div className={`md:hidden absolute top-full left-0 right-0 bg-black/90 backdrop-blur-xl border-b border-white/5 transition-all duration-300 overflow-hidden ${isMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`}>
+                <div className="px-5 py-8 flex flex-col gap-4 pb-12">
                     {NAV_LINKS.map((link) => (
                         <button
                             key={link.id}

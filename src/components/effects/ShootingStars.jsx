@@ -18,28 +18,28 @@ const ShootingStars = ({ count = 3 }) => {
                     style={{
                         left: `${star.startX}%`,
                         top: `${star.startY}%`,
-                        boxShadow: '0 0 10px 2px rgba(255, 255, 255, 0.8)',
+                        boxShadow: '0 0 15px 3px rgba(6, 182, 212, 0.6)', // Cyan glow
                     }}
                     initial={{ opacity: 0, x: 0, y: 0 }}
                     animate={{
                         opacity: [0, 1, 1, 0],
-                        x: [0, -200],
-                        y: [0, 200],
+                        x: [0, -300], // Increased distance
+                        y: [0, 300],
                     }}
                     transition={{
                         duration: star.duration,
                         delay: star.delay,
                         repeat: Infinity,
-                        repeatDelay: Math.random() * 15 + 10,
+                        repeatDelay: Math.random() * 8 + 5, // More frequent
                         ease: 'easeOut',
                     }}
                 >
-                    {/* Shooting star tail */}
+                    {/* Shooting star tail - Aligned with movement (135deg angle -> tail at -45deg) */}
                     <div
-                        className="absolute top-0 left-0 w-20 h-0.5 bg-gradient-to-r from-white to-transparent"
+                        className="absolute top-1/2 left-1/2 w-[150px] h-[2px] bg-gradient-to-r from-cyan-400 to-transparent"
                         style={{
-                            transform: 'rotate(45deg)',
-                            transformOrigin: 'left center',
+                            transform: 'translate(0, -50%) rotate(-45deg)', // Head at star, tail extends Up-Right
+                            transformOrigin: 'left center', // Rotate around the bright end (left)
                         }}
                     />
                 </motion.div>
