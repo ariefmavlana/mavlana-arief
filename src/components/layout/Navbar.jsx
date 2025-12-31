@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Code, Menu, X } from 'lucide-react'
+import { Code, Menu, X, Sparkles } from 'lucide-react'
 import { NAV_LINKS, PERSONAL_INFO } from '../../utils/constants'
 import { scrollToSection, useScrollSpy } from '../../hooks/useScrollSpy'
+import { motion } from 'framer-motion'
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -22,87 +23,100 @@ const Navbar = () => {
         scrollToSection(sectionId)
         setIsMenuOpen(false)
     }
+
     return (
-        <nav
-            className={`fixed top-0 left-0 right-0 z-1000 w-full py-4 transition-all duration-300 ${isScrolled
-                ? 'bg-black/30 backdrop-blur-lg'
+        <motion.nav
+            initial={{ y: -100 }}
+            animate={{ y: 0 }}
+            className={`fixed top-0 left-0 right-0 z-50 w-full py-4 transition-all duration-300 ${isScrolled
+                ? 'bg-black/50 backdrop-blur-xl border-b border-white/5'
                 : 'bg-transparent'
                 }`}
-            style={{ transform: 'translate3d(0, 0, 0)' }}>
+        >
             <div className='max-w-[1320px] mx-auto px-5'>
                 <div className="flex items-center justify-between">
-                    {/* Logo */}
-                    <div className="flex items-center gap-4">
-                        <Code className='w-6 h-6 text-primary' />
+                    {/* Logo - Space Themed */}
+                    <div className="flex items-center gap-3 group cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                        <div className="relative flex items-center justify-center p-2 rounded-xl bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border border-purple-500/30 group-hover:border-cyan-400/50 transition-all duration-300">
+                            <Code className='w-6 h-6 text-cyan-400 group-hover:text-purple-400 transition-colors duration-300' />
+                            <div className="absolute inset-0 bg-cyan-400/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        </div>
 
-                        <button
-                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                            className='text-2xl font-bold bg-gradient-to-r from-primary via-primary/50 to-primary/30 bg-clip-text text-transparent hover:opacity-70 transition-opacity'
-                            aria-label='home'>
+                        <span className='text-2xl font-bold bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent bg-300% animate-gradient group-hover:opacity-80 transition-opacity'>
                             {PERSONAL_INFO.name.split(' ')[0]}
-                        </button>
+                        </span>
                     </div>
 
                     {/* Desktop Navigation */}
-                    <nav className="hidden md:flex items-center gap-7">
+                    <nav className="hidden md:flex items-center gap-8">
                         {NAV_LINKS.map((link) => (
                             <button
                                 key={link.id}
                                 onClick={() => handleNavClick(link.id)}
-                                className={`text-base font-medium transition-all duration-300 ${activeSection === link.id
-                                    ? 'text-white'
-                                    : 'text-white/70 hover:text-white'
+                                className={`text-sm font-medium transition-all duration-300 relative group px-2 py-1 ${activeSection === link.id
+                                    ? 'text-cyan-400'
+                                    : 'text-gray-400 hover:text-white'
                                     }`}
-                                aria-label={link.label}>
+                            >
                                 {link.label}
+                                <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-500 to-cyan-500 transition-all duration-300 ${activeSection === link.id ? 'w-full' : 'w-0 group-hover:w-full'}`} />
                             </button>
                         ))}
                     </nav>
+
                     {/* CTA button */}
-                    <div className="hidden md:flex items-center gap-2">
+                    <div className="hidden md:flex items-center gap-4">
                         <button
                             onClick={() => handleNavClick('contact')}
-                            className='px-7 py-3.5 bg-white text-[#212121] font-medium text-base rounded-[17px] border border-white hover:bg-white/90 transition-all duration-300'
-                            aria-label='contact'>
-                            Hire Me
+                            className='group relative px-6 py-2.5 rounded-full overflow-hidden transition-all duration-300 hover:scale-105'
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-cyan-600 opacity-80 group-hover:opacity-100 transition-opacity" />
+                            <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-cyan-400 blur-lg opacity-40 group-hover:opacity-60 transition-opacity" />
+
+                            <div className="relative flex items-center gap-2 text-white font-medium text-sm">
+                                <Sparkles className="w-4 h-4" />
+                                <span>Hire Me</span>
+                            </div>
                         </button>
                     </div>
 
                     {/* Mobile menu button */}
                     <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className='md:hidden p-4 text-white hover:text-white/80 transition-colors'
-                        aria-label='menu'
-                        aria-expanded={isMenuOpen}>
+                        className='md:hidden p-2 text-gray-400 hover:text-white transition-colors relative'
+                    >
                         {isMenuOpen ? <X className='w-6 h-6' /> : <Menu className='w-6 h-6' />}
                     </button>
                 </div>
             </div>
-            {/* Mobile Menu */}
-            <div className={`md:hidden transition-all duration-300 overflow-hidden
-                ${isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-                <div className="px-5 py-4 flex flex-col gap-4">
+
+            {/* Mobile Menu - Glassmorphism */}
+            <div className={`md:hidden absolute top-full left-0 right-0 bg-black/60 backdrop-blur-xl border-b border-white/5 transition-all duration-300 overflow-hidden ${isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                <div className="px-5 py-6 flex flex-col gap-4">
                     {NAV_LINKS.map((link) => (
                         <button
                             key={link.id}
                             onClick={() => handleNavClick(link.id)}
-                            className={`text-base font-medium transition-all duration-300 text-left ${activeSection === link.id
-                                ? 'text-white'
-                                : 'text-white/70 hover:text-white'
+                            className={`text-lg font-medium transition-all duration-300 text-left px-4 py-2 rounded-lg ${activeSection === link.id
+                                ? 'bg-white/5 text-cyan-400'
+                                : 'text-gray-400 hover:text-white hover:bg-white/5'
                                 }`}
-                            aria-label={link.label}>
+                        >
                             {link.label}
                         </button>
                     ))}
+
+                    <div className="h-px bg-white/10 my-2" />
+
                     <button
                         onClick={() => handleNavClick('contact')}
-                        className='px-7 py-3.5 bg-white text-[#212121] font-medium text-base rounded-[17px] border border-white hover:bg-white/90 transition-all duration-300 w-full'
-                        aria-label='contact'>
+                        className='px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-medium text-base rounded-xl transition-all duration-300 shadow-lg shadow-purple-900/20'
+                    >
                         Hire Me
                     </button>
                 </div>
             </div>
-        </nav>
+        </motion.nav>
     )
 }
 

@@ -3,23 +3,41 @@ import { motion } from 'framer-motion'
 import { skills } from '../../data/skills'
 import SkillCard from '../ui/SkillCard'
 import FadeIn from '../animations/FadeIn'
+import Starfield from '../backgrounds/Starfield'
 
 const Skills = () => {
     return (
         <section id="skills" className="relative py-20 md:py-32 overflow-hidden">
-            {/* Background with grid */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/50 to-black" />
-            <div
-                className="absolute inset-0 opacity-5"
-                style={{
-                    backgroundImage: 'url(/grid.png)',
-                    backgroundSize: '60px 60px',
+            {/* Space Background */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-900/20 to-black" />
+            <Starfield density={200} speed={0.25} />
+
+            {/* Animated cosmic orbs */}
+            <motion.div
+                className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
+                animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.1, 0.2, 0.1],
+                }}
+                transition={{
+                    duration: 8,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
                 }}
             />
-
-            {/* Animated gradient orbs */}
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-green-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+            <motion.div
+                className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"
+                animate={{
+                    scale: [1, 1.3, 1],
+                    opacity: [0.1, 0.2, 0.1],
+                }}
+                transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    delay: 1,
+                }}
+            />
 
             <div className="container mx-auto px-6 relative z-10">
                 <div className="max-w-6xl mx-auto">
@@ -31,7 +49,7 @@ const Skills = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                             >
-                                My <span className="text-primary">Skills</span>
+                                My <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Skills</span>
                             </motion.h2>
                             <p className="text-gray-400 text-lg">
                                 Technologies and tools I work with
@@ -48,7 +66,7 @@ const Skills = () => {
                     {/* Additional info */}
                     <FadeIn delay={500}>
                         <motion.div
-                            className="mt-16 p-8 rounded-3xl bg-gradient-to-br from-primary/10 via-transparent to-transparent border border-primary/20 backdrop-blur-sm text-center"
+                            className="mt-16 p-8 rounded-3xl bg-gradient-to-br from-purple-500/10 via-cyan-500/5 to-transparent border border-purple-500/30 backdrop-blur-sm text-center"
                             whileHover={{ scale: 1.02 }}
                         >
                             <p className="text-gray-300 text-lg">

@@ -41,7 +41,8 @@ const AnimatedBackground = () => {
             }
 
             draw() {
-                ctx.fillStyle = `rgba(141, 255, 105, ${this.opacity})`
+                // Change to Cyan
+                ctx.fillStyle = `rgba(6, 182, 212, ${this.opacity})`
                 ctx.beginPath()
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
                 ctx.fill()
@@ -50,35 +51,12 @@ const AnimatedBackground = () => {
 
         // Create particles
         const createParticles = () => {
-            const particleCount = Math.floor((canvas.width * canvas.height) / 8000)
+            const particleCount = Math.floor((canvas.width * canvas.height) / 15000) // Reduced density
             for (let i = 0; i < particleCount; i++) {
                 particles.push(new Particle())
             }
         }
         createParticles()
-
-        // Draw grid
-        const drawGrid = () => {
-            const gridSize = 50
-            ctx.strokeStyle = 'rgba(141, 255, 105, 0.08)'
-            ctx.lineWidth = 1
-
-            // Vertical lines
-            for (let x = 0; x < canvas.width; x += gridSize) {
-                ctx.beginPath()
-                ctx.moveTo(x, 0)
-                ctx.lineTo(x, canvas.height)
-                ctx.stroke()
-            }
-
-            // Horizontal lines
-            for (let y = 0; y < canvas.height; y += gridSize) {
-                ctx.beginPath()
-                ctx.moveTo(0, y)
-                ctx.lineTo(canvas.width, y)
-                ctx.stroke()
-            }
-        }
 
         // Connect particles
         const connectParticles = () => {
@@ -89,7 +67,8 @@ const AnimatedBackground = () => {
                     const distance = Math.sqrt(dx * dx + dy * dy)
 
                     if (distance < 150) {
-                        ctx.strokeStyle = `rgba(141, 255, 105, ${0.2 * (1 - distance / 150)})`
+                        // Change to Cyan/Purple mix or just Cyan
+                        ctx.strokeStyle = `rgba(6, 182, 212, ${0.15 * (1 - distance / 150)})`
                         ctx.lineWidth = 1
                         ctx.beginPath()
                         ctx.moveTo(particles[i].x, particles[i].y)
@@ -105,13 +84,10 @@ const AnimatedBackground = () => {
             // Create dark gradient background
             const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
             gradient.addColorStop(0, '#000000')
-            gradient.addColorStop(0.5, '#0a0a0a')
+            gradient.addColorStop(0.5, '#050505') // Darker
             gradient.addColorStop(1, '#000000')
             ctx.fillStyle = gradient
             ctx.fillRect(0, 0, canvas.width, canvas.height)
-
-            // Draw grid
-            drawGrid()
 
             // Update and draw particles
             particles.forEach(particle => {

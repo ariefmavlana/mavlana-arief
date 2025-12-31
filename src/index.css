@@ -4,7 +4,7 @@
 @theme {
   --font-display: "Urbanist", sans-serif;
   --breakpoint-3xl: 1920px;
-  --color-primary: #8DFF69;
+  --color-primary: #06B6D4;
 }
 
 @layer base {
@@ -21,7 +21,7 @@
     overflow-x: hidden;
   }
 
-  /* custom scrollbar */
+  /* custom scrollbar - space themed */
   ::-webkit-scrollbar {
     width: 10px;
   }
@@ -31,18 +31,18 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #8DFF69, #6FE047);
+    background: linear-gradient(180deg, #a855f7, #06b6d4);
     border-radius: 5px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #A8FF8D, #5BC92E);
+    background: linear-gradient(180deg, #c084fc, #22d3ee);
   }
 
   /* firefox scrollbar */
   * {
     scrollbar-width: thin;
-    scrollbar-color: #6FE047 #0a0a0a;
+    scrollbar-color: #a855f7 #0a0a0a;
   }
 
   /* hide scrollbar for carousel */
@@ -78,6 +78,20 @@
     }
   }
 
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
   /* utility classes */
   .animate-fadeIn {
     animation: fadeIn 0.5s ease-in-out;
@@ -91,6 +105,11 @@
     animation: spin 8s linear infinite;
   }
 
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient 3s ease infinite;
+  }
+
   @keyframes spin {
     from {
       transform: rotate(0deg);
@@ -99,6 +118,36 @@
     to {
       transform: rotate(360deg);
     }
+  }
+
+  @keyframes blob {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+  }
+
+  .animate-blob {
+    animation: blob 20s infinite;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
   }
 
   /* line clamp */
