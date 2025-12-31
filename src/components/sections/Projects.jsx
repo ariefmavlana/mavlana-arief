@@ -69,8 +69,8 @@ const Projects = () => {
                                         key={cat}
                                         onClick={() => setActiveCategory(cat)}
                                         className={`px-4 py-2 md:px-6 md:py-3 text-sm md:text-base rounded-full font-medium transition-all duration-300 ${activeCategory === cat
-                                                ? 'bg-gradient-to-r from-purple-500 to-cyan-500 text-white shadow-lg shadow-purple-500/50'
-                                                : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-purple-500/20 hover:border-cyan-400/40'
+                                            ? 'bg-gradient-to-r from-purple-500 to-cyan-500 text-white shadow-lg shadow-purple-500/50'
+                                            : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-purple-500/20 hover:border-cyan-400/40'
                                             }`}
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
@@ -105,6 +105,17 @@ const Projects = () => {
                             </p>
                         </motion.div>
                     )}
+                    <FadeIn delay={200}>
+                        <div className="mt-16 text-center">
+                            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/5 border border-white/10 text-gray-400 text-sm md:text-base">
+                                <span className="relative flex h-3 w-3">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
+                                </span>
+                                More projects coming soon! Website is still under active development.
+                            </div>
+                        </div>
+                    </FadeIn>
                 </div>
             </div>
         </section>
