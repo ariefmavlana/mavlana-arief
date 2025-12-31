@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Code, Menu, X, Sparkles } from 'lucide-react'
+import { Rocket, Menu, X, Sparkles } from 'lucide-react'
 import { NAV_LINKS, PERSONAL_INFO } from '../../utils/constants'
 import { scrollToSection, useScrollSpy } from '../../hooks/useScrollSpy'
 import { motion } from 'framer-motion'
@@ -38,7 +38,7 @@ const Navbar = () => {
                     {/* Logo - Space Themed */}
                     <div className="flex items-center gap-3 group cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
                         <div className="relative flex items-center justify-center p-2 rounded-xl bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border border-purple-500/30 group-hover:border-cyan-400/50 transition-all duration-300">
-                            <Code className='w-6 h-6 text-cyan-400 group-hover:text-purple-400 transition-colors duration-300' />
+                            <Rocket className='w-6 h-6 text-cyan-400 group-hover:text-purple-400 transition-colors duration-300' />
                             <div className="absolute inset-0 bg-cyan-400/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         </div>
 

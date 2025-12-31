@@ -144,18 +144,6 @@ const About = () => {
                                             <span className="text-purple-300 text-sm uppercase tracking-wider">Location</span>
                                             <p className="text-white font-medium mt-1">{PERSONAL_INFO.location}</p>
                                         </div>
-                                        <div className="pt-4 border-t border-purple-500/20">
-                                            <motion.a
-                                                href={PERSONAL_INFO.resume}
-                                                download
-                                                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 hover:from-purple-500/30 hover:to-cyan-500/30 text-purple-300 border border-purple-400/30 hover:border-cyan-400/50 rounded-xl transition-all font-medium"
-                                                whileHover={{ scale: 1.05 }}
-                                                whileTap={{ scale: 0.95 }}
-                                            >
-                                                <Download className="w-4 h-4" />
-                                                Download Resume
-                                            </motion.a>
-                                        </div>
                                     </div>
                                 </motion.div>
                             </div>

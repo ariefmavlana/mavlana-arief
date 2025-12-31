@@ -3,7 +3,8 @@ import { motion } from 'framer-motion'
 import * as LucideIcons from 'lucide-react'
 
 const SkillCard = ({ skill, index }) => {
-    const IconComponent = LucideIcons[skill.icon] || LucideIcons.Code2
+    // Safety fallback if icon is missing
+    const IconComponent = skill.icon || LucideIcons.Code2
 
     return (
         <motion.div

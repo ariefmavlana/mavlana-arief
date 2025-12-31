@@ -117,7 +117,7 @@ const Hero = () => {
                                 whileTap={{ scale: 0.95 }}
                             >
                                 <Download className="w-5 h-5 group-hover:text-cyan-400 transition-colors" />
-                                Flight Log (CV)
+                                Download Resume
                             </motion.a>
                         </div>
                     </FadeIn>

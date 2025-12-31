@@ -1,5 +1,5 @@
 import React from 'react'
-import { Code, Heart, Github, Linkedin, Twitter, Instagram } from 'lucide-react'
+import { Rocket, Heart, Github, Linkedin, Twitter, Instagram } from 'lucide-react'
 import { PERSONAL_INFO, NAV_LINKS, SOCIAL_LINKs } from '../../utils/constants'
 import { scrollToSection } from '../../hooks/useScrollSpy'
 import { motion } from 'framer-motion'
@@ -31,7 +31,7 @@ const Footer = () => {
                         <div className="md:col-span-2">
                             <div className="flex items-center gap-3 mb-6">
                                 <div className="p-2 rounded-xl bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border border-purple-500/30">
-                                    <Code className="w-6 h-6 text-cyan-400" />
+                                    <Rocket className="w-6 h-6 text-cyan-400" />
                                 </div>
                                 <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
                                     {PERSONAL_INFO.name.split(' ')[0]}

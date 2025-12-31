@@ -3,7 +3,8 @@ import { motion } from 'framer-motion'
 import * as LucideIcons from 'lucide-react'
 
 const ServiceCard = ({ service, index }) => {
-    const IconComponent = LucideIcons[service.icon] || LucideIcons.Code2
+    // Safety fallback
+    const IconComponent = service.icon || LucideIcons.Code2
 
     return (
         <motion.div
