@@ -2,7 +2,7 @@ export const skills = [
     {
         id: 1,
         name: "React.js",
-        icon: "Code2",
+        icon: "Atom",
         level: "Expert",
         experience: "3+ Years"
     },
@@ -16,98 +16,98 @@ export const skills = [
     {
         id: 3,
         name: "TypeScript",
-        icon: "Code2",
+        icon: "FileCode2",
         level: "Advanced",
         experience: "3+ Years"
     },
     {
         id: 4,
         name: "Tailwind CSS",
-        icon: "Code2",
+        icon: "Paintbrush",
         level: "Expert",
         experience: "3+ Years"
     },
     {
         id: 5,
         name: "REST API",
-        icon: "Code2",
+        icon: "Network",
         level: "Advanced",
         experience: "3+ Years"
     },
     {
         id: 6,
         name: "Node.js",
-        icon: "Code2",
+        icon: "Server",
         level: "Expert",
         experience: "3+ Years"
     },
     {
         id: 7,
         name: "Laravel",
-        icon: "Code2",
+        icon: "Box",
         level: "Advanced",
         experience: "3+ Years"
     },
     {
         id: 8,
         name: "AWS",
-        icon: "Code2",
+        icon: "Cloud",
         level: "Advanced",
         experience: "1+ Years"
     },
     {
         id: 9,
         name: "PostgreSQL",
-        icon: "Code2",
+        icon: "Database",
         level: "Expert",
         experience: "3+ Years"
     },
     {
         id: 10,
         name: "MongoDB",
-        icon: "Code2",
+        icon: "Layers",
         level: "Advanced",
         experience: "2+ Years"
     },
     {
         id: 11,
         name: "Express.js",
-        icon: "Code2",
+        icon: "Workflow",
         level: "Advanced",
         experience: "2+ Years"
     },
     {
         id: 12,
         name: "Redis",
-        icon: "Code2",
+        icon: "Gauge",
         level: "Advanced",
         experience: "2+ Years"
     },
     {
         id: 13,
         name: "R",
-        icon: "Code2",
+        icon: "BarChart3",
         level: "Advanced",
         experience: "1+ Years"
     },
     {
         id: 14,
         name: "Python",
-        icon: "Code2",
+        icon: "Binary",
         level: "Advanced",
         experience: "1+ Years"
     },
     {
         id: 15,
         name: "Power BI",
-        icon: "Code2",
+        icon: "PieChart",
         level: "Advanced",
         experience: "2+ Years"
     },
     {
         id: 16,
         name: "Tableau",
-        icon: "Code2",
+        icon: "TrendingUp",
         level: "Advanced",
         experience: "2+ Years"
     }
