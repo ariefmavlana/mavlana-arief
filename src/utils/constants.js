@@ -1,6 +1,6 @@
 export const PERSONAL_INFO = {
     name: "Arief Maulana",
-    title: "Fullstack Developer & Data Science Enthusiastt",
+    title: "Fullstack Developer & Data Science Enthusiast",
     email: "ariefmavlana8@gmail.com",
     whatsapp: "6287776734038",
     location: "Bandung, West Java, Indonesia",
