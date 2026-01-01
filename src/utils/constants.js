@@ -1,6 +1,6 @@
 export const PERSONAL_INFO = {
     name: "Arief Maulana",
-    title: "Fullstack Engineer || Data Scientist",
+    title: "Fullstack Developer & Data Science Enthusiastt",
     email: "ariefmavlana8@gmail.com",
     whatsapp: "6287776734038",
     location: "Bandung, West Java, Indonesia",
@@ -9,7 +9,7 @@ export const PERSONAL_INFO = {
     resume: "/ariefmaulanacv.pdf",
     photo: "/ariefmaulana.jpg",
     bio:
-        ["I'm Arief Maulana, a fullstack engineer who fell in love with data science when I was 25 years old.",
+        ["I'm Arief Maulana, a fullstack developer who fell in love with data science when I was 25 years old.",
             "I spend my days building fullstack applications - the kind where engineering and intelligence meet. From frontend tech to backend tech to ML/data tech, I work across the entire stack to turn ideas into experiences.",
             "What drives me? Solving hard problems / making data accessible / building tools that empower others / creating something people love",
             "Based in Bandung, West Java, Indonesia. Open to remote work."
