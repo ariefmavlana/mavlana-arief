@@ -1,8 +1,9 @@
 import {
     SiReact, SiNextdotjs, SiTypescript, SiTailwindcss,
     SiNodedotjs, SiLaravel, SiAmazon, SiPostgresql,
-    SiMongodb, SiExpress, SiRedis, SiR, SiPython,
-    SiTensorflow, SiTableau, SiFastapi
+    SiMongodb, SiExpress, SiR, SiPython, SiTableau,
+    SiThreedotjs,
+    SiGhost
 } from 'react-icons/si'
 import { Globe } from 'lucide-react'
 
@@ -86,8 +87,8 @@ export const skills = [
     },
     {
         id: 12,
-        name: "Redis",
-        icon: SiRedis,
+        name: "Three.js",
+        icon: SiThreedotjs,
         level: "Advanced",
         experience: "2+ Years"
     },
@@ -107,8 +108,8 @@ export const skills = [
     },
     {
         id: 15,
-        name: "TensorFlow",
-        icon: SiTensorflow,
+        name: "GSAP",
+        icon: SiGhost,
         level: "Advanced",
         experience: "2+ Years"
     },

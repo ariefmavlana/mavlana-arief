@@ -1,16 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Urbanist", sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Space Grotesk", sans-serif;
   --breakpoint-3xl: 1920px;
-  --color-primary: #06B6D4;
+  --color-primary: #3b82f6;
+  /* Deep Sky Blue */
 }
 
 @layer base {
   html {
-    font-family: var(--font-display);
+    font-family: var(--font-body);
     scroll-behavior: smooth;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
   }
 
   body {
@@ -21,22 +32,24 @@
     overflow-x: hidden;
   }
 
-  /* custom scrollbar - space themed */
+  /* custom scrollbar - Deep Space themed */
   ::-webkit-scrollbar {
     width: 10px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #0a0a0a;
+    background: #020617;
+    /* Slate-950 */
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #a855f7, #06b6d4);
+    background: linear-gradient(180deg, #3b82f6, #8b5cf6);
+    /* Blue to Violet */
     border-radius: 5px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #c084fc, #22d3ee);
+    background: linear-gradient(180deg, #60a5fa, #a78bfa);
   }
 
   /* firefox scrollbar */

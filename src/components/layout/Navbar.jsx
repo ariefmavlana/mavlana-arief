@@ -37,12 +37,12 @@ const Navbar = () => {
                 <div className="flex items-center justify-between">
                     {/* Logo - Space Themed */}
                     <div className="flex items-center gap-3 group cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                        <div className="relative flex items-center justify-center p-2 rounded-xl bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border border-purple-500/30 group-hover:border-cyan-400/50 transition-all duration-300">
-                            <Rocket className='w-6 h-6 text-cyan-400 group-hover:text-purple-400 transition-colors duration-300' />
-                            <div className="absolute inset-0 bg-cyan-400/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="relative flex items-center justify-center p-2 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30 group-hover:border-purple-400/50 transition-all duration-300">
+                            <Rocket className='w-6 h-6 text-blue-400 group-hover:text-purple-400 transition-colors duration-300' />
+                            <div className="absolute inset-0 bg-blue-400/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         </div>
 
-                        <span className='text-2xl font-bold bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent bg-300% animate-gradient group-hover:opacity-80 transition-opacity'>
+                        <span className='text-2xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent bg-300% animate-gradient group-hover:opacity-80 transition-opacity'>
                             {PERSONAL_INFO.name.split(' ')[0]}
                         </span>
                     </div>
@@ -59,7 +59,7 @@ const Navbar = () => {
                                     }`}
                             >
                                 {link.label}
-                                <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-500 to-cyan-500 transition-all duration-300 ${activeSection === link.id ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+                                <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300 ${activeSection === link.id ? 'w-full' : 'w-0 group-hover:w-full'}`} />
                             </button>
                         ))}
                     </nav>
@@ -67,11 +67,11 @@ const Navbar = () => {
                     {/* CTA button */}
                     <div className="hidden md:flex items-center gap-4">
                         <button
-                            onClick={() => handleNavClick('contact')}
+                            onClick={() => window.open(`https://wa.me/${PERSONAL_INFO.whatsapp}?text=${encodeURIComponent("Hello Arief, I'm interested in working with you.")}`, '_blank')}
                             className='group relative px-6 py-2.5 rounded-full overflow-hidden transition-all duration-300 hover:scale-105'
                         >
-                            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-cyan-600 opacity-80 group-hover:opacity-100 transition-opacity" />
-                            <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-cyan-400 blur-lg opacity-40 group-hover:opacity-60 transition-opacity" />
+                            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-80 group-hover:opacity-100 transition-opacity" />
+                            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 blur-lg opacity-40 group-hover:opacity-60 transition-opacity" />
 
                             <div className="relative flex items-center gap-2 text-white font-medium text-sm">
                                 <Sparkles className="w-4 h-4" />
@@ -98,7 +98,7 @@ const Navbar = () => {
                             key={link.id}
                             onClick={() => handleNavClick(link.id)}
                             className={`text-lg font-medium transition-all duration-300 text-left px-4 py-2 rounded-lg ${activeSection === link.id
-                                ? 'bg-white/5 text-cyan-400'
+                                ? 'bg-white/5 text-blue-400'
                                 : 'text-gray-400 hover:text-white hover:bg-white/5'
                                 }`}
                         >
@@ -109,8 +109,11 @@ const Navbar = () => {
                     <div className="h-px bg-white/10 my-2" />
 
                     <button
-                        onClick={() => handleNavClick('contact')}
-                        className='px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-medium text-base rounded-xl transition-all duration-300 shadow-lg shadow-purple-900/20'
+                        onClick={() => {
+                            window.open(`https://wa.me/${PERSONAL_INFO.whatsapp}?text=${encodeURIComponent("Hello Arief, I'm interested in working with you.")}`, '_blank')
+                            setIsMenuOpen(false)
+                        }}
+                        className='px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium text-base rounded-xl transition-all duration-300 shadow-lg shadow-blue-900/20'
                     >
                         Hire Me
                     </button>

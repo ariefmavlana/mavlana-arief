@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { motion, useScroll } from 'framer-motion'
-import { ChevronDown, Rocket, Download } from 'lucide-react'
-import { SiReact, SiNextdotjs, SiLaravel, SiTailwindcss, SiNodedotjs, SiMongodb, SiExpress, SiTableau, SiTypescript, SiAwsamplify, SiPostgresql, SiPython, SiJupyter } from 'react-icons/si'
+import { motion, useScroll, AnimatePresence } from 'framer-motion'
+import { Rocket, Download } from 'lucide-react'
+import { SiReact, SiNextdotjs, SiLaravel, SiTailwindcss, SiNodedotjs, SiMongodb, SiExpress, SiTableau, SiTypescript, SiPostgresql, SiPython, SiJupyter, SiAmazon, SiThreedotjs, SiGhost, SiR } from 'react-icons/si'
 import { PERSONAL_INFO, STATS } from '../../utils/constants'
 import { scrollToSection } from '../../hooks/useScrollSpy'
 import FadeIn from '../animations/FadeIn'
@@ -13,7 +13,16 @@ import ShootingStars from '../effects/ShootingStars'
 
 const Hero = () => {
     const [scrollProgress, setScrollProgress] = useState(0)
+    const [isLaunching, setIsLaunching] = useState(false)
     const { scrollY } = useScroll()
+
+    const handleContactClick = () => {
+        setIsLaunching(true)
+        scrollToSection('contact')
+        setTimeout(() => setIsLaunching(false), 2000)
+    }
+
+
 
     useEffect(() => {
         const unsubscribe = scrollY.on('change', (latest) => {
@@ -31,18 +40,21 @@ const Hero = () => {
         { Icon: SiNodedotjs, label: 'Node.js', color: '#339933' },
         { Icon: SiMongodb, label: 'MongoDB', color: '#47A248' },
         { Icon: SiExpress, label: 'Express', color: '#000000' },
-        { Icon: SiTableau, label: 'Tableau', color: '#E97627' },
+        { Icon: SiThreedotjs, label: 'Three.js', color: '#FF9900' },
+        { Icon: SiGhost, label: 'GSAP', color: '#FF9900' },
         { Icon: SiTypescript, label: 'TypeScript', color: '#3178C6' },
-        { Icon: SiAwsamplify, label: 'AWS', color: '#FF9900' },
+        { Icon: SiAmazon, label: 'AWS', color: '#FF9900' },
         { Icon: SiPostgresql, label: 'PostgreSQL', color: '#4169E1' },
         { Icon: SiPython, label: 'Python', color: '#3776AB' },
+        { Icon: SiR, label: 'R', color: '#3776AB' },
         { Icon: SiJupyter, label: 'Jupyter', color: '#F37626' },
+        { Icon: SiTableau, label: 'Tableau', color: '#E97627' },
     ]
 
     return (
         <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
             {/* Space Background Layers */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-900/20 to-black" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black via-blue-900/20 to-black" />
             <Starfield density={350} speed={0.4} />
             <CosmicClouds />
             <ShootingStars count={8} />
@@ -55,17 +67,17 @@ const Hero = () => {
 
             {/* Cosmic Gradient Overlays */}
             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-900/10 via-transparent to-cyan-900/10 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/10 via-transparent to-purple-900/10 pointer-events-none" />
 
             {/* Content - Centered */}
             <div className="container mx-auto px-6 relative z-10 pt-20">
                 <div className="max-w-4xl mx-auto text-center">
                     <FadeIn delay={0}>
                         <motion.div
-                            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-black/40 border border-purple-500/30 backdrop-blur-md mb-8 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
-                            whileHover={{ scale: 1.05, borderColor: 'rgba(6, 182, 212, 0.5)' }}
+                            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-black/40 border border-blue-500/30 backdrop-blur-md mb-8 shadow-[0_0_15px_rgba(59,130,246,0.3)]"
+                            whileHover={{ scale: 1.05, borderColor: 'rgba(139, 92, 246, 0.5)' }}
                         >
-                            <Rocket className="w-4 h-4 text-cyan-400 animate-pulse" />
+                            <Rocket className="w-4 h-4 text-blue-400 animate-pulse" />
                             <span className="text-sm text-gray-200 font-medium tracking-wide">Ready for lift off</span>
                         </motion.div>
                     </FadeIn>
@@ -75,14 +87,14 @@ const Hero = () => {
                             <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400">
                                 {PERSONAL_INFO.name.split(' ')[0]}
                             </span>
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 animate-gradient">
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 animate-gradient">
                                 {PERSONAL_INFO.name.split(' ').slice(1).join(' ')}
                             </span>
                         </h1>
                     </FadeIn>
 
                     <FadeIn delay={200}>
-                        <p className="text-2xl md:text-3xl lg:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-white to-purple-300 font-medium mb-8 tracking-wide">
+                        <p className="text-2xl md:text-3xl lg:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-white to-purple-300 font-medium mb-8 tracking-wide">
                             {PERSONAL_INFO.title}
                         </p>
                     </FadeIn>
@@ -96,13 +108,13 @@ const Hero = () => {
                     <FadeIn delay={400}>
                         <div className="flex flex-wrap justify-center gap-6 mb-12">
                             <motion.button
-                                onClick={() => scrollToSection('contact')}
+                                onClick={handleContactClick}
                                 className="group relative px-8 py-4 bg-transparent overflow-hidden rounded-full"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-cyan-600 opacity-90 group-hover:opacity-100 transition-opacity" />
-                                <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-cyan-400 blur-lg opacity-40 group-hover:opacity-60 transition-opacity" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-90 group-hover:opacity-100 transition-opacity" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 blur-lg opacity-40 group-hover:opacity-60 transition-opacity" />
                                 <div className="relative flex items-center gap-2 text-white font-bold">
                                     Initiate Contact
                                     <Rocket className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
@@ -112,11 +124,11 @@ const Hero = () => {
                             <motion.a
                                 href={PERSONAL_INFO.resume}
                                 download
-                                className="group inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 text-white font-semibold rounded-full border border-white/10 hover:border-cyan-400/50 transition-all duration-300 backdrop-blur-sm"
+                                className="group inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 text-white font-semibold rounded-full border border-white/10 hover:border-blue-400/50 transition-all duration-300 backdrop-blur-sm"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                <Download className="w-5 h-5 group-hover:text-cyan-400 transition-colors" />
+                                <Download className="w-5 h-5 group-hover:text-blue-400 transition-colors" />
                                 Download Resume
                             </motion.a>
                         </div>
@@ -124,7 +136,7 @@ const Hero = () => {
 
                     {/* Stats Row */}
                     <FadeIn delay={500}>
-                        <div className="flex flex-wrap justify-center gap-8 md:gap-16 py-8 border-t border-white/5 bg-gradient-to-r from-transparent via-purple-900/10 to-transparent">
+                        <div className="flex flex-wrap justify-center gap-8 md:gap-16 py-8 border-t border-white/5 bg-gradient-to-r from-transparent via-blue-900/10 to-transparent">
                             {STATS.map((stat, index) => (
                                 <motion.div
                                     key={index}
@@ -179,6 +191,52 @@ const Hero = () => {
                 transition={{ duration: 2, repeat: Infinity }}
             >
             </motion.div>
+
+            {/* Rocket Launch Animation */}
+            <AnimatePresence>
+                {isLaunching && (
+                    <motion.div
+                        initial={{ top: '50%', left: '50%', x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
+                        animate={{
+                            top: ['50%', '50%'],
+                            y: ['-50%', '500%'],
+                            scale: [1, 2.5],
+                            opacity: [1, 1, 0]
+                        }}
+                        transition={{
+                            duration: 2.5,
+                            ease: [0.22, 1, 0.36, 1],
+                            times: [0, 1]
+                        }}
+                        className="fixed z-50 pointer-events-none flex flex-col items-center"
+                    >
+                        {/* Rocket Body - Rotated 135deg to point straight down (assuming 45deg default) */}
+                        <Rocket className="w-24 h-24 text-blue-400 rotate-[135deg] drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] z-20" />
+
+                        {/* Engine Flames Container - Rotated to match rocket */}
+                        <div className="relative -mt-4 z-10 flex justify-center rotate-[-45deg] origin-top">
+                            {/* Core Blue Flame */}
+                            <motion.div
+                                animate={{ height: [0, 80, 60], opacity: [0, 1, 0.8] }}
+                                transition={{ duration: 0.2, repeat: Infinity, repeatType: "reverse" }}
+                                className="w-4 bg-gradient-to-b from-blue-400 via-indigo-500 to-transparent blur-sm rounded-b-full"
+                            />
+                            {/* Outer Purple/Orange Flame */}
+                            <motion.div
+                                animate={{ height: [0, 120, 100], opacity: [0, 0.8, 0.6] }}
+                                transition={{ duration: 0.3, repeat: Infinity, repeatType: "reverse", delay: 0.05 }}
+                                className="absolute top-0 w-8 bg-gradient-to-b from-purple-500 via-orange-500 to-transparent blur-md rounded-b-full -z-10"
+                            />
+                            {/* Smoke/Particles */}
+                            <motion.div
+                                animate={{ height: [0, 150, 130], width: [10, 40], opacity: [0, 0.5, 0] }}
+                                transition={{ duration: 0.4, repeat: Infinity, repeatType: "reverse" }}
+                                className="absolute top-0 w-12 bg-gradient-to-b from-white/50 to-transparent blur-lg rounded-full -z-20"
+                            />
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </section>
     )
 }
