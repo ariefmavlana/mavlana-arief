@@ -21,6 +21,17 @@ export const projects = [
         link: "",
         github: "https://github.com/ariefmavlana/real-estate",
     },
+    {
+        id: 3,
+        title: "Weather App",
+        description: "Weather App is a Web Application that provides Weather information.",
+        image: "",
+        category: "Frontend",
+        technologies: ["React", "TypeScript", "Tailwind CSS", "OpenWeather API"],
+        metrics: "Deployed on Vercel",
+        link: "https://mavlana-weather.vercel.app/",
+        github: "https://github.com/ariefmavlana/mavlana-weather",
+    }
 ]
 
 export const category = ["All", "Frontend", "Fullstack"]
