@@ -31,6 +31,17 @@ export const projects = [
         metrics: "Deployed on Vercel",
         link: "https://mavlana-weather.vercel.app/",
         github: "https://github.com/ariefmavlana/mavlana-weather",
+    },
+    {
+        id: 4,
+        title: "Stock Tracker App",
+        description: "Stock Tracker App is a Web Application that provides Stock information.",
+        image: "",
+        category: "Fullstack",
+        technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Finnhub API", "MongoDB", "Inngest"],
+        metrics: "Deployed on Vercel",
+        link: "https://mavlana-stock-tracker.vercel.app/",
+        github: "https://github.com/ariefmavlana/mavlana-stock_tracker",
     }
 ]
 

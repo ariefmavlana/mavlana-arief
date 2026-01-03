@@ -1,16 +1,31 @@
-# React + Vite
+# Arief Maulana — Space Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **"Building elegant systems. Extracting meaningful insights."**
 
-Currently, two official plugins are available:
+A modern, highly interactive 3D portfolio website featuring a cosmic theme. This project showcases my work as a Fullstack Developer and Data Science Enthusiast, combining high-performance frontend engineering with advanced visual effects.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tech Stack
 
-## React Compiler
+- **Core:** React 19, Vite, JavaScript
+- **Styling:** Tailwind CSS 4
+- **Animations:** GSAP (GreenSock), Framer Motion
+- **3D Graphics:** Three.js, @react-three/fiber, @react-three/drei
+- **Icons:** Lucide React, React Icons
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Key Features
 
-## Expanding the ESLint configuration
+- **Interactive 3D Universe:** Immersive backgrounds featuring a 3D spaceman, parallax mountains, orbiting starfields, and cosmic clouds.
+- **Dynamic Projects Showcase:** Interactive cards displaying a curated list of frontend and fullstack projects with performance metrics.
+- **Advanced Animations:** Smooth scroll interactions powered by GSAP and micro-interactions with Framer Motion.
+- **Responsive & High Performance:** Optimized for all devices using modern CSS features and Vite's fast build system.
+- **Personal Brand Integration:** Professional bio, quick stats, and integrated contact points.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Specialized Services
+
+- **Fullstack Development:** End-to-end web application development with modern frameworks.
+- **Data Science & ML:** Extracting insights and building intelligent systems.
+- **UI/UX Craftsmanship:** Creating premium, responsive, and visually stunning user interfaces.
+
+---
+
+Built with Cosmos by [Arief Maulana](https://github.com/ariefmavlana)
