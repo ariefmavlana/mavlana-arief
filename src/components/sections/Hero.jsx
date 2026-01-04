@@ -94,15 +94,25 @@ const Hero = () => {
                     </FadeIn>
 
                     <FadeIn delay={200}>
-                        <p className="text-2xl md:text-3xl lg:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-white to-purple-300 font-medium mb-8 tracking-wide">
-                            {PERSONAL_INFO.title}
-                        </p>
+                        <div className="flex flex-col gap-2 mb-8">
+                            <p className="text-2xl md:text-3xl lg:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-white to-purple-300 font-medium tracking-wide">
+                                {PERSONAL_INFO.title.split(' • ')[0]}
+                            </p>
+                            <p className="text-xl md:text-2xl text-blue-400/80 font-medium italic">
+                                {PERSONAL_INFO.title.split(' • ')[1]}
+                            </p>
+                        </div>
                     </FadeIn>
 
                     <FadeIn delay={300}>
-                        <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto mb-10 text-shadow-sm">
-                            {PERSONAL_INFO.description}
-                        </p>
+                        <div className="max-w-2xl mx-auto mb-10">
+                            <p className="text-lg md:text-xl text-gray-300 leading-relaxed text-shadow-sm">
+                                {PERSONAL_INFO.description.replace(' Fueled by coffee.', '')}
+                            </p>
+                            <p className="text-base md:text-lg text-gray-400 mt-2 font-light">
+                                Fueled by coffee.
+                            </p>
+                        </div>
                     </FadeIn>
 
                     <FadeIn delay={400}>
