@@ -1,13 +1,16 @@
+import { useState } from 'react'
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion'
 
 const ShootingStars = ({ count = 3 }) => {
-    const shootingStars = Array.from({ length: count }, (_, i) => ({
+    const [shootingStars] = useState(() => Array.from({ length: count }, (_, i) => ({
         id: i,
         delay: Math.random() * 10,
         duration: Math.random() * 2 + 1,
         startX: Math.random() * 100,
         startY: Math.random() * 50,
-    }))
+        repeatDelay: Math.random() * 8 + 5,
+    })))
 
     return (
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
@@ -30,13 +33,13 @@ const ShootingStars = ({ count = 3 }) => {
                         duration: star.duration,
                         delay: star.delay,
                         repeat: Infinity,
-                        repeatDelay: Math.random() * 8 + 5, // More frequent
+                        repeatDelay: star.repeatDelay,
                         ease: 'easeOut',
                     }}
                 >
                     {/* Shooting star tail - Aligned with movement (135deg angle -> tail at -45deg) */}
                     <div
-                        className="absolute top-1/2 left-1/2 w-[150px] h-[2px] bg-gradient-to-r from-cyan-400 to-transparent"
+                        className="absolute top-1/2 left-1/2 w-[150px] h-[2px] bg-linear-to-r from-cyan-400 to-transparent"
                         style={{
                             transform: 'translate(0, -50%) rotate(-45deg)', // Head at star, tail extends Up-Right
                             transformOrigin: 'left center', // Rotate around the bright end (left)

@@ -1,7 +1,6 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useGLTF, Float } from '@react-three/drei'
-import * as THREE from 'three'
 
 // 3D Spaceman Model Component
 function SpacemanModel() {
@@ -12,8 +11,8 @@ function SpacemanModel() {
     // Responsive scale based on viewport width
     const isMobile = viewport.width < 5
     const scale = isMobile ? 0.55 : 0.85
-    const positionY = isMobile ? 0.5 : -0.2 // Move up on mobile to not be hidden by text? Or maybe keep centered.
-    // Actually, on mobile, text is stacked. Let's keep it centered but smaller.
+    // positionY logic removed as it was unused
+    // const positionY = isMobile ? 0.5 : -0.2 
 
     useFrame((state) => {
         if (spacemanRef.current) {
@@ -43,7 +42,7 @@ function SpacemanModel() {
 }
 
 // Main 3D Scene Component
-const Scene3D = ({ scrollProgress = 0, showSpaceman = true }) => {
+const Scene3D = ({ showSpaceman = true }) => {
     return (
         <div className="absolute inset-0 w-full h-full pointer-events-none">
             <Canvas

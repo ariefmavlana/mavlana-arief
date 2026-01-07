@@ -1,7 +1,7 @@
 
 import React, { useRef } from 'react'
 import { ArrowRight } from 'lucide-react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion' // eslint-disable-line no-unused-vars
 import { SiReact, SiNextdotjs, SiTailwindcss, SiNodedotjs, SiPostgresql, SiPython, SiAmazon, SiTypescript } from 'react-icons/si'
 import { scrollToSection } from '../../hooks/useScrollSpy'
 import FadeIn from '../animations/FadeIn'

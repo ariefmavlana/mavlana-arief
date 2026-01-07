@@ -45,16 +45,16 @@ const Footer = () => {
 
                             {/* Social Links */}
                             <div className="flex gap-3 pt-2">
-                                {socialLinks.map(({ icon: Icon, url, label }) => (
+                                {socialLinks.map((link) => (
                                     <a
-                                        key={label}
-                                        href={url}
+                                        key={link.label}
+                                        href={link.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="p-2.5 rounded-full bg-white/5 border border-white/5 text-gray-400 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all hover:-translate-y-1"
-                                        aria-label={label}
+                                        aria-label={link.label}
                                     >
-                                        <Icon className="w-4 h-4" />
+                                        <link.icon className="w-4 h-4" />
                                     </a>
                                 ))}
                             </div>

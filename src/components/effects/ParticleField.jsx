@@ -1,20 +1,16 @@
+import { useState } from 'react'
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
 
 const ParticleField = ({ count = 50 }) => {
-    const [particles, setParticles] = useState([])
-
-    useEffect(() => {
-        const newParticles = Array.from({ length: count }, (_, i) => ({
-            id: i,
-            x: Math.random() * 100,
-            y: Math.random() * 100,
-            size: Math.random() * 3 + 1,
-            duration: Math.random() * 20 + 10,
-            delay: Math.random() * 5,
-        }))
-        setParticles(newParticles)
-    }, [count])
+    const [particles] = useState(() => Array.from({ length: count }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: Math.random() * 3 + 1,
+        duration: Math.random() * 20 + 10,
+        delay: Math.random() * 5,
+    })))
 
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">

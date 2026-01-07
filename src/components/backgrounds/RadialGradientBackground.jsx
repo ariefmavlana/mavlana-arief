@@ -10,7 +10,7 @@ const RadialGradientBackground = ({ variant = 'default' }) => {
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className={`absolute ${variants[variant]} w-[800px] h-[800px] opacity-20`}>
-                <div className="absolute inset-0 bg-gradient-radial from-primary/30 via-primary/10 to-transparent blur-3xl animate-pulse" />
+                <div className="absolute inset-0 bg-radial from-primary/30 via-primary/10 to-transparent blur-3xl animate-pulse" />
             </div>
         </div>
     )

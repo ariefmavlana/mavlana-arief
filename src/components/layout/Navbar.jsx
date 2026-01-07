@@ -39,7 +39,7 @@ const Navbar = () => {
                         className="flex items-center gap-3 group cursor-pointer"
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                     >
-                        <div className="relative flex items-center justify-center p-2 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/10 group-hover:bg-white/10 transition-colors duration-300">
+                        <div className="relative flex items-center justify-center p-2 rounded-xl bg-linear-to-br from-blue-500/20 to-purple-500/20 border border-white/10 group-hover:bg-white/10 transition-colors duration-300">
                             <PixelRocket className='w-5 h-5 text-blue-400 group-hover:text-blue-300 transition-colors' />
                         </div>
 

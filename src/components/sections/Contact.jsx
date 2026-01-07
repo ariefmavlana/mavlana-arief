@@ -98,16 +98,16 @@ const Contact = () => {
                                 <div className="p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-sm">
                                     <h4 className="text-white font-medium text-sm mb-6 uppercase tracking-wider font-display">Follow Me</h4>
                                     <div className="flex gap-4">
-                                        {socialLinks.map(({ icon: Icon, url, label }) => (
+                                        {socialLinks.map((link) => (
                                             <a
-                                                key={label}
-                                                href={url}
+                                                key={link.label}
+                                                href={link.url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="p-4 rounded-2xl bg-black/40 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 hover:scale-110 transition-all shadow-lg hover:shadow-blue-500/20 group"
-                                                aria-label={label}
+                                                aria-label={link.label}
                                             >
-                                                <Icon className="w-6 h-6 group-hover:rotate-12 transition-transform" />
+                                                <link.icon className="w-6 h-6 group-hover:rotate-12 transition-transform" />
                                             </a>
                                         ))}
                                     </div>
