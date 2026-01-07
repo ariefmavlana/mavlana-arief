@@ -2,7 +2,6 @@ import React from 'react'
 import { Code2, Database, Brain, Activity, Cpu, Globe } from 'lucide-react'
 import { PERSONAL_INFO, ABOUT_STATS } from '../../utils/constants'
 import FadeIn from '../animations/FadeIn'
-import Starfield from '../backgrounds/Starfield'
 
 const About = () => {
     return (
@@ -10,7 +9,7 @@ const About = () => {
             {/* Space Background */}
             <div className="absolute inset-0 bg-black z-0" />
             <div className="absolute inset-0 z-0">
-                <Starfield density={350} speed={0.2} />
+                {/* Starfield removed */}
                 <div className="absolute top-0 right-0 w-full h-full bg-linear-to-bl from-purple-900/20 to-transparent pointer-events-none" />
             </div>
 
@@ -35,20 +34,33 @@ const About = () => {
                         {/* Left Column - Bio */}
                         <FadeIn delay={100}>
                             <div className="space-y-6">
-                                <div className="glass-panel p-8 rounded-3xl relative overflow-hidden group">
+                                <div className="glass-panel p-4 rounded-3xl relative overflow-hidden group">
                                     <div className="absolute top-0 right-0 p-32 bg-blue-600/10 blur-[80px] rounded-full pointer-events-none group-hover:bg-blue-600/20 transition-colors duration-500" />
 
                                     <div className="relative z-10">
-                                        <div className="flex items-center gap-4 mb-8">
-                                            <div className="p-3 rounded-2xl bg-white/5 border border-white/10">
-                                                <Code2 className="w-6 h-6 text-blue-400" />
+                                        {/* Coding POV Image Container */}
+                                        <div className="relative aspect-video rounded-2xl overflow-hidden mb-6 border border-white/10 shadow-2xl group-hover:border-blue-500/30 transition-all">
+                                            <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent z-10" />
+                                            <img
+                                                src="/coding-pov.png"
+                                                alt="Coding Setup"
+                                                className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                                            />
+
+                                            {/* Overlay Badge */}
+                                            <div className="absolute bottom-4 left-4 z-20 flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
+                                                <Code2 className="w-3 h-3 text-blue-400" />
+                                                <span className="text-xs font-mono text-gray-300">Workspace_v2.0</span>
                                             </div>
-                                            <h3 className="text-xl font-display font-bold text-white">
+                                        </div>
+
+                                        <div className="flex items-center gap-4 mb-4 px-2">
+                                            <h3 className="text-2xl font-display font-bold text-white">
                                                 The Developer
                                             </h3>
                                         </div>
 
-                                        <div className="space-y-4 text-lg text-gray-300 leading-relaxed font-light">
+                                        <div className="space-y-4 text-lg text-gray-300 leading-relaxed font-light px-2">
                                             {PERSONAL_INFO.bio.map((paragraph, index) => (
                                                 <p key={index}>
                                                     {paragraph}
