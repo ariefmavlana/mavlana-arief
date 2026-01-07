@@ -1,8 +1,8 @@
 import React from 'react'
-import { Rocket, Heart, Github, Linkedin, Twitter, Instagram } from 'lucide-react'
+import { Github, Linkedin, Twitter, Instagram, ArrowUp } from 'lucide-react'
+import PixelRocket from '../ui/PixelRocket'
 import { PERSONAL_INFO, NAV_LINKS, SOCIAL_LINKs } from '../../utils/constants'
 import { scrollToSection } from '../../hooks/useScrollSpy'
-import { motion } from 'framer-motion'
 import Starfield from '../backgrounds/Starfield'
 
 const Footer = () => {
@@ -16,59 +16,61 @@ const Footer = () => {
     ]
 
     return (
-        <footer className="relative py-20 border-t border-white/5 bg-black overflow-hidden">
+        <footer className="relative py-20 bg-black overflow-hidden font-sans border-t border-white/5">
             {/* Space Background */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-900/10 to-black" />
-            <Starfield density={100} speed={0.1} />
-
-            {/* Top cosmic glow */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent shadow-[0_0_20px_rgba(6,182,212,0.5)]" />
+            <div className="absolute inset-0 bg-black z-0" />
+            <div className="absolute inset-0 z-0 opacity-30">
+                <Starfield density={100} speed={0.1} />
+            </div>
 
             <div className="container mx-auto px-6 relative z-10">
                 <div className="max-w-6xl mx-auto">
                     <div className="grid md:grid-cols-4 gap-12 mb-16">
                         {/* Brand */}
-                        <div className="md:col-span-2">
-                            <div className="flex items-center gap-3 mb-6">
-                                <div className="p-2 rounded-xl bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border border-purple-500/30">
-                                    <Rocket className="w-6 h-6 text-cyan-400" />
+                        <div className="md:col-span-2 space-y-6">
+                            <div
+                                className="flex items-center gap-3 cursor-pointer group w-fit"
+                                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                            >
+                                <div className="p-2.5 rounded-xl bg-linear-to-br from-blue-500/10 to-purple-500/10 border border-white/10 group-hover:bg-white/5 transition-colors">
+                                    <PixelRocket className="w-5 h-5 text-blue-400 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
                                 </div>
-                                <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                                    {PERSONAL_INFO.name.split(' ')[0]}
+                                <span className="text-xl font-bold font-display text-white tracking-tight">
+                                    {PERSONAL_INFO.name}
                                 </span>
                             </div>
-                            <p className="text-gray-400 text-sm leading-relaxed mb-6 max-w-sm">
+                            <p className="text-gray-400 text-base leading-relaxed max-w-sm font-light">
                                 {PERSONAL_INFO.tagline}. Crafting digital experiences that merge creativity with cutting-edge technology.
                             </p>
 
                             {/* Social Links */}
-                            <div className="flex gap-4">
+                            <div className="flex gap-3 pt-2">
                                 {socialLinks.map(({ icon: Icon, url, label }) => (
-                                    <motion.a
+                                    <a
                                         key={label}
                                         href={url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="p-2 rounded-lg bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-cyan-400/50 hover:bg-cyan-400/10 transition-all duration-300"
-                                        whileHover={{ scale: 1.1, rotate: 5 }}
+                                        className="p-2.5 rounded-full bg-white/5 border border-white/5 text-gray-400 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all hover:-translate-y-1"
+                                        aria-label={label}
                                     >
-                                        <Icon className="w-5 h-5" />
-                                    </motion.a>
+                                        <Icon className="w-4 h-4" />
+                                    </a>
                                 ))}
                             </div>
                         </div>
 
                         {/* Quick Links */}
                         <div>
-                            <h3 className="text-white font-semibold mb-6">Quick Links</h3>
+                            <h3 className="text-white font-bold font-display text-sm mb-6 uppercase tracking-wider">Quick Links</h3>
                             <nav className="flex flex-col gap-3">
                                 {NAV_LINKS.map((link) => (
                                     <button
                                         key={link.id}
                                         onClick={() => scrollToSection(link.id)}
-                                        className="text-gray-400 hover:text-cyan-400 transition-colors text-left text-sm flex items-center gap-2 group"
+                                        className="text-gray-400 hover:text-blue-400 transition-colors text-left text-sm flex items-center gap-2 group w-fit"
                                     >
-                                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500/50 group-hover:bg-cyan-400 transition-colors" />
+                                        <span className="w-1 h-1 rounded-full bg-gray-600 group-hover:bg-blue-400 transition-colors" />
                                         {link.label}
                                     </button>
                                 ))}
@@ -77,16 +79,16 @@ const Footer = () => {
 
                         {/* Contact */}
                         <div>
-                            <h3 className="text-white font-semibold mb-6">Contact</h3>
-                            <div className="space-y-4 text-sm">
+                            <h3 className="text-white font-bold font-display text-sm mb-6 uppercase tracking-wider">Contact</h3>
+                            <div className="space-y-4 text-sm font-light">
                                 <div>
-                                    <span className="block text-gray-500 text-xs uppercase tracking-wider mb-1">Email</span>
-                                    <a href={`mailto:${PERSONAL_INFO.email}`} className="text-gray-300 hover:text-cyan-400 transition-colors">
+                                    <span className="block text-gray-500 text-xs uppercase tracking-wider mb-1 font-medium">Email</span>
+                                    <a href={`mailto:${PERSONAL_INFO.email}`} className="text-gray-300 hover:text-blue-400 transition-colors">
                                         {PERSONAL_INFO.email}
                                     </a>
                                 </div>
                                 <div>
-                                    <span className="block text-gray-500 text-xs uppercase tracking-wider mb-1">Location</span>
+                                    <span className="block text-gray-500 text-xs uppercase tracking-wider mb-1 font-medium">Location</span>
                                     <p className="text-gray-300">{PERSONAL_INFO.location}</p>
                                 </div>
                             </div>
@@ -94,13 +96,17 @@ const Footer = () => {
                     </div>
 
                     {/* Bottom Bar */}
-                    <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p className="text-gray-500 text-sm">
+                    <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500 font-light">
+                        <p>
                             © {currentYear} {PERSONAL_INFO.name}. All rights reserved.
                         </p>
-                        <p className="text-gray-500 text-sm flex items-center gap-2">
-                            Made with <Heart className="w-3 h-3 text-red-500 fill-red-500 animate-pulse" /> in the Cosmos
-                        </p>
+                        <button
+                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                            className="flex items-center gap-2 hover:text-white transition-colors group"
+                        >
+                            Back to Top
+                            <ArrowUp className="w-4 h-4 group-hover:-translate-y-1 transition-transform" />
+                        </button>
                     </div>
                 </div>
             </div>

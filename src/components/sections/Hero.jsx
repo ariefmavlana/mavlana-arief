@@ -1,252 +1,114 @@
-import React, { useState, useEffect } from 'react'
-import { motion, useScroll, AnimatePresence } from 'framer-motion'
-import { Rocket, Download } from 'lucide-react'
+import React from 'react'
+import { ArrowRight } from 'lucide-react'
 import { SiReact, SiNextdotjs, SiLaravel, SiTailwindcss, SiNodedotjs, SiMongodb, SiExpress, SiTableau, SiTypescript, SiPostgresql, SiPython, SiJupyter, SiAmazon, SiThreedotjs, SiGhost, SiR } from 'react-icons/si'
-import { PERSONAL_INFO, STATS } from '../../utils/constants'
 import { scrollToSection } from '../../hooks/useScrollSpy'
 import FadeIn from '../animations/FadeIn'
-import Scene3D from '../3d/Scene3D'
-import ParallaxMountains from '../backgrounds/ParallaxMountains'
 import Starfield from '../backgrounds/Starfield'
 import CosmicClouds from '../backgrounds/CosmicClouds'
-import ShootingStars from '../effects/ShootingStars'
 
 const Hero = () => {
-    const [scrollProgress, setScrollProgress] = useState(0)
-    const [isLaunching, setIsLaunching] = useState(false)
-    const { scrollY } = useScroll()
-
-    const handleContactClick = () => {
-        setIsLaunching(true)
-        scrollToSection('contact')
-        setTimeout(() => setIsLaunching(false), 2000)
-    }
-
-
-
-    useEffect(() => {
-        const unsubscribe = scrollY.on('change', (latest) => {
-            const progress = Math.min(latest / 1000, 1)
-            setScrollProgress(progress)
-        })
-        return () => unsubscribe()
-    }, [scrollY])
-
     const techIcons = [
-        { Icon: SiReact, label: 'React', color: '#61DAFB' },
-        { Icon: SiNextdotjs, label: 'Next.js', color: '#000000' },
-        { Icon: SiLaravel, label: 'Laravel', color: '#FF2D20' },
-        { Icon: SiTailwindcss, label: 'Tailwind', color: '#06B6D4' },
-        { Icon: SiNodedotjs, label: 'Node.js', color: '#339933' },
-        { Icon: SiMongodb, label: 'MongoDB', color: '#47A248' },
-        { Icon: SiExpress, label: 'Express', color: '#000000' },
-        { Icon: SiThreedotjs, label: 'Three.js', color: '#FF9900' },
-        { Icon: SiGhost, label: 'GSAP', color: '#FF9900' },
-        { Icon: SiTypescript, label: 'TypeScript', color: '#3178C6' },
-        { Icon: SiAmazon, label: 'AWS', color: '#FF9900' },
-        { Icon: SiPostgresql, label: 'PostgreSQL', color: '#4169E1' },
-        { Icon: SiPython, label: 'Python', color: '#3776AB' },
-        { Icon: SiR, label: 'R', color: '#3776AB' },
-        { Icon: SiJupyter, label: 'Jupyter', color: '#F37626' },
-        { Icon: SiTableau, label: 'Tableau', color: '#E97627' },
+        { icon: SiReact, name: 'React' },
+        { icon: SiNextdotjs, name: 'Next.js' },
+        { icon: SiTypescript, name: 'TypeScript' },
+        { icon: SiTailwindcss, name: 'Tailwind' },
+        { icon: SiNodedotjs, name: 'Node.js' },
+        { icon: SiPostgresql, name: 'PostgreSQL' },
+        { icon: SiPython, name: 'Python' },
+        { icon: SiAmazon, name: 'AWS' },
     ]
 
     return (
-        <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-            {/* Space Background Layers */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-blue-900/20 to-black" />
-            <Starfield density={350} speed={0.4} />
-            <CosmicClouds />
-            <ShootingStars count={8} />
+        <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black pt-20">
+            {/* Background Elements */}
+            <div className="absolute inset-0 z-0">
+                <Starfield density={1200} speed={0.4} />
+                <div className="absolute inset-0 bg-linear-to-b from-black via-transparent to-black/80 z-10" />
+                <CosmicClouds opacity={0.3} />
 
-            {/* 3D Scene - Spaceman takes the stage */}
-            <Scene3D scrollProgress={scrollProgress} showSpaceman={true} />
-
-            {/* Parallax Mountains (No Grid) */}
-            <ParallaxMountains scrollProgress={scrollProgress} />
-
-            {/* Cosmic Gradient Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/10 via-transparent to-purple-900/10 pointer-events-none" />
-
-            {/* Content - Centered */}
-            <div className="container mx-auto px-6 relative z-10 pt-20">
-                <div className="max-w-4xl mx-auto text-center">
-                    <FadeIn delay={0}>
-                        <motion.div
-                            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-black/40 border border-blue-500/30 backdrop-blur-md mb-8 shadow-[0_0_15px_rgba(59,130,246,0.3)]"
-                            whileHover={{ scale: 1.05, borderColor: 'rgba(139, 92, 246, 0.5)' }}
-                        >
-                            <Rocket className="w-4 h-4 text-blue-400 animate-pulse" />
-                            <span className="text-sm text-gray-200 font-medium tracking-wide">Ready for lift off</span>
-                        </motion.div>
-                    </FadeIn>
-
-                    <FadeIn delay={100}>
-                        <h1 className="text-5xl md:text-7xl lg:text-9xl font-black text-white mb-6 leading-tight tracking-tight drop-shadow-2xl">
-                            <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400">
-                                {PERSONAL_INFO.name.split(' ')[0]}
-                            </span>
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 animate-gradient">
-                                {PERSONAL_INFO.name.split(' ').slice(1).join(' ')}
-                            </span>
-                        </h1>
-                    </FadeIn>
-
-                    <FadeIn delay={200}>
-                        <div className="flex flex-col gap-2 mb-8">
-                            <p className="text-2xl md:text-3xl lg:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-white to-purple-300 font-medium tracking-wide">
-                                {PERSONAL_INFO.title.split(' • ')[0]}
-                            </p>
-                            <p className="text-xl md:text-2xl text-blue-400/80 font-medium italic">
-                                {PERSONAL_INFO.title.split(' • ')[1]}
-                            </p>
-                        </div>
-                    </FadeIn>
-
-                    <FadeIn delay={300}>
-                        <div className="max-w-2xl mx-auto mb-10">
-                            <p className="text-lg md:text-xl text-gray-300 leading-relaxed text-shadow-sm">
-                                {PERSONAL_INFO.description.replace(' Fueled by coffee.', '')}
-                            </p>
-                            <p className="text-base md:text-lg text-gray-400 mt-2 font-light">
-                                Fueled by coffee.
-                            </p>
-                        </div>
-                    </FadeIn>
-
-                    <FadeIn delay={400}>
-                        <div className="flex flex-wrap justify-center gap-6 mb-12">
-                            <motion.button
-                                onClick={handleContactClick}
-                                className="group relative px-8 py-4 bg-transparent overflow-hidden rounded-full"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                            >
-                                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-90 group-hover:opacity-100 transition-opacity" />
-                                <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 blur-lg opacity-40 group-hover:opacity-60 transition-opacity" />
-                                <div className="relative flex items-center gap-2 text-white font-bold">
-                                    Initiate Contact
-                                    <Rocket className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
-                                </div>
-                            </motion.button>
-
-                            <motion.a
-                                href={PERSONAL_INFO.resume}
-                                download
-                                className="group inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 text-white font-semibold rounded-full border border-white/10 hover:border-blue-400/50 transition-all duration-300 backdrop-blur-sm"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                            >
-                                <Download className="w-5 h-5 group-hover:text-blue-400 transition-colors" />
-                                Download Resume
-                            </motion.a>
-                        </div>
-                    </FadeIn>
-
-                    {/* Stats Row */}
-                    <FadeIn delay={500}>
-                        <div className="flex flex-wrap justify-center gap-8 md:gap-16 py-8 border-t border-white/5 bg-gradient-to-r from-transparent via-blue-900/10 to-transparent">
-                            {STATS.map((stat, index) => (
-                                <motion.div
-                                    key={index}
-                                    className="text-center"
-                                    whileHover={{ scale: 1.1 }}
-                                >
-                                    <div className="text-3xl md:text-4xl font-bold text-white mb-1 drop-shadow-md">
-                                        {stat.value}
-                                    </div>
-                                    <div className="text-sm text-cyan-300/80 font-medium tracking-wider uppercase">
-                                        {stat.label}
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </FadeIn>
-
-                    {/* Tech Stack Icons - Floating at bottom */}
-                    <FadeIn delay={600}>
-                        <div className="mt-12 flex flex-wrap justify-center gap-4 opacity-70 hover:opacity-100 transition-opacity duration-500">
-                            {techIcons.map(({ Icon, label, color }, index) => (
-                                <motion.div
-                                    key={label}
-                                    className="p-3 rounded-full bg-white/5 border border-white/5 hover:border-white/20 hover:bg-white/10 backdrop-blur-sm transition-all duration-300"
-                                    title={label}
-                                    initial={{ y: 0 }}
-                                    animate={{ y: [0, -5, 0] }}
-                                    transition={{
-                                        duration: 3,
-                                        repeat: Infinity,
-                                        delay: index * 0.1,
-                                        ease: "easeInOut"
-                                    }}
-                                    whileHover={{
-                                        scale: 1.2,
-                                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                                        borderColor: color
-                                    }}
-                                >
-                                    <Icon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
-                                </motion.div>
-                            ))}
-                        </div>
-                    </FadeIn>
-                </div>
+                {/* Modern Gradient Orbs */}
+                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] animate-pulse-slow mix-blend-screen" />
+                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] animate-pulse-slow delay-1000 mix-blend-screen" />
             </div>
 
-            {/* Simple Scroll Indicator */}
-            <motion.div
-                className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60"
-                animate={{ y: [0, 10, 0], opacity: [0.4, 0.8, 0.4] }}
-                transition={{ duration: 2, repeat: Infinity }}
-            >
-            </motion.div>
-
-            {/* Rocket Launch Animation */}
-            <AnimatePresence>
-                {isLaunching && (
-                    <motion.div
-                        initial={{ top: '50%', left: '50%', x: '-50%', y: '-50%', scale: 0, opacity: 0 }}
-                        animate={{
-                            top: ['50%', '50%'],
-                            y: ['-50%', '500%'],
-                            scale: [1, 2.5],
-                            opacity: [1, 1, 0]
-                        }}
-                        transition={{
-                            duration: 2.5,
-                            ease: [0.22, 1, 0.36, 1],
-                            times: [0, 1]
-                        }}
-                        className="fixed z-50 pointer-events-none flex flex-col items-center"
-                    >
-                        {/* Rocket Body - Rotated 135deg to point straight down (assuming 45deg default) */}
-                        <Rocket className="w-24 h-24 text-blue-400 rotate-[135deg] drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] z-20" />
-
-                        {/* Engine Flames Container - Rotated to match rocket */}
-                        <div className="relative -mt-4 z-10 flex justify-center rotate-[-45deg] origin-top">
-                            {/* Core Blue Flame */}
-                            <motion.div
-                                animate={{ height: [0, 80, 60], opacity: [0, 1, 0.8] }}
-                                transition={{ duration: 0.2, repeat: Infinity, repeatType: "reverse" }}
-                                className="w-4 bg-gradient-to-b from-blue-400 via-indigo-500 to-transparent blur-sm rounded-b-full"
-                            />
-                            {/* Outer Purple/Orange Flame */}
-                            <motion.div
-                                animate={{ height: [0, 120, 100], opacity: [0, 0.8, 0.6] }}
-                                transition={{ duration: 0.3, repeat: Infinity, repeatType: "reverse", delay: 0.05 }}
-                                className="absolute top-0 w-8 bg-gradient-to-b from-purple-500 via-orange-500 to-transparent blur-md rounded-b-full -z-10"
-                            />
-                            {/* Smoke/Particles */}
-                            <motion.div
-                                animate={{ height: [0, 150, 130], width: [10, 40], opacity: [0, 0.5, 0] }}
-                                transition={{ duration: 0.4, repeat: Infinity, repeatType: "reverse" }}
-                                className="absolute top-0 w-12 bg-gradient-to-b from-white/50 to-transparent blur-lg rounded-full -z-20"
-                            />
+            <div className="container mx-auto px-6 relative z-10 flex flex-col items-center text-center">
+                <FadeIn delay={200}>
+                    <div className="mb-8 relative inline-block">
+                        <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full" />
+                        <div className="relative glass-panel rounded-full px-6 py-2 border-white/10 flex items-center gap-2">
+                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                            <span className="text-blue-300 tracking-wider text-sm font-medium uppercase font-display">
+                                Available for Freelance & Collab
+                            </span>
                         </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                    </div>
+                </FadeIn>
+
+                <FadeIn delay={400}>
+                    <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold font-display text-white mb-6 tracking-tight leading-tight">
+                        FULLSTACK
+                        <br />
+                        <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 via-purple-400 to-pink-400">
+                            DEVELOPER
+                        </span>
+                    </h1>
+                </FadeIn>
+
+                <FadeIn delay={600}>
+                    <p className="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-10 font-sans font-light leading-relaxed">
+                        Crafting digital experiences with modern tech and cosmic aesthetics.
+                        Turning complex problems into elegant solutions.
+                    </p>
+                </FadeIn>
+
+                <FadeIn delay={800}>
+                    <div className="flex flex-col md:flex-row items-center gap-6 justify-center">
+                        <button
+                            onClick={() => scrollToSection('projects')}
+                            className="group relative px-8 py-4 bg-blue-600 text-white rounded-full font-medium transition-all duration-300 hover:shadow-[0_0_20px_rgba(37,99,235,0.5)] hover:bg-blue-500 hover:-translate-y-1 overflow-hidden"
+                        >
+                            <span className="relative flex items-center gap-2">
+                                View My Work
+                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            </span>
+                        </button>
+
+                        <button
+                            onClick={() => scrollToSection('contact')}
+                            className="group px-8 py-4 bg-transparent border border-white/10 text-white rounded-full font-medium transition-all duration-300 hover:bg-white/5 hover:border-white/30 hover:-translate-y-1 backdrop-blur-sm"
+                        >
+                            <span className="flex items-center gap-2">
+                                Contact Me
+                                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse group-hover:scale-125 transition-transform" />
+                            </span>
+                        </button>
+                    </div>
+                </FadeIn>
+
+                {/* Tech Stack - Glass Style */}
+                <FadeIn delay={1000}>
+                    <div className="mt-20">
+                        <p className="text-gray-500 text-sm uppercase tracking-widest mb-8 font-display">
+                            Powering Next-Gen Apps With
+                        </p>
+                        <div className="flex flex-wrap justify-center gap-6 md:gap-10 opacity-70">
+                            {techIcons.map((tech) => (
+                                <div
+                                    key={tech.name}
+                                    className="group relative flex flex-col items-center gap-2 transition-all duration-300 hover:opacity-100 hover:-translate-y-2"
+                                >
+                                    <div className="p-4 rounded-2xl bg-white/5 border border-white/5 group-hover:bg-white/10 group-hover:border-white/20 backdrop-blur-sm transition-all shadow-lg group-hover:shadow-blue-500/20">
+                                        <tech.icon className="w-8 h-8 text-gray-300 group-hover:text-white transition-colors" />
+                                    </div>
+                                    <span className="text-xs text-gray-400 group-hover:text-blue-300 font-medium opacity-0 group-hover:opacity-100 absolute -bottom-8 transition-all font-sans">
+                                        {tech.name}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </FadeIn>
+            </div>
         </section>
     )
 }

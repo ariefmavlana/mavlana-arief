@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react'
 
-const FadeIn = ({ children, delay = 0, duration = 500, threshold = 0.1 }) => {
+const FadeIn = ({ children, delay = 0, threshold = 0.1 }) => {
     const [isVisible, setIsVisible] = useState(false)
     const elementRef = useRef(null)
 
     useEffect(() => {
+        const element = elementRef.current
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting && !isVisible) {
@@ -17,13 +18,13 @@ const FadeIn = ({ children, delay = 0, duration = 500, threshold = 0.1 }) => {
             }
         )
 
-        if (elementRef.current) {
-            observer.observe(elementRef.current)
+        if (element) {
+            observer.observe(element)
         }
 
         return () => {
-            if (elementRef.current) {
-                observer.unobserve(elementRef.current)
+            if (element) {
+                observer.unobserve(element)
             }
         }
     }, [threshold, isVisible])
@@ -31,11 +32,12 @@ const FadeIn = ({ children, delay = 0, duration = 500, threshold = 0.1 }) => {
     return (
         <div
             ref={elementRef}
-            className={isVisible ? 'animate-fadeIn' : 'opacity-0'}
+            className={`transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] ${isVisible
+                ? 'opacity-100 translate-y-0'
+                : 'opacity-0 translate-y-8'
+                }`}
             style={{
-                animationDelay: isVisible ? `${delay}ms` : '0ms',
-                animationDuration: `${duration}ms`,
-                animationFillMode: 'both',
+                transitionDelay: `${delay}ms`
             }}>
             {children}
         </div>

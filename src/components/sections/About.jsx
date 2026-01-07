@@ -1,45 +1,32 @@
 import React from 'react'
-import { motion } from 'framer-motion'
-import { Download, Code2, Database, Brain } from 'lucide-react'
+import { Code2, Database, Brain, Activity, Cpu, Globe } from 'lucide-react'
 import { PERSONAL_INFO, ABOUT_STATS } from '../../utils/constants'
 import FadeIn from '../animations/FadeIn'
 import Starfield from '../backgrounds/Starfield'
 
 const About = () => {
     return (
-        <section id="about" className="relative py-20 md:py-32 overflow-hidden">
+        <section id="about" className="relative py-20 md:py-32 overflow-hidden bg-black font-sans">
             {/* Space Background */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-900/10 to-black" />
-            <Starfield density={150} speed={0.2} />
-
-            {/* Coding POV Background with cosmic overlay */}
-            <div className="absolute inset-0 opacity-5">
-                <img
-                    src="/coding-pov.png"
-                    alt="Coding Background"
-                    className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-purple-900/50 via-black/80 to-black" />
+            <div className="absolute inset-0 bg-black z-0" />
+            <div className="absolute inset-0 z-0">
+                <Starfield density={350} speed={0.2} />
+                <div className="absolute top-0 right-0 w-full h-full bg-linear-to-bl from-purple-900/20 to-transparent pointer-events-none" />
             </div>
-
-            {/* Cosmic accent glow */}
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
 
             <div className="container mx-auto px-6 relative z-10">
                 <div className="max-w-6xl mx-auto">
                     <FadeIn delay={0}>
                         <div className="text-center mb-16">
-                            <motion.h2
-                                className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4"
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                            >
-                                About <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Me</span>
-                            </motion.h2>
-                            <p className="text-gray-400 text-lg">
-                                Get to know more about who I am and what I do
+                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-md">
+                                <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                                <span className="text-sm text-gray-400 uppercase tracking-widest font-display">Who I Am</span>
+                            </div>
+                            <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6">
+                                About <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-purple-400">Me</span>
+                            </h2>
+                            <p className="text-gray-400 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
+                                Bridging the gap between complex data and intuitive user experiences.
                             </p>
                         </div>
                     </FadeIn>
@@ -48,52 +35,42 @@ const About = () => {
                         {/* Left Column - Bio */}
                         <FadeIn delay={100}>
                             <div className="space-y-6">
-                                <motion.div
-                                    className="relative group"
-                                    whileHover={{ scale: 1.02 }}
-                                >
-                                    {/* Cosmic glow */}
-                                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-cyan-500/10 to-transparent rounded-3xl blur-xl" />
+                                <div className="glass-panel p-8 rounded-3xl relative overflow-hidden group">
+                                    <div className="absolute top-0 right-0 p-32 bg-blue-600/10 blur-[80px] rounded-full pointer-events-none group-hover:bg-blue-600/20 transition-colors duration-500" />
 
-                                    <div className="relative p-8 rounded-3xl bg-white/5 border border-purple-500/20 backdrop-blur-sm">
-                                        <div className="flex items-center gap-4 mb-6">
-                                            <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border border-purple-400/30">
-                                                <Code2 className="w-6 h-6 text-purple-400" />
+                                    <div className="relative z-10">
+                                        <div className="flex items-center gap-4 mb-8">
+                                            <div className="p-3 rounded-2xl bg-white/5 border border-white/10">
+                                                <Code2 className="w-6 h-6 text-blue-400" />
                                             </div>
-                                            <h3 className="text-2xl font-bold text-white">
-                                                Who I Am
+                                            <h3 className="text-xl font-display font-bold text-white">
+                                                The Developer
                                             </h3>
                                         </div>
 
-                                        <div className="space-y-4">
+                                        <div className="space-y-4 text-lg text-gray-300 leading-relaxed font-light">
                                             {PERSONAL_INFO.bio.map((paragraph, index) => (
-                                                <p key={index} className="text-gray-400 leading-relaxed">
+                                                <p key={index}>
                                                     {paragraph}
                                                 </p>
                                             ))}
                                         </div>
                                     </div>
-                                </motion.div>
+                                </div>
 
                                 {/* Expertise Areas */}
                                 <div className="grid grid-cols-2 gap-4">
-                                    <motion.div
-                                        className="p-6 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-transparent border border-cyan-500/30 backdrop-blur-sm"
-                                        whileHover={{ scale: 1.05, borderColor: 'rgba(6, 182, 212, 0.5)' }}
-                                    >
-                                        <Database className="w-8 h-8 text-cyan-400 mb-3" />
-                                        <h4 className="text-white font-semibold mb-1">Fullstack</h4>
-                                        <p className="text-gray-400 text-sm">End-to-end development</p>
-                                    </motion.div>
+                                    <div className="p-6 rounded-3xl bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-300 group">
+                                        <Database className="w-8 h-8 text-cyan-400 mb-4 group-hover:scale-110 transition-transform" />
+                                        <h4 className="text-white font-display font-bold text-lg mb-1">Fullstack</h4>
+                                        <p className="text-gray-500 text-sm">End-to-end architecture</p>
+                                    </div>
 
-                                    <motion.div
-                                        className="p-6 rounded-2xl bg-gradient-to-br from-purple-500/10 to-transparent border border-purple-500/30 backdrop-blur-sm"
-                                        whileHover={{ scale: 1.05, borderColor: 'rgba(168, 85, 247, 0.5)' }}
-                                    >
-                                        <Brain className="w-8 h-8 text-purple-400 mb-3" />
-                                        <h4 className="text-white font-semibold mb-1">Data Science</h4>
-                                        <p className="text-gray-400 text-sm">ML & Analytics</p>
-                                    </motion.div>
+                                    <div className="p-6 rounded-3xl bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-300 group">
+                                        <Brain className="w-8 h-8 text-purple-400 mb-4 group-hover:scale-110 transition-transform" />
+                                        <h4 className="text-white font-display font-bold text-lg mb-1">Data Science</h4>
+                                        <p className="text-gray-500 text-sm">ML & Analytics</p>
+                                    </div>
                                 </div>
                             </div>
                         </FadeIn>
@@ -101,51 +78,79 @@ const About = () => {
                         {/* Right Column - Stats & Contact */}
                         <FadeIn delay={200}>
                             <div className="space-y-6">
-                                {/* Stats Grid */}
-                                <div>
-                                    <h3 className="text-2xl font-bold text-white mb-6">
-                                        Quick Stats
-                                    </h3>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        {ABOUT_STATS.map((stat, index) => (
-                                            <motion.div
-                                                key={index}
-                                                className="p-6 rounded-2xl bg-white/5 border border-purple-500/20 hover:border-cyan-400/40 backdrop-blur-sm"
-                                                whileHover={{
-                                                    scale: 1.05,
-                                                    backgroundColor: 'rgba(168, 85, 247, 0.05)',
-                                                }}
-                                            >
-                                                <div className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 mb-2">
-                                                    {stat.value}
+                                {/* Futuristic HUD Stats */}
+                                <div className="glass-panel rounded-3xl p-1 relative overflow-hidden">
+                                    {/* Decorative gradients */}
+                                    <div className="absolute top-0 left-1/4 w-32 h-1 bg-linear-to-r from-transparent via-blue-500 to-transparent opacity-50" />
+
+                                    <div className="bg-black/40 rounded-[22px] p-6 backdrop-blur-sm">
+                                        <div className="flex justify-between items-center mb-8 border-b border-white/5 pb-4">
+                                            <div className="flex items-center gap-2">
+                                                <Activity className="w-4 h-4 text-green-400" />
+                                                <span className="text-xs font-display uppercase tracking-widest text-gray-400">System_Metrics</span>
+                                            </div>
+                                            <div className="flex gap-1">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-white/20"></div>
+                                                <div className="w-1.5 h-1.5 rounded-full bg-white/20"></div>
+                                                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                                            </div>
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-6">
+                                            {ABOUT_STATS.map((stat, index) => (
+                                                <div key={index} className="relative group">
+                                                    <div className="absolute -inset-2 bg-linear-to-r from-blue-500/0 via-blue-500/0 to-blue-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 rounded-xl transition-all duration-500" />
+                                                    <div className="relative">
+                                                        <span className="text-gray-500 text-xs uppercase tracking-widest font-display block mb-1">
+                                                            {stat.label}
+                                                        </span>
+                                                        <span className="text-2xl font-display font-bold text-transparent bg-clip-text bg-linear-to-r from-white to-gray-400">
+                                                            {stat.value}
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                                <div className="text-sm text-gray-400">
-                                                    {stat.label}
-                                                </div>
-                                            </motion.div>
-                                        ))}
+                                            ))}
+                                        </div>
+
+                                        {/* Dynamic Graph/Visual Element */}
+                                        <div className="mt-8 pt-6 border-t border-white/5">
+                                            <div className="flex justify-between text-xs text-gray-500 mb-2 font-mono">
+                                                <span>CPU usage</span>
+                                                <span className="text-green-400">Optimal</span>
+                                            </div>
+                                            <div className="flex items-end gap-1 h-8">
+                                                {[40, 65, 30, 80, 55, 90, 45, 70, 35, 60, 20, 75].map((h, i) => (
+                                                    <div
+                                                        key={i}
+                                                        style={{ height: `${h}%` }}
+                                                        className="flex-1 bg-blue-500/20 rounded-t-sm hover:bg-blue-400/40 transition-colors"
+                                                    />
+                                                ))}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
                                 {/* Contact Card */}
-                                <motion.div
-                                    className="p-8 rounded-3xl bg-gradient-to-br from-purple-500/10 via-cyan-500/5 to-transparent border border-purple-500/30 backdrop-blur-sm"
-                                    whileHover={{ scale: 1.02 }}
-                                >
-                                    <h3 className="text-xl font-bold text-white mb-6">
-                                        Contact Information
-                                    </h3>
+                                <div className="p-8 rounded-3xl bg-linear-to-br from-purple-900/20 to-black border border-white/10 hover:border-purple-500/30 transition-all duration-300 group">
+                                    <div className="flex items-center justify-between mb-6">
+                                        <h3 className="text-xl font-display font-bold text-white">
+                                            Get in Touch
+                                        </h3>
+                                        <Globe className="w-5 h-5 text-purple-400 group-hover:rotate-180 transition-transform duration-700" />
+                                    </div>
+
                                     <div className="space-y-4">
                                         <div>
-                                            <span className="text-purple-300 text-sm uppercase tracking-wider">Email</span>
-                                            <p className="text-white font-medium mt-1">{PERSONAL_INFO.email}</p>
+                                            <span className="text-purple-400/60 text-xs uppercase tracking-wider block mb-1">Email</span>
+                                            <p className="text-white font-light text-lg">{PERSONAL_INFO.email}</p>
                                         </div>
                                         <div>
-                                            <span className="text-purple-300 text-sm uppercase tracking-wider">Location</span>
-                                            <p className="text-white font-medium mt-1">{PERSONAL_INFO.location}</p>
+                                            <span className="text-purple-400/60 text-xs uppercase tracking-wider block mb-1">Base</span>
+                                            <p className="text-white font-light text-lg">{PERSONAL_INFO.location}</p>
                                         </div>
                                     </div>
-                                </motion.div>
+                                </div>
                             </div>
                         </FadeIn>
                     </div>

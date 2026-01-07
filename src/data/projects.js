@@ -35,14 +35,36 @@ export const projects = [
     {
         id: 4,
         title: "Stock Tracker App",
-        description: "Stock Tracker App is a Web Application that provides Stock information.",
+        description: "Stock Tracker provides real-time stock information.",
         image: "",
         category: "Fullstack",
-        technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Finnhub API", "MongoDB", "Inngest"],
+        technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Finnhub API", "MongoDB"],
         metrics: "Deployed on Vercel",
         link: "https://mavlana-stock-tracker.vercel.app/",
         github: "https://github.com/ariefmavlana/mavlana-stock_tracker",
+    },
+    {
+        id: 5,
+        title: "Health Care",
+        description: "Health Care Web Application for Medical Diagnosis.",
+        image: "",
+        category: "Machine Learning",
+        technologies: ["HTML", "Bootstrap", "Python", "Flask", "Tensorflow", "Docker"],
+        metrics: "",
+        link: "",
+        github: "https://github.com/ariefmavlana/mavlana-healthcare",
+    },
+    {
+        id: 6,
+        title: "Coin",
+        description: "Coin Web Application for Crypto Information.",
+        image: "",
+        category: "Frontend",
+        technologies: ["Next.js", "TypeScript", "Tailwind CSS", "CoinGecko API"],
+        metrics: "",
+        link: "",
+        github: "https://github.com/ariefmavlana/mavlana-coin",
     }
 ]
 
-export const category = ["All", "Frontend", "Fullstack"]
+export const category = ["All", "Frontend", "Fullstack", "Machine Learning"]
