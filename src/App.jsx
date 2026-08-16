@@ -12,12 +12,12 @@ import AnimatedBackground from "./components/backgrounds/AnimatedBackground"
 
 const App = () => {
   return (
-    <div className='min-h-screen bg-black relative'>
+    <div className='min-h-screen bg-black relative overflow-x-hidden selection:bg-blue-500/30 selection:text-cyan-300'>
       <AnimatedBackground />
-      <div className="relative z-10">
+      <div className="relative z-10 w-full overflow-x-hidden">
         <Navbar />
 
-        <main>
+        <main className="w-full overflow-x-hidden">
           <Hero />
           <About />
           <Experience />

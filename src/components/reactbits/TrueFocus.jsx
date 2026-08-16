@@ -1,20 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const TrueFocus = ({
     sentence = "BUILDING DIGITAL SYSTEMS",
-    manualMode = false,
-    blurAmount = 3,
+    blurAmount = 2,
     borderColor = "#38bdf8",
     glowColor = "rgba(56, 189, 248, 0.4)",
-    animationDuration = 0.4,
-    pauseBetweenAnimations = 1,
+    animationDuration = 0.3,
     className = ""
 }) => {
     const words = sentence.split(" ")
-    const [currentIndex, setCurrentIndex] = useState(0)
+    const [currentIndex, setCurrentIndex] = useState(-1)
     const [focusRect, setFocusRect] = useState({ x: 0, y: 0, width: 0, height: 0 })
+    const [isTouchDevice, setIsTouchDevice] = useState(false)
 
-    const handleMouseEnter = (index, event) => {
+    useEffect(() => {
+        setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0)
+    }, [])
+
+    const handleInteraction = (index, event) => {
         const target = event.currentTarget
         if (target) {
             const rect = target.getBoundingClientRect()
@@ -29,23 +32,37 @@ const TrueFocus = ({
         }
     }
 
+    const handleMouseLeave = () => {
+        setCurrentIndex(-1)
+        setFocusRect({ x: 0, y: 0, width: 0, height: 0 })
+    }
+
     return (
-        <div className={`relative inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 ${className}`}>
-            {words.map((word, idx) => (
-                <span
-                    key={idx}
-                    onMouseEnter={(e) => handleMouseEnter(idx, e)}
-                    onTouchStart={(e) => handleMouseEnter(idx, e)}
-                    className="relative cursor-pointer transition-all duration-300 font-display select-none"
-                    style={{
-                        filter: idx === currentIndex ? 'none' : `blur(${blurAmount}px)`,
-                        opacity: idx === currentIndex ? 1 : 0.5,
-                        transitionDuration: `${animationDuration}s`
-                    }}
-                >
-                    {word}
-                </span>
-            ))}
+        <div
+            onMouseLeave={handleMouseLeave}
+            className={`relative inline-flex flex-wrap items-center justify-center gap-x-2.5 sm:gap-x-4 gap-y-1.5 ${className}`}
+        >
+            {words.map((word, idx) => {
+                const isFocused = currentIndex === idx
+                // On mobile touch or when not focused, keep text readable without blur glitch
+                const shouldBlur = !isTouchDevice && currentIndex !== -1 && !isFocused
+
+                return (
+                    <span
+                        key={idx}
+                        onMouseEnter={(e) => handleInteraction(idx, e)}
+                        onTouchStart={(e) => handleInteraction(idx, e)}
+                        className="relative cursor-pointer transition-all duration-300 font-display select-none"
+                        style={{
+                            filter: shouldBlur ? `blur(${blurAmount}px)` : 'none',
+                            opacity: shouldBlur ? 0.45 : 1,
+                            transitionDuration: `${animationDuration}s`
+                        }}
+                    >
+                        {word}
+                    </span>
+                )
+            })}
 
             {/* Glowing Space Reticle Highlight Box */}
             <div
@@ -57,7 +74,7 @@ const TrueFocus = ({
                     height: `${focusRect.height + 8}px`,
                     borderColor: borderColor,
                     boxShadow: `0 0 20px ${glowColor}`,
-                    opacity: focusRect.width > 0 ? 1 : 0
+                    opacity: focusRect.width > 0 && currentIndex !== -1 ? 1 : 0
                 }}
             >
                 {/* HUD Corner Accents */}
