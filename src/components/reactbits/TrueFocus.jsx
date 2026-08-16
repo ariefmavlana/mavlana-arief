@@ -35,10 +35,11 @@ const TrueFocus = ({
                 <span
                     key={idx}
                     onMouseEnter={(e) => handleMouseEnter(idx, e)}
-                    className="relative cursor-pointer transition-all duration-300 font-display"
+                    onTouchStart={(e) => handleMouseEnter(idx, e)}
+                    className="relative cursor-pointer transition-all duration-300 font-display select-none"
                     style={{
                         filter: idx === currentIndex ? 'none' : `blur(${blurAmount}px)`,
-                        opacity: idx === currentIndex ? 1 : 0.4,
+                        opacity: idx === currentIndex ? 1 : 0.5,
                         transitionDuration: `${animationDuration}s`
                     }}
                 >
