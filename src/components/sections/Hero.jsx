@@ -1,10 +1,15 @@
-
 import React, { useRef } from 'react'
-import { ArrowRight } from 'lucide-react'
-import { motion, useScroll, useTransform } from 'framer-motion' // eslint-disable-line no-unused-vars
+import { ArrowRight, Sparkles, Orbit } from 'lucide-react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { SiReact, SiNextdotjs, SiTailwindcss, SiNodedotjs, SiPostgresql, SiPython, SiAmazon, SiTypescript } from 'react-icons/si'
 import { scrollToSection } from '../../hooks/useScrollSpy'
 import FadeIn from '../animations/FadeIn'
+import Particles from '../reactbits/Particles'
+import CosmicOrbitGrid from '../reactbits/CosmicOrbitGrid'
+import TrueFocus from '../reactbits/TrueFocus'
+import ShinyText from '../reactbits/ShinyText'
+import RotatingText from '../reactbits/RotatingText'
+import CountUp from '../reactbits/CountUp'
 
 const Hero = () => {
     const ref = useRef(null)
@@ -13,14 +18,8 @@ const Hero = () => {
         offset: ["start start", "end start"]
     })
 
-    // Parallax Transforms
-    const skyY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"])
-    const planetY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
-    const mountain3Y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"])
-    const mountain2Y = useTransform(scrollYProgress, [0, 1], ["0%", "20%"])
-    const mountain1Y = useTransform(scrollYProgress, [0, 1], ["0%", "10%"])
-    const textY = useTransform(scrollYProgress, [0, 1], ["0%", "60%"])
-    const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+    const textY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"])
+    const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
 
     const techIcons = [
         { icon: SiReact, name: 'React' },
@@ -33,133 +32,141 @@ const Hero = () => {
         { icon: SiAmazon, name: 'AWS' },
     ]
 
+    const rotatingRoles = [
+        "Fullstack Web Applications",
+        "High Performance Backend APIs",
+        "AI & Machine Learning Systems",
+        "Distributed Cloud Architecture"
+    ]
+
+    const heroStats = [
+        { value: 3, suffix: "+ YRS", label: "Engineering Experience" },
+        { value: 15, suffix: "+", label: "Shipped Projects" },
+        { value: 99, suffix: "%", label: "System Reliability" },
+    ]
+
     return (
-        <section ref={ref} id="home" className="relative min-h-[120vh] flex items-center justify-center overflow-hidden bg-black pb-32">
-            {/* --- PARALLAX LAYERS --- */}
+        <section ref={ref} id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black py-28 md:py-36">
+            {/* --- COSMIC SPACE BACKDROP & ORBIT GRID --- */}
+            <div className="absolute inset-0 bg-black z-0" />
+            
+            {/* Deep Cosmic Nebula Gas Glow */}
+            <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[750px] h-[750px] bg-blue-600/15 blur-[170px] rounded-full pointer-events-none z-0" />
+            <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-purple-600/15 blur-[150px] rounded-full pointer-events-none z-0" />
+            <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-cyan-500/15 blur-[140px] rounded-full pointer-events-none z-0" />
 
-            {/* 1. Sky Background (Fixed/Slow) */}
-            <motion.div
-                style={{ y: skyY }}
-                className="absolute inset-0 z-0"
-            >
-                <div
-                    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                    style={{ backgroundImage: 'url("/sky.jpg")' }}
-                />
-                {/* Overlay gradient to darken sky for text readability */}
-                <div className="absolute inset-0 bg-black/40 mix-blend-multiply" />
-                <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/20 to-black" />
-            </motion.div>
+            {/* High-Tech Celestial Orbit Rings HUD */}
+            <CosmicOrbitGrid />
 
-            {/* 2. Starfield & Cosmic Elements */}
-            <div className="absolute inset-0 z-1 pointer-events-none opacity-80">
-                {/* Starfield removed per user request */}
-            </div>
+            {/* React Bits Cosmic Starfield Particles System */}
+            <Particles
+                speed={0.25}
+                particleColors={['#60a5fa', '#c084fc', '#38bdf8', '#e0e7ff', '#ffffff']}
+                moveParticlesOnHover={true}
+                enableMeteors={true}
+                enableConstellations={true}
+                className="z-1 opacity-85"
+            />
 
-            {/* 3. Planets (Floating) */}
-            <motion.div
-                style={{ y: planetY }}
-                className="absolute top-10 right-0 md:right-20 z-2 w-64 md:w-96 opacity-90"
-            >
-                <img src="/planets.png" alt="Planets" className="w-full h-auto drop-shadow-2xl animate-float" />
-            </motion.div>
-
-            {/* 4. Mountains (Back to Front) */}
-            <motion.div
-                style={{ y: mountain3Y }}
-                className="absolute bottom-0 left-0 w-full z-3"
-            >
-                <img src="/mountain-3.png" alt="Mountains Far" className="w-full h-auto object-cover object-bottom min-h-[40vh]" />
-            </motion.div>
-
-            <motion.div
-                style={{ y: mountain2Y }}
-                className="absolute -bottom-10 left-0 w-full z-4"
-            >
-                <img src="/mountain-2.png" alt="Mountains Mid" className="w-full h-auto object-cover object-bottom min-h-[30vh]" />
-            </motion.div>
-
-            <motion.div
-                style={{ y: mountain1Y }}
-                className="absolute -bottom-20 left-0 w-full z-5"
-            >
-                <img src="/mountain-1.png" alt="Mountains Front" className="w-full h-auto object-cover object-bottom min-h-[20vh]" />
-            </motion.div>
-
-            {/* --- CONTENT --- */}
+            {/* --- HERO CONTENT --- */}
             <motion.div
                 style={{ y: textY, opacity: textOpacity }}
-                className="container mx-auto px-6 relative z-10 flex flex-col items-center text-center pt-20"
+                className="container mx-auto px-6 relative z-10 flex flex-col items-center text-center"
             >
-                <FadeIn delay={200}>
+                {/* Command Badge */}
+                <FadeIn delay={100}>
                     <div className="mb-8 relative inline-block">
                         <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full" />
-                        <div className="relative glass-panel rounded-full px-6 py-2 border-white/10 flex items-center gap-2 backdrop-blur-md bg-black/30">
-                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                            <span className="text-blue-200 tracking-wider text-sm font-medium uppercase font-display shadow-black drop-shadow-md">
-                                Available for Freelance & Collab
+                        <div className="relative glass-panel rounded-full px-6 py-2.5 border-white/15 flex items-center gap-3 backdrop-blur-xl bg-black/60 shadow-[0_0_30px_rgba(59,130,246,0.2)]">
+                            <Orbit className="w-4 h-4 text-cyan-400 animate-spin" style={{ animationDuration: '8s' }} />
+                            <span className="tracking-widest text-xs md:text-sm font-mono uppercase text-gray-300">
+                                FULLSTACK & AI ARCHITECT <span className="text-blue-400 mx-1">//</span> <ShinyText text="OPEN FOR PROJECTS" speed={3.5} />
                             </span>
                         </div>
                     </div>
                 </FadeIn>
 
-                <FadeIn delay={400}>
-                    <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold font-display text-white mb-6 tracking-tight leading-tight drop-shadow-2xl">
-                        FULLSTACK
+                {/* Main Headline with TrueFocus React Bits */}
+                <FadeIn delay={300}>
+                    <div className="mb-6">
+                        <TrueFocus
+                            sentence="EXPLORING DIGITAL FRONTIERS"
+                            blurAmount={4}
+                            borderColor="#38bdf8"
+                            glowColor="rgba(56, 189, 248, 0.5)"
+                            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight leading-none drop-shadow-2xl"
+                        />
+                    </div>
+                </FadeIn>
+
+                {/* Subtitle with RotatingText */}
+                <FadeIn delay={500}>
+                    <div className="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto mb-10 font-sans font-light leading-relaxed">
+                        Architecting{' '}
+                        <RotatingText texts={rotatingRoles} interval={2800} />
                         <br />
-                        <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 via-purple-400 to-pink-400 drop-shadow-lg">
-                            DEVELOPER
+                        <span className="text-gray-400 text-base md:text-lg">
+                            Building reliable software systems, clean APIs, and modern web experiences.
                         </span>
-                    </h1>
+                    </div>
                 </FadeIn>
 
-                <FadeIn delay={600}>
-                    <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto mb-10 font-sans font-light leading-relaxed drop-shadow-lg">
-                        Crafting digital experiences with modern tech and cosmic aesthetics.
-                        Turning complex problems into elegant solutions.
-                    </p>
-                </FadeIn>
-
-                <FadeIn delay={800}>
-                    <div className="flex flex-col md:flex-row items-center gap-6 justify-center">
+                {/* Action Buttons */}
+                <FadeIn delay={700}>
+                    <div className="flex flex-col sm:flex-row items-center gap-5 justify-center mb-16">
                         <button
                             onClick={() => scrollToSection('projects')}
-                            className="group relative px-8 py-4 bg-blue-600 text-white rounded-full font-medium transition-all duration-300 hover:shadow-[0_0_20px_rgba(37,99,235,0.5)] hover:bg-blue-500 hover:-translate-y-1 overflow-hidden"
+                            className="group relative px-8 py-4 bg-linear-to-r from-blue-600 to-purple-600 text-white rounded-full font-medium transition-all duration-300 hover:shadow-[0_0_35px_rgba(168,85,247,0.5)] hover:scale-105 flex items-center gap-2 cursor-pointer"
                         >
-                            <span className="relative flex items-center gap-2">
-                                View My Work
-                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                            </span>
+                            <span>Explore Projects</span>
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </button>
 
                         <button
                             onClick={() => scrollToSection('contact')}
-                            className="group px-8 py-4 bg-black/40 border border-white/10 text-white rounded-full font-medium transition-all duration-300 hover:bg-white/10 hover:border-white/30 hover:-translate-y-1 backdrop-blur-md"
+                            className="group px-8 py-4 bg-white/5 border border-white/15 text-white rounded-full font-medium transition-all duration-300 hover:bg-white/10 hover:border-white/30 hover:scale-105 backdrop-blur-md flex items-center gap-2 cursor-pointer"
                         >
-                            <span className="flex items-center gap-2">
-                                Contact Me
-                                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse group-hover:scale-125 transition-transform" />
-                            </span>
+                            <span>Initiate Contact</span>
+                            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse group-hover:scale-125 transition-transform" />
                         </button>
                     </div>
                 </FadeIn>
 
-                {/* Tech Stack - Glass Style moved down slightly */}
+                {/* React Bits CountUp Live Metric Strip */}
+                <FadeIn delay={850}>
+                    <div className="w-full max-w-3xl glass-panel rounded-3xl p-6 border-white/15 backdrop-blur-xl bg-black/50 mb-16 shadow-2xl relative overflow-hidden">
+                        <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-48 h-12 bg-blue-500/20 blur-xl rounded-full" />
+                        <div className="grid grid-cols-3 divide-x divide-white/10 text-center relative z-10">
+                            {heroStats.map((stat, idx) => (
+                                <div key={idx} className="px-4">
+                                    <div className="text-2xl sm:text-3xl md:text-4xl font-bold font-display text-white mb-1">
+                                        <CountUp to={stat.value} duration={2.5} suffix={stat.suffix} />
+                                    </div>
+                                    <div className="text-[11px] sm:text-xs font-mono uppercase tracking-wider text-gray-400 font-light">
+                                        {stat.label}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </FadeIn>
+
+                {/* Core Tech Stack Icons */}
                 <FadeIn delay={1000}>
-                    <div className="mt-24">
-                        <p className="text-gray-400 text-sm uppercase tracking-widest mb-8 font-display drop-shadow-md">
-                            Powering Next-Gen Apps With
+                    <div>
+                        <p className="text-gray-400 text-xs md:text-sm uppercase tracking-widest mb-6 font-display font-medium">
+                            Orbital Technology Matrix
                         </p>
-                        <div className="flex flex-wrap justify-center gap-6 md:gap-10 opacity-90">
+                        <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 opacity-90">
                             {techIcons.map((tech) => (
                                 <div
                                     key={tech.name}
-                                    className="group relative flex flex-col items-center gap-2 transition-all duration-300 hover:opacity-100 hover:-translate-y-2"
+                                    className="group relative flex flex-col items-center gap-2 transition-all duration-300 hover:opacity-100 hover:-translate-y-1"
                                 >
-                                    <div className="p-4 rounded-2xl bg-black/40 border border-white/10 group-hover:bg-white/10 group-hover:border-white/20 backdrop-blur-md transition-all shadow-lg group-hover:shadow-blue-500/20">
-                                        <tech.icon className="w-8 h-8 text-gray-300 group-hover:text-white transition-colors" />
+                                    <div className="p-3.5 sm:p-4 rounded-2xl bg-white/5 border border-white/10 group-hover:bg-white/10 group-hover:border-cyan-400/40 backdrop-blur-md transition-all shadow-lg group-hover:shadow-[0_0_20px_rgba(56,189,248,0.2)]">
+                                        <tech.icon className="w-6 h-6 sm:w-7 sm:h-7 text-gray-300 group-hover:text-cyan-300 transition-colors" />
                                     </div>
-                                    <span className="text-xs text-gray-300 group-hover:text-blue-300 font-medium opacity-0 group-hover:opacity-100 absolute -bottom-8 transition-all font-sans">
+                                    <span className="text-[11px] text-gray-400 group-hover:text-cyan-300 font-medium opacity-0 group-hover:opacity-100 absolute -bottom-6 transition-all font-sans">
                                         {tech.name}
                                     </span>
                                 </div>
@@ -169,8 +176,8 @@ const Hero = () => {
                 </FadeIn>
             </motion.div>
 
-            {/* Bottom Gradient Fade to merge with next section */}
-            <div className="absolute bottom-0 inset-x-0 h-32 bg-linear-to-t from-black to-transparent z-10" />
+            {/* Bottom Gradient Fade */}
+            <div className="absolute bottom-0 inset-x-0 h-24 bg-linear-to-t from-black to-transparent z-10 pointer-events-none" />
         </section>
     )
 }

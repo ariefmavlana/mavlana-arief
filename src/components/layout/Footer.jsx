@@ -1,9 +1,9 @@
 import React from 'react'
-import { Github, Linkedin, Twitter, Instagram, ArrowUp } from 'lucide-react'
-import PixelRocket from '../ui/PixelRocket'
+import { Github, Linkedin, Twitter, Instagram, ArrowUp, Orbit } from 'lucide-react'
 import { PERSONAL_INFO, NAV_LINKS, SOCIAL_LINKs } from '../../utils/constants'
 import { scrollToSection } from '../../hooks/useScrollSpy'
-import Starfield from '../backgrounds/Starfield'
+import Particles from '../reactbits/Particles'
+import ShinyText from '../reactbits/ShinyText'
 
 const Footer = () => {
     const currentYear = new Date().getFullYear()
@@ -16,12 +16,15 @@ const Footer = () => {
     ]
 
     return (
-        <footer className="relative py-20 bg-black overflow-hidden font-sans border-t border-white/5">
-            {/* Space Background */}
+        <footer className="relative py-20 bg-black overflow-hidden font-sans border-t border-white/10">
+            {/* React Bits Ambient Background Particles */}
             <div className="absolute inset-0 bg-black z-0" />
-            <div className="absolute inset-0 z-0 opacity-30">
-                <Starfield density={100} speed={0.1} />
-            </div>
+            <Particles
+                speed={0.1}
+                particleColors={['#60a5fa', '#a855f7', '#38bdf8']}
+                moveParticlesOnHover={false}
+                className="z-1 opacity-40"
+            />
 
             <div className="container mx-auto px-6 relative z-10">
                 <div className="max-w-6xl mx-auto">
@@ -32,15 +35,21 @@ const Footer = () => {
                                 className="flex items-center gap-3 cursor-pointer group w-fit"
                                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                             >
-                                <div className="p-2.5 rounded-xl bg-linear-to-br from-blue-500/10 to-purple-500/10 border border-white/10 group-hover:bg-white/5 transition-colors">
-                                    <PixelRocket className="w-5 h-5 text-blue-400 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
+                                <div className="p-2.5 rounded-xl bg-linear-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 border border-white/15 group-hover:bg-white/10 transition-colors">
+                                    <Orbit className="w-5 h-5 text-blue-400 group-hover:rotate-90 transition-transform duration-500" />
                                 </div>
-                                <span className="text-xl font-bold font-display text-white tracking-tight">
-                                    {PERSONAL_INFO.name}
-                                </span>
+                                <div className="flex flex-col">
+                                    <span className="text-xl font-bold font-display text-white tracking-tight">
+                                        ARIEF MAULANA
+                                    </span>
+                                    <span className="text-xs font-mono text-gray-400 uppercase tracking-widest font-light">
+                                        Fullstack Developer & AI Engineer
+                                    </span>
+                                </div>
                             </div>
-                            <p className="text-gray-400 text-base leading-relaxed max-w-sm font-light">
-                                {PERSONAL_INFO.tagline}. Crafting digital experiences that merge creativity with cutting-edge technology.
+
+                            <p className="text-gray-300 text-sm md:text-base leading-relaxed max-w-sm font-light">
+                                Crafting reliable web applications, distributed APIs, and intelligent data systems from Bandung, Indonesia.
                             </p>
 
                             {/* Social Links */}
@@ -51,7 +60,7 @@ const Footer = () => {
                                         href={link.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="p-2.5 rounded-full bg-white/5 border border-white/5 text-gray-400 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all hover:-translate-y-1"
+                                        className="p-2.5 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 hover:border-blue-500/30 transition-all hover:-translate-y-1"
                                         aria-label={link.label}
                                     >
                                         <link.icon className="w-4 h-4" />
@@ -60,15 +69,15 @@ const Footer = () => {
                             </div>
                         </div>
 
-                        {/* Quick Links */}
+                        {/* Navigation Links */}
                         <div>
-                            <h3 className="text-white font-bold font-display text-sm mb-6 uppercase tracking-wider">Quick Links</h3>
+                            <h3 className="text-white font-bold font-display text-xs mb-6 uppercase tracking-widest text-gray-400">Navigation</h3>
                             <nav className="flex flex-col gap-3">
                                 {NAV_LINKS.map((link) => (
                                     <button
                                         key={link.id}
                                         onClick={() => scrollToSection(link.id)}
-                                        className="text-gray-400 hover:text-blue-400 transition-colors text-left text-sm flex items-center gap-2 group w-fit"
+                                        className="text-gray-400 hover:text-blue-400 transition-colors text-left text-sm flex items-center gap-2 group w-fit font-light"
                                     >
                                         <span className="w-1 h-1 rounded-full bg-gray-600 group-hover:bg-blue-400 transition-colors" />
                                         {link.label}
@@ -77,35 +86,35 @@ const Footer = () => {
                             </nav>
                         </div>
 
-                        {/* Contact */}
+                        {/* Contact Information */}
                         <div>
-                            <h3 className="text-white font-bold font-display text-sm mb-6 uppercase tracking-wider">Contact</h3>
+                            <h3 className="text-white font-bold font-display text-xs mb-6 uppercase tracking-widest text-gray-400">Direct Contact</h3>
                             <div className="space-y-4 text-sm font-light">
                                 <div>
-                                    <span className="block text-gray-500 text-xs uppercase tracking-wider mb-1 font-medium">Email</span>
-                                    <a href={`mailto:${PERSONAL_INFO.email}`} className="text-gray-300 hover:text-blue-400 transition-colors">
+                                    <span className="block text-gray-500 text-xs uppercase tracking-wider mb-1 font-mono">Email</span>
+                                    <a href={`mailto:${PERSONAL_INFO.email}`} className="text-blue-300 font-mono text-sm hover:text-blue-200 transition-colors">
                                         {PERSONAL_INFO.email}
                                     </a>
                                 </div>
                                 <div>
-                                    <span className="block text-gray-500 text-xs uppercase tracking-wider mb-1 font-medium">Location</span>
-                                    <p className="text-gray-300">{PERSONAL_INFO.location}</p>
+                                    <span className="block text-gray-500 text-xs uppercase tracking-wider mb-1 font-mono">Base Station</span>
+                                    <p className="text-gray-300 text-sm font-sans">{PERSONAL_INFO.location}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Bottom Bar */}
-                    <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500 font-light">
+                    <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs md:text-sm text-gray-400 font-light">
                         <p>
-                            © {currentYear} {PERSONAL_INFO.name}. All rights reserved.
+                            © {currentYear} <ShinyText text="Arief Maulana" speed={4} />. All rights reserved.
                         </p>
                         <button
                             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                            className="flex items-center gap-2 hover:text-white transition-colors group"
+                            className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors group font-mono text-xs uppercase tracking-wider"
                         >
                             Back to Top
-                            <ArrowUp className="w-4 h-4 group-hover:-translate-y-1 transition-transform" />
+                            <ArrowUp className="w-4 h-4 group-hover:-translate-y-1 transition-transform text-blue-400" />
                         </button>
                     </div>
                 </div>

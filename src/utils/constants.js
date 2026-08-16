@@ -1,23 +1,22 @@
 export const PERSONAL_INFO = {
     name: "Arief Maulana",
-    title: "Fullstack Developer & ML Enthusiast • Fueled by Coffee",
+    title: "Fullstack Developer & AI Engineer",
     email: "ariefmavlana8@gmail.com",
     whatsapp: "6287776734038",
     location: "Bandung, West Java, Indonesia",
-    tagline: "Building elegant systems. Extracting meaningful insights.",
-    description: "Building things that work. Solving problems that matter. Fueled by coffee.",
+    tagline: "Building clean web applications, robust APIs, and intelligent data systems.",
+    description: "Fullstack Engineer focused on building fast web apps, scalable backend services, and practical AI solutions.",
     resume: "/ariefmaulanacv.pdf",
     photo: "/ariefmaulana.jpg",
     bio: [
-        "I'm Arief Maulana. Developer by day, debugger by night, coffee enthusiast around the clock.",
+        "Hi, I'm Arief Maulana—a Fullstack Developer and AI Engineer based in Bandung, Indonesia.",
 
-        "I build fullstack applications and ML solutions that actually ship. From pixel-perfect frontends to robust backends to models that work in production—I handle the full journey from idea to deploy.",
+        "I specialize in building complete web applications from the ground up: crafting responsive React & Next.js frontends, engineering Node.js and Python APIs, and integrating machine learning models into production.",
 
-        "My philosophy? Keep it clean, keep it simple, keep it working. Code should solve problems, not create them. And yes, I'm that person who refactors for readability even when deadlines are tight.",
+        "I value clean code, intuitive user interfaces, and reliable architecture. Whether it's optimizing site performance, designing database schemas, or automating workflows, I focus on delivering real, working solutions.",
 
-        "Currently in Bandung, remotely collaborating with teams worldwide. If you value quality code and honest timelines, let's talk."
+        "Currently available for freelance projects, full-time remote roles, and technical collaborations."
     ]
-
 }
 
 export const SOCIAL_LINKs = {
@@ -28,23 +27,26 @@ export const SOCIAL_LINKs = {
 }
 
 export const STATS = [
-    { label: "Coffee Consumed", value: "∞" },
-    { label: "Stack Layers", value: "Full" },
-    { label: "Clean Code", value: "Always" },
-    { label: "Problems Solved", value: "Daily" }
+    { label: "Years Experience", value: "3+" },
+    { label: "Completed Projects", value: "15+" },
+    { label: "Primary Tech Stack", value: "React • Node • Python" },
+    { label: "Client Satisfaction", value: "100%" }
 ]
 
 export const ABOUT_STATS = [
-    { label: "Current Focus", value: "Fullstack + ML" },
-    { label: "Favorite Stack", value: "Modern Web" },
-    { label: "Work Style", value: "Remote First" },
-    { label: "Coffee Level", value: "Critical" }
+    { label: "Based In", value: "Bandung, Indonesia" },
+    { label: "Focus", value: "Fullstack & AI Engineering" },
+    { label: "Work Model", value: "Remote / Hybrid / Onsite" },
+    { label: "Status", value: "Open for Opportunities" }
 ]
 
 export const NAV_LINKS = [
     { id: "home", label: "Home" },
     { id: "about", label: "About" },
+    { id: "experience", label: "Experience" },
     { id: "skills", label: "Skills" },
+    { id: "services", label: "Services" },
     { id: "projects", label: "Projects" },
+    { id: "testimonials", label: "Testimonials" },
     { id: "contact", label: "Contact" }
 ]
