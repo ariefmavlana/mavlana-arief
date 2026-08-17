@@ -88,6 +88,7 @@ const Hero = () => {
                 {/* Main Headline with TrueFocus React Bits */}
                 <FadeIn delay={300}>
                     <div className="mb-4 sm:mb-6 max-w-full px-2">
+                        <h1 className="sr-only">Arief Maulana — Fullstack Developer &amp; AI Engineer in Bandung, Indonesia</h1>
                         <TrueFocus
                             sentence="EXPLORING DIGITAL FRONTIERS"
                             blurAmount={3}

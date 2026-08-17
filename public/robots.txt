@@ -1,0 +1,9 @@
+# Enterprise Production Robots.txt for Arief Maulana Portfolio
+User-agent: *
+Allow: /
+Disallow: /dist/
+Disallow: /node_modules/
+
+# Host & Sitemap Location
+Host: https://mavlana.space
+Sitemap: https://mavlana.space/sitemap.xml

@@ -21,7 +21,7 @@ export const PERSONAL_INFO = {
 
 export const SOCIAL_LINKs = {
     github: "https://github.com/ariefmavlana",
-    linkedin: "https://linkedin.com/in/arief-maulana-330142137",
+    linkedin: "https://linkedin.com/in/ariefmavlana",
     x: "https://x.com/ariefmavvlana",
     instagram: "https://instagram.com/ariefmavlana",
 }
@@ -47,6 +47,6 @@ export const NAV_LINKS = [
     { id: "skills", label: "Skills" },
     { id: "services", label: "Services" },
     { id: "projects", label: "Projects" },
-    { id: "testimonials", label: "Testimonials" },
+    { id: "faq", label: "FAQ" },
     { id: "contact", label: "Contact" }
 ]

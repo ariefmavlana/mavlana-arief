@@ -1,0 +1,24 @@
+{
+  "name": "Arief Maulana — Fullstack & AI Engineer",
+  "short_name": "Arief Mavlana",
+  "description": "Portfolio and technical showcase of Arief Maulana, Fullstack Developer and Machine Learning Engineer.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#030712",
+  "theme_color": "#030712",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/pixel-rocket.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/rocket-logo.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
