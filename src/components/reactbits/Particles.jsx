@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 
 const Particles = ({
     speed = 0.2,
-    particleColors = ['#60a5fa', '#c084fc', '#38bdf8', '#e0e7ff', '#ffffff'],
+    particleColors = ['#f59e0b', '#fbbf24', '#38bdf8', '#60a5fa', '#ffffff'],
     moveParticlesOnHover = true,
     enableMeteors = true,
     enableConstellations = true,
@@ -97,7 +97,7 @@ const Particles = ({
                             ctx.beginPath()
                             ctx.moveTo(particles[i].x, particles[i].y)
                             ctx.lineTo(particles[j].x, particles[j].y)
-                            ctx.strokeStyle = `rgba(96, 165, 250, ${opacity})`
+                            ctx.strokeStyle = `rgba(245, 158, 11, ${opacity})`
                             ctx.lineWidth = 0.8
                             ctx.stroke()
                         }

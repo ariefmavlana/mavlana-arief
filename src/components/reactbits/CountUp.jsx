@@ -13,6 +13,7 @@ const CountUp = ({
     const [count, setCount] = useState(from)
     const ref = useRef(null)
     const isInView = useInView(ref, { once: true, margin: '-40px' })
+    const rafRef = useRef(null)
 
     useEffect(() => {
         if (!isInView) return
@@ -29,17 +30,22 @@ const CountUp = ({
             setCount(currentCount)
 
             if (progress < 1) {
-                requestAnimationFrame(step)
+                rafRef.current = requestAnimationFrame(step)
             } else {
                 setCount(numericTo)
             }
         }
 
         const timer = setTimeout(() => {
-            requestAnimationFrame(step)
+            rafRef.current = requestAnimationFrame(step)
         }, delay * 1000)
 
-        return () => clearTimeout(timer)
+        return () => {
+            clearTimeout(timer)
+            if (rafRef.current) {
+                cancelAnimationFrame(rafRef.current)
+            }
+        }
     }, [isInView, to, from, duration, delay])
 
     return (
@@ -50,3 +56,4 @@ const CountUp = ({
 }
 
 export default CountUp
+

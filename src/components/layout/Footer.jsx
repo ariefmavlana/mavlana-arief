@@ -1,9 +1,10 @@
 import React from 'react'
-import { Github, Linkedin, Twitter, Instagram, ArrowUp, Orbit } from 'lucide-react'
+import { Github, Linkedin, Twitter, Instagram, ArrowUp } from 'lucide-react'
 import { PERSONAL_INFO, NAV_LINKS, SOCIAL_LINKs } from '../../utils/constants'
 import { scrollToSection } from '../../hooks/useScrollSpy'
 import Particles from '../reactbits/Particles'
 import ShinyText from '../reactbits/ShinyText'
+import EnduranceStation from '../reactbits/EnduranceStation'
 
 const Footer = () => {
     const currentYear = new Date().getFullYear()
@@ -16,14 +17,14 @@ const Footer = () => {
     ]
 
     return (
-        <footer className="relative py-20 bg-black overflow-hidden font-sans border-t border-white/10">
+        <footer className="relative py-20 bg-black overflow-hidden font-sans border-t border-amber-500/20">
             {/* React Bits Ambient Background Particles */}
             <div className="absolute inset-0 bg-black z-0" />
             <Particles
                 speed={0.1}
-                particleColors={['#60a5fa', '#a855f7', '#38bdf8']}
+                particleColors={['#f59e0b', '#fbbf24', '#38bdf8']}
                 moveParticlesOnHover={false}
-                className="z-1 opacity-40"
+                className="z-1 opacity-50"
             />
 
             <div className="container mx-auto px-6 relative z-10">
@@ -32,18 +33,16 @@ const Footer = () => {
                         {/* Brand */}
                         <div className="md:col-span-2 space-y-6">
                             <div
-                                className="flex items-center gap-3 cursor-pointer group w-fit"
+                                className="flex items-center gap-4 cursor-pointer group w-fit"
                                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                             >
-                                <div className="p-2.5 rounded-xl bg-linear-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 border border-white/15 group-hover:bg-white/10 transition-colors">
-                                    <Orbit className="w-5 h-5 text-blue-400 group-hover:rotate-90 transition-transform duration-500" />
-                                </div>
+                                <EnduranceStation size={40} />
                                 <div className="flex flex-col">
-                                    <span className="text-xl font-bold font-display text-white tracking-tight">
+                                    <span className="text-xl font-bold font-mono text-white tracking-tight group-hover:text-amber-400 transition-colors">
                                         ARIEF MAULANA
                                     </span>
-                                    <span className="text-xs font-mono text-gray-400 uppercase tracking-widest font-light">
-                                        Fullstack Developer & AI Engineer
+                                    <span className="text-xs font-mono text-amber-400/80 uppercase tracking-widest font-light">
+                                        // FULLSTACK & AI ARCHITECT
                                     </span>
                                 </div>
                             </div>
@@ -60,7 +59,7 @@ const Footer = () => {
                                         href={link.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="p-2.5 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 hover:border-blue-500/30 transition-all hover:-translate-y-1"
+                                        className="p-2.5 rounded-full bg-black/80 border border-amber-500/20 text-gray-400 hover:text-amber-300 hover:bg-amber-500/10 hover:border-amber-400/50 transition-all hover:-translate-y-1 shadow-[0_0_10px_rgba(245,158,11,0.1)]"
                                         aria-label={link.label}
                                     >
                                         <link.icon className="w-4 h-4" />
@@ -71,15 +70,15 @@ const Footer = () => {
 
                         {/* Navigation Links */}
                         <div>
-                            <h3 className="text-white font-bold font-display text-xs mb-6 uppercase tracking-widest text-gray-400">Navigation</h3>
-                            <nav className="flex flex-col gap-3">
+                            <h3 className="text-amber-400 font-bold font-mono text-xs mb-6 uppercase tracking-widest">[ SYSTEM INDEX ]</h3>
+                            <nav className="flex flex-col gap-3 font-mono text-xs">
                                 {NAV_LINKS.map((link) => (
                                     <button
                                         key={link.id}
                                         onClick={() => scrollToSection(link.id)}
-                                        className="text-gray-400 hover:text-blue-400 transition-colors text-left text-sm flex items-center gap-2 group w-fit font-light"
+                                        className="text-gray-400 hover:text-amber-400 transition-colors text-left flex items-center gap-2 group w-fit font-light"
                                     >
-                                        <span className="w-1 h-1 rounded-full bg-gray-600 group-hover:bg-blue-400 transition-colors" />
+                                        <span className="w-1 h-1 rounded-full bg-amber-500/40 group-hover:bg-amber-400 transition-colors" />
                                         {link.label}
                                     </button>
                                 ))}
@@ -88,33 +87,33 @@ const Footer = () => {
 
                         {/* Contact Information */}
                         <div>
-                            <h3 className="text-white font-bold font-display text-xs mb-6 uppercase tracking-widest text-gray-400">Direct Contact</h3>
-                            <div className="space-y-4 text-sm font-light">
+                            <h3 className="text-amber-400 font-bold font-mono text-xs mb-6 uppercase tracking-widest">[ TELEMETRY STATION ]</h3>
+                            <div className="space-y-4 text-xs font-mono font-light">
                                 <div>
-                                    <span className="block text-gray-500 text-xs uppercase tracking-wider mb-1 font-mono">Email</span>
-                                    <a href={`mailto:${PERSONAL_INFO.email}`} className="text-blue-300 font-mono text-sm hover:text-blue-200 transition-colors">
+                                    <span className="block text-cyan-400 text-[10px] uppercase tracking-wider mb-1">EMAIL SIGNAL</span>
+                                    <a href={`mailto:${PERSONAL_INFO.email}`} className="text-gray-300 hover:text-amber-300 transition-colors">
                                         {PERSONAL_INFO.email}
                                     </a>
                                 </div>
                                 <div>
-                                    <span className="block text-gray-500 text-xs uppercase tracking-wider mb-1 font-mono">Base Station</span>
-                                    <p className="text-gray-300 text-sm font-sans">{PERSONAL_INFO.location}</p>
+                                    <span className="block text-cyan-400 text-[10px] uppercase tracking-wider mb-1">BASE COORDINATES</span>
+                                    <p className="text-gray-300">{PERSONAL_INFO.location}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Bottom Bar */}
-                    <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs md:text-sm text-gray-400 font-light">
+                    <div className="pt-8 border-t border-amber-500/15 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-mono text-gray-400 font-light">
                         <p>
                             © {currentYear} <ShinyText text="Arief Maulana" speed={4} />. All rights reserved.
                         </p>
                         <button
                             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                            className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors group font-mono text-xs uppercase tracking-wider"
+                            className="flex items-center gap-2 text-gray-300 hover:text-amber-400 transition-colors group font-mono text-xs uppercase tracking-wider cursor-pointer"
                         >
                             Back to Top
-                            <ArrowUp className="w-4 h-4 group-hover:-translate-y-1 transition-transform text-blue-400" />
+                            <ArrowUp className="w-4 h-4 group-hover:-translate-y-1 transition-transform text-amber-400" />
                         </button>
                     </div>
                 </div>
@@ -124,3 +123,4 @@ const Footer = () => {
 }
 
 export default Footer
+

@@ -4,12 +4,33 @@ import FadeIn from '../animations/FadeIn'
 import Particles from '../reactbits/Particles'
 import SpotlightCard from '../reactbits/SpotlightCard'
 import SplitText from '../reactbits/SplitText'
-import { Cpu } from 'lucide-react'
+import BlurText from '../reactbits/BlurText'
+import DecryptedText from '../reactbits/DecryptedText'
+import Magnet from '../reactbits/Magnet'
+import ScrollVelocity from '../reactbits/ScrollVelocity'
+import TelemetryHeader from '../ui/TelemetryHeader'
 
 const Skills = () => {
     const [selectedCategory, setSelectedCategory] = useState('All')
 
     const categories = ['All', 'Frontend', 'Backend', 'AI & Data', 'Cloud & Tools']
+
+    const iconMarqueeItems = [
+        skills.map((skill) => {
+            const Icon = skill.icon
+            return (
+                <div
+                    key={skill.id}
+                    className="inline-flex items-center gap-2.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-2xl bg-black/60 border border-amber-500/20 backdrop-blur-md hover:bg-amber-500/10 hover:border-amber-400/60 transition-all duration-300 group shadow-lg"
+                >
+                    <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 group-hover:text-cyan-300 group-hover:scale-110 transition-all" />
+                    <span className="text-xs sm:text-sm font-mono font-medium text-gray-200 group-hover:text-white tracking-wide">
+                        {skill.name}
+                    </span>
+                </div>
+            )
+        })
+    ]
 
     const getSkillCategory = (name) => {
         const lower = name.toLowerCase()
@@ -29,42 +50,44 @@ const Skills = () => {
             <div className="absolute inset-0 bg-black z-0" />
             <Particles
                 speed={0.18}
-                particleColors={['#38bdf8', '#818cf8', '#c084fc']}
+                particleColors={['#f59e0b', '#fbbf24', '#38bdf8', '#60a5fa']}
                 moveParticlesOnHover={true}
                 enableConstellations={true}
                 className="z-1 opacity-60"
             />
 
+            {/* ReactBits ScrollVelocity Infinite Icon & Badge Marquee */}
+            <div className="mb-12 opacity-75 hover:opacity-100 transition-opacity duration-500">
+                <ScrollVelocity
+                    items={iconMarqueeItems}
+                    velocity={3}
+                />
+            </div>
+
             <div className="container mx-auto px-4 sm:px-6 relative z-10">
                 <div className="max-w-6xl mx-auto">
                     <FadeIn delay={0}>
                         <div className="text-center mb-12 sm:mb-16">
-                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-md">
-                                <Cpu className="w-4 h-4 text-cyan-400" />
-                                <span className="text-xs sm:text-sm text-gray-400 uppercase tracking-widest font-display font-medium">Orbital Matrix</span>
-                            </div>
+                            <TelemetryHeader
+                                tag="ORBITAL MATRIX"
+                                title="TECHNICAL CAPABILITIES"
+                                subtitle="Production frameworks, backend microservices, data analytics pipelines, and cloud platforms."
+                            />
 
-                            <h2 className="text-2xl sm:text-5xl lg:text-6xl font-bold font-display text-white mb-4 sm:mb-6">
-                                <SplitText text="TECHNICAL CAPABILITIES" delay={30} className="text-white" />
-                            </h2>
-
-                            <p className="text-gray-300 text-sm sm:text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
-                                Production frameworks, backend microservices, data analytics pipelines, and cloud platforms.
-                            </p>
-
-                            {/* Responsive Category Filter Pills */}
+                            {/* Responsive Category Filter Pills with Magnet */}
                             <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-6 sm:mt-8 max-w-full px-2">
                                 {categories.map((cat) => (
-                                    <button
-                                        key={cat}
-                                        onClick={() => setSelectedCategory(cat)}
-                                        className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 cursor-pointer ${selectedCategory === cat
-                                            ? 'bg-linear-to-r from-blue-600 to-purple-600 text-white shadow-[0_0_20px_rgba(59,130,246,0.4)] border border-blue-400/40'
-                                            : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-white/10'
-                                            }`}
-                                    >
-                                        {cat}
-                                    </button>
+                                    <Magnet key={cat} magnetStrength={4} padding={20}>
+                                        <button
+                                            onClick={() => setSelectedCategory(cat)}
+                                            className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-mono tracking-wider uppercase transition-all duration-300 cursor-pointer ${selectedCategory === cat
+                                                ? 'bg-linear-to-r from-amber-500 to-cyan-500 text-black font-bold shadow-[0_0_20px_rgba(245,158,11,0.4)] border border-amber-400'
+                                                : 'bg-black/60 text-gray-400 hover:bg-amber-500/10 hover:text-white border border-amber-500/20'
+                                                }`}
+                                        >
+                                            {cat}
+                                        </button>
+                                    </Magnet>
                                 ))}
                             </div>
                         </div>
@@ -76,34 +99,34 @@ const Skills = () => {
                             return (
                                 <FadeIn key={skill.id} delay={index * 40}>
                                     <SpotlightCard
-                                        spotlightColor="rgba(56, 189, 248, 0.2)"
-                                        borderColor="rgba(255, 255, 255, 0.12)"
-                                        className="h-full group hover:-translate-y-1 transition-transform duration-300"
+                                        spotlightColor="rgba(245, 158, 11, 0.25)"
+                                        borderColor="rgba(245, 158, 11, 0.2)"
+                                        className="h-full group hover:-translate-y-1 transition-transform duration-300 bg-black/60"
                                     >
                                         <div className="p-4 sm:p-6 flex flex-col justify-between h-full">
                                             <div>
                                                 <div className="flex items-center justify-between mb-3 sm:mb-4">
-                                                    <div className="p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 group-hover:border-cyan-400/40 group-hover:bg-cyan-500/10 transition-all">
-                                                        <IconComponent className="w-5 h-5 sm:w-7 sm:h-7 text-gray-300 group-hover:text-cyan-300 transition-colors" />
+                                                    <div className="p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-black/60 border border-amber-500/20 group-hover:border-amber-400/50 group-hover:bg-amber-500/10 transition-all">
+                                                        <IconComponent className="w-5 h-5 sm:w-7 sm:h-7 text-gray-300 group-hover:text-amber-300 transition-colors" />
                                                     </div>
-                                                    <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-cyan-400/80 px-2 py-0.5 rounded-md bg-cyan-500/10 border border-cyan-500/20">
-                                                        {skill.experience}
+                                                    <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-amber-400 px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/30">
+                                                        <DecryptedText text={skill.experience} speed={30} animateOn="hover" />
                                                     </span>
                                                 </div>
 
-                                                <h3 className="text-sm sm:text-lg font-bold font-display text-white mb-1 group-hover:text-cyan-300 transition-colors">
+                                                <h3 className="text-sm sm:text-lg font-bold font-mono text-white mb-1 group-hover:text-amber-300 transition-colors">
                                                     {skill.name}
                                                 </h3>
                                                 <p className="text-[10px] sm:text-xs text-gray-400 font-mono font-light">
-                                                    Level: <span className="text-gray-200">{skill.level}</span>
+                                                    LEVEL: <span className="text-amber-400 font-semibold">{skill.level}</span>
                                                 </p>
                                             </div>
 
                                             {/* Cosmic Radar Skill Level Bar */}
-                                            <div className="mt-3 sm:mt-4 pt-2.5 sm:pt-3 border-t border-white/5">
-                                                <div className="w-full h-1 sm:h-1.5 rounded-full bg-white/10 overflow-hidden">
+                                            <div className="mt-3 sm:mt-4 pt-2.5 sm:pt-3 border-t border-amber-500/10">
+                                                <div className="w-full h-1 sm:h-1.5 rounded-full bg-black/80 overflow-hidden border border-amber-500/20">
                                                     <div
-                                                        className="h-full rounded-full bg-linear-to-r from-blue-500 via-cyan-400 to-purple-500 group-hover:brightness-125 transition-all duration-500"
+                                                        className="h-full rounded-full bg-linear-to-r from-amber-500 via-orange-400 to-cyan-400 group-hover:brightness-125 transition-all duration-500"
                                                         style={{ width: skill.level === 'Expert' ? '92%' : '80%' }}
                                                     />
                                                 </div>
@@ -121,3 +144,4 @@ const Skills = () => {
 }
 
 export default Skills
+
