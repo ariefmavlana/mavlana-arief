@@ -1,12 +1,11 @@
 {
-  "name": "Arief Maulana — Fullstack & AI Engineer",
-  "short_name": "Arief Mavlana",
-  "description": "Portfolio and technical showcase of Arief Maulana, Fullstack Developer and Machine Learning Engineer.",
+  "name": "Arief Maulana — Portfolio",
+  "short_name": "Arief Maulana",
+  "description": "Portofolio Arief Maulana, full-stack developer dari Bandung.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#030712",
-  "theme_color": "#030712",
-  "orientation": "portrait-primary",
+  "background_color": "#08101f",
+  "theme_color": "#08101f",
   "icons": [
     {
       "src": "/pixel-rocket.svg",

@@ -1,123 +1,24 @@
 import {
-    SiReact, SiNextdotjs, SiTypescript, SiTailwindcss,
-    SiNodedotjs, SiLaravel, SiAmazon, SiPostgresql,
-    SiMongodb, SiExpress, SiR, SiPython, SiTableau,
-    SiThreedotjs,
-    SiGhost
+  SiCloudflare,
+  SiJavascript,
+  SiNextdotjs,
+  SiNodedotjs,
+  SiPostgresql,
+  SiPython,
+  SiReact,
+  SiTailwindcss,
+  SiTypescript,
 } from 'react-icons/si'
-import { Globe } from 'lucide-react'
 
+// Disusun dari profil GitHub dan repositori publik yang dipilih, bukan klaim level/lamanya pengalaman.
 export const skills = [
-    {
-        id: 1,
-        name: "React.js",
-        icon: SiReact,
-        level: "Expert",
-        experience: "3+ Years"
-    },
-    {
-        id: 2,
-        name: "Next.js",
-        icon: SiNextdotjs,
-        level: "Expert",
-        experience: "3+ Years"
-    },
-    {
-        id: 3,
-        name: "TypeScript",
-        icon: SiTypescript,
-        level: "Advanced",
-        experience: "3+ Years"
-    },
-    {
-        id: 4,
-        name: "Tailwind CSS",
-        icon: SiTailwindcss,
-        level: "Expert",
-        experience: "3+ Years"
-    },
-    {
-        id: 5,
-        name: "REST API",
-        icon: Globe,
-        level: "Advanced",
-        experience: "3+ Years"
-    },
-    {
-        id: 6,
-        name: "Node.js",
-        icon: SiNodedotjs,
-        level: "Expert",
-        experience: "3+ Years"
-    },
-    {
-        id: 7,
-        name: "Laravel",
-        icon: SiLaravel,
-        level: "Advanced",
-        experience: "3+ Years"
-    },
-    {
-        id: 8,
-        name: "AWS",
-        icon: SiAmazon,
-        level: "Advanced",
-        experience: "1+ Years"
-    },
-    {
-        id: 9,
-        name: "PostgreSQL",
-        icon: SiPostgresql,
-        level: "Expert",
-        experience: "3+ Years"
-    },
-    {
-        id: 10,
-        name: "MongoDB",
-        icon: SiMongodb,
-        level: "Advanced",
-        experience: "2+ Years"
-    },
-    {
-        id: 11,
-        name: "Express.js",
-        icon: SiExpress,
-        level: "Advanced",
-        experience: "2+ Years"
-    },
-    {
-        id: 12,
-        name: "Three.js",
-        icon: SiThreedotjs,
-        level: "Advanced",
-        experience: "2+ Years"
-    },
-    {
-        id: 13,
-        name: "R",
-        icon: SiR,
-        level: "Advanced",
-        experience: "1+ Years"
-    },
-    {
-        id: 14,
-        name: "Python",
-        icon: SiPython,
-        level: "Advanced",
-        experience: "1+ Years"
-    },
-    {
-        id: 15,
-        name: "GSAP",
-        icon: SiGhost,
-        level: "Advanced",
-        experience: "2+ Years"
-    },
-    {
-        id: 16,
-        name: "Tableau",
-        icon: SiTableau,
-        level: "Advanced",
-        experience: "2+ Years"
-    }
+  { name: 'TypeScript', icon: SiTypescript, group: 'Web' },
+  { name: 'JavaScript', icon: SiJavascript, group: 'Web' },
+  { name: 'React', icon: SiReact, group: 'Frontend' },
+  { name: 'Next.js', icon: SiNextdotjs, group: 'Frontend' },
+  { name: 'Tailwind CSS', icon: SiTailwindcss, group: 'Frontend' },
+  { name: 'Node.js', icon: SiNodedotjs, group: 'Backend' },
+  { name: 'Python', icon: SiPython, group: 'Data & ML' },
+  { name: 'PostgreSQL', icon: SiPostgresql, group: 'Data' },
+  { name: 'Cloudflare', icon: SiCloudflare, group: 'Deployment' },
 ]

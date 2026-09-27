@@ -1,43 +1,28 @@
-# Arief Maulana — Space Portfolio
+# Arief Maulana — Portfolio
 
-> **"Building elegant systems. Extracting meaningful insights."**
+Portfolio pribadi Arief Maulana, full-stack developer dari Bandung. Situs ini memakai pendekatan visual **editorial space**: gelap, tenang, dan berfokus pada isi—tanpa scene 3D atau animasi yang mengalihkan perhatian dari karya.
 
-Welcome to my corner of the digital universe. This is a modern, highly interactive 3D portfolio website featuring a cosmic theme, showcasing my journey as a **Fullstack Developer** and **ML Enthusiast**.
+## Isi
 
-## 💫 About Me
+- Ringkasan profil dan fokus saat ini: web full-stack, machine learning, dan IoT.
+- Karya pilihan yang dapat ditelusuri langsung ke repositori publik GitHub.
+- CTA yang jelas ke WhatsApp, email, dan GitHub.
+- Metadata SEO, Open Graph, Twitter Card, schema `Person`/`WebSite`/`CollectionPage`, sitemap, dan web manifest.
 
-I'm Arief Maulana — a developer by day, debugger by night, and coffee enthusiast around the clock. I build things that work and solve problems that matter.
+## Menjalankan secara lokal
 
-- 📍 **Location:** Bandung, West Java, Indonesia
-- 🚀 **Current Focus:** Building elegant systems and extracting meaningful insights.
-- ☕ **Fuel Level:** Always powered by caffeine.
+```bash
+npm ci
+npm run dev
+```
 
-## 🛠️ Tech Stack
+Untuk pemeriksaan produksi:
 
-- **Frontend:** React 19, Vite, Tailwind CSS 4, Framer Motion
-- **3D & Visuals:** Three.js, GSAP (GreenSock), React Three Fiber
-- **Backend & Data:** Node.js, Python, PostgreSQL, MongoDB
-- **Tools:** Git, Docker, AWS
+```bash
+npm run lint
+npm run build
+```
 
-## 📊 Live Stats
+## Sumber konten
 
-| Metric | Status |
-| :--- | :--- |
-| **Coffee Consumed** | ∞ |
-| **Stack Layers** | Full |
-| **Clean Code** | Always |
-| **Problems Solved** | Daily |
-
-## 🌐 Connect With Me
-
-Feel free to reach out for collaborations or just a friendly chat!
-
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ariefmavlana)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/arief-maulana-330142137)
-[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/ariefmavlana)
-[![X](https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/ariefmavvlana)
-[![WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/6287776734038)
-
----
-
-Built with 🌌 by [Arief Maulana](https://github.com/ariefmavlana)
+Daftar karya di [`src/data/projects.js`](src/data/projects.js) dicocokkan dengan metadata repositori publik [@ariefmavlana](https://github.com/ariefmavlana) pada 27 September 2026. Saat memperbarui portofolio, utamakan tautan, deskripsi, dan teknologi yang bisa dibuktikan dari repositori atau proyek yang telah dipublikasikan.
