@@ -12,13 +12,15 @@ body { margin: 0; background: #08101f; color: #f8fafc; font-family: Manrope, ui-
 .section-shell { position: relative; padding-block: clamp(5rem, 10vw, 8rem); }
 .hero-shell { position: relative; overflow: hidden; background: radial-gradient(circle at 70% 40%, rgba(96, 165, 250, .12), transparent 28rem), #08101f; }
 .hero-shell::before { position: absolute; inset: 0; background-image: radial-gradient(rgba(186, 230, 253, .13) .65px, transparent .65px); background-size: 22px 22px; content: ''; mask-image: linear-gradient(to bottom, black, transparent 80%); }
-.black-hole { position: absolute; top: 50%; right: clamp(-13rem, -6vw, -2rem); z-index: 1; width: clamp(22rem, 41vw, 40rem); aspect-ratio: 1; transform: translateY(-50%); pointer-events: none; }
-.black-hole > span { position: absolute; display: block; border-radius: 999px; }
-.black-hole-halo { inset: 5%; background: radial-gradient(circle, transparent 31%, rgba(186,230,253,.07) 44%, rgba(125,211,252,.04) 51%, transparent 68%); filter: blur(9px); }
-.black-hole-disk { inset: 12% -14%; background: conic-gradient(from 32deg, transparent 0 13%, rgba(186,230,253,.08) 18%, rgba(224,242,254,.72) 31%, rgba(167,139,250,.26) 47%, transparent 62%, rgba(125,211,252,.24) 83%, transparent 96%); filter: blur(1.5px); transform: rotate(-20deg) scaleY(.29); animation: black-hole-orbit 32s linear infinite; }
-.black-hole-lensing { inset: 25% 7%; border: 1px solid rgba(224,242,254,.18); box-shadow: 0 0 38px rgba(125,211,252,.13), inset 0 0 28px rgba(167,139,250,.08); transform: rotate(-18deg) scaleY(.5); }
-.black-hole-core { inset: 31%; background: radial-gradient(circle at 41% 36%, #111827 0, #030712 42%, #000 66%, transparent 69%); box-shadow: 0 0 30px rgba(2,6,23,.94), 0 0 84px rgba(56,189,248,.13); }
-@keyframes black-hole-orbit { to { transform: rotate(340deg) scaleY(.29); } }
+.black-hole { position: absolute; top: 58%; right: clamp(-13rem, -10vw, -2rem); z-index: 1; width: clamp(22rem, 41vw, 40rem); aspect-ratio: 1; transform: translateY(-50%); pointer-events: none; }
+.black-hole-visual { display: block; width: 100%; height: 100%; overflow: visible; }
+.black-hole-aura { stroke-dasharray: 2 13; transform-origin: center; animation: black-hole-drift 28s linear infinite; }
+.black-hole-accretion { transform-origin: center; animation: black-hole-breathe 8s ease-in-out infinite; }
+.black-hole-photon-ring { filter: drop-shadow(0 0 12px rgba(186, 230, 253, .24)); }
+.black-hole-core { filter: drop-shadow(0 0 24px rgba(2, 6, 23, .95)); }
+.black-hole-highlight { filter: drop-shadow(0 0 5px rgba(224, 242, 254, .3)); }
+@keyframes black-hole-drift { to { transform: rotate(360deg); } }
+@keyframes black-hole-breathe { 50% { opacity: .84; transform: scale(1.018); } }
 .eyebrow { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .6875rem; font-weight: 600; letter-spacing: .17em; color: #bae6fd; }
 .hero-title, .section-title, .card-title, .cta-title { font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif; text-wrap: balance; }
 .hero-title { max-width: 11ch; font-size: clamp(3.05rem, 7.3vw, 6.5rem); font-weight: 600; letter-spacing: -.065em; line-height: .96; }
@@ -68,6 +70,6 @@ body { margin: 0; background: #08101f; color: #f8fafc; font-family: Manrope, ui-
 .contribution-legend .contribution-dot { width: 9px; height: 9px; }
 .contribution-skeleton { min-height: 6.5rem; border-radius: .7rem; background: linear-gradient(100deg, rgba(30,41,59,.5) 30%, rgba(51,65,85,.5) 45%, rgba(30,41,59,.5) 60%); background-size: 220% 100%; animation: contribution-loading 1.6s ease-in-out infinite; }
 @keyframes contribution-loading { to { background-position: -220% 0; } }
-@media (max-width: 1023px) { .black-hole { right: -17rem; opacity: .5; } }
-@media (prefers-reduced-motion: reduce) { .black-hole-disk, .contribution-skeleton { animation: none; } }
+@media (max-width: 1023px) { .black-hole { top: 50%; right: -17rem; opacity: .5; } }
+@media (prefers-reduced-motion: reduce) { .black-hole-aura, .black-hole-accretion, .contribution-skeleton { animation: none; } }
 ::selection { background: #dff4ff; color: #0f172a; }
