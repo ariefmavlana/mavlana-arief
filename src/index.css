@@ -39,4 +39,10 @@ body { margin: 0; background: #08101f; color: #f8fafc; font-family: Inter, ui-sa
 .contact-link { display: flex; min-width: 13rem; align-items: center; gap: .7rem; border: 1px solid rgba(255,255,255,.1); border-radius: .7rem; padding: .85rem 1rem; color: #e2e8f0; font-size: .875rem; transition: border-color .2s ease, background-color .2s ease; }
 .contact-link svg:last-child { margin-left: auto; }
 .contact-link:hover { border-color: rgba(186,230,253,.65); background: rgba(255,255,255,.04); }
+.github-activity-panel { overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 1rem; background: rgba(15,23,42,.5); padding: 1.25rem; }
+.github-activity-row { display: flex; align-items: center; gap: .85rem; padding-block: 1rem; transition: background-color .2s ease; }
+.github-activity-row:hover { background: rgba(255,255,255,.035); }
+.github-activity-icon { display: grid; width: 2rem; height: 2rem; flex: 0 0 auto; place-items: center; border-radius: .5rem; background: rgba(186,230,253,.08); color: #bae6fd; }
+.github-activity-arrow { color: #64748b; transition: color .2s ease, transform .2s ease; }
+.github-activity-row:hover .github-activity-arrow { color: #bae6fd; transform: translate(2px, -2px); }
 ::selection { background: #dff4ff; color: #0f172a; }

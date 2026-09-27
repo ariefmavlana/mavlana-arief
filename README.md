@@ -6,6 +6,7 @@ Portfolio pribadi Arief Maulana, full-stack developer dari Bandung. Situs ini me
 
 - Ringkasan profil dan fokus saat ini: web full-stack, machine learning, dan IoT.
 - Karya pilihan yang dapat ditelusuri langsung ke repositori publik GitHub.
+- Feed aktivitas GitHub publik terbaru, dengan cache dan fallback saat API tidak tersedia.
 - CTA yang jelas ke WhatsApp, email, dan GitHub.
 - Metadata SEO, Open Graph, Twitter Card, schema `Person`/`WebSite`/`CollectionPage`, sitemap, dan web manifest.
 

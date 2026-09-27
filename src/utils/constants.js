@@ -15,6 +15,7 @@ export const PERSONAL_INFO = {
 export const NAV_LINKS = [
   { id: 'home', label: 'Beranda' },
   { id: 'about', label: 'Tentang' },
+  { id: 'activity', label: 'Aktivitas' },
   { id: 'projects', label: 'Karya' },
   { id: 'skills', label: 'Keahlian' },
   { id: 'services', label: 'Kolaborasi' },

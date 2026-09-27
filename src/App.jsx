@@ -2,6 +2,7 @@ import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import Hero from './components/sections/Hero'
 import About from './components/sections/About'
+import GitHubActivity from './components/sections/GitHubActivity'
 import Projects from './components/sections/Projects'
 import Skills from './components/sections/Skills'
 import Services from './components/sections/Services'
@@ -15,6 +16,7 @@ const App = () => (
     <main>
       <Hero />
       <About />
+      <GitHubActivity />
       <Projects />
       <Skills />
       <Services />
