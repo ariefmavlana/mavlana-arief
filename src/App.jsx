@@ -10,7 +10,7 @@ import Contact from './components/sections/Contact'
 import SEOHead from './components/seo/SEOHead'
 
 const App = () => (
-  <div className="min-h-screen overflow-x-hidden bg-[#08101f] text-white selection:bg-sky-200 selection:text-slate-950">
+  <div className="site-shell min-h-screen overflow-x-hidden text-white selection:bg-sky-200 selection:text-slate-950">
     <SEOHead />
     <Navbar />
     <main>

@@ -9,7 +9,7 @@ export const PERSONAL_INFO = {
   github: 'https://github.com/ariefmavlana',
   linkedin: 'https://linkedin.com/in/arief-maulana-330142137',
   x: 'https://x.com/ariefmavvlana',
-  bio: 'Saya membangun aplikasi web yang jelas tujuannya, nyaman digunakan, dan mudah dirawat. Fokus saya mencakup antarmuka web, layanan backend, serta eksplorasi machine learning dan IoT.'
+  bio: 'Saya merancang dan membangun aplikasi web melalui proses yang terstruktur—dari memahami kebutuhan produk hingga mengimplementasikan antarmuka, layanan backend, dan integrasi yang relevan.'
 }
 
 export const NAV_LINKS = [

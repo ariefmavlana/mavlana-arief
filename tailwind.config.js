@@ -7,8 +7,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Inter', 'sans-serif'],
-                display: ['Space Grotesk', 'sans-serif'],
+                sans: ['Manrope', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                display: ['Space Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif'],
             },
             colors: {
                 primary: '#3B82F6',

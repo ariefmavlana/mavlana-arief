@@ -4,16 +4,16 @@ export const services = [
   {
     icon: LayoutTemplate,
     title: 'Produk web yang terarah',
-    description: 'Menerjemahkan kebutuhan menjadi halaman, dashboard, atau aplikasi web dengan alur dan prioritas yang jelas.',
+    description: 'Membentuk kebutuhan menjadi pengalaman web dengan struktur informasi dan prioritas fitur yang jelas.',
   },
   {
     icon: Blocks,
     title: 'Antarmuka & integrasi',
-    description: 'Mengerjakan frontend modern serta menghubungkannya dengan API dan layanan yang sudah ada.',
+    description: 'Membangun antarmuka responsif dan menghubungkannya ke API atau layanan yang relevan secara rapi.',
   },
   {
     icon: Database,
     title: 'Fondasi aplikasi',
-    description: 'Membantu struktur backend dan data untuk fitur yang memang perlu dibangun—tanpa menambah kompleksitas yang tidak dibutuhkan.',
+    description: 'Menyiapkan komponen backend dan data yang proporsional terhadap kebutuhan fitur tanpa beban teknis berlebih.',
   },
 ]

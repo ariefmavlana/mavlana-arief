@@ -10,8 +10,8 @@ const ProjectCard = ({ project }) => (
       <a href={project.repository} target="_blank" rel="noreferrer" aria-label={`Buka repositori ${project.title} di GitHub`} className="icon-link"><Github className="size-4" /></a>
     </div>
     <div className="flex grow flex-col py-6">
-      <h3 className="text-2xl font-semibold tracking-tight text-white">{project.title}</h3>
-      <p className="mt-4 text-sm leading-7 text-slate-300">{project.summary}</p>
+      <h3 className="card-title text-2xl">{project.title}</h3>
+      <p className="project-summary mt-4">{project.summary}</p>
     </div>
     <div className="flex flex-wrap gap-2 border-t border-white/10 pt-5">
       {project.stack.map((item) => <span key={item} className="tag">{item}</span>)}
