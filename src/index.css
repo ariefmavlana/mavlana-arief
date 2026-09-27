@@ -16,6 +16,11 @@ body { margin: 0; background: #08101f; color: #f8fafc; font-family: Manrope, ui-
 .black-hole-visual { display: block; width: 100%; height: 100%; overflow: visible; }
 .black-hole-aura { stroke-dasharray: 2 13; transform-origin: center; animation: black-hole-drift 28s linear infinite; }
 .black-hole-accretion { transform-origin: center; animation: black-hole-breathe 8s ease-in-out infinite; }
+.black-hole-particle { filter: drop-shadow(0 0 3px rgba(186, 230, 253, .74)); }
+.black-hole-particle--outer { filter: drop-shadow(0 0 2px rgba(165, 180, 252, .5)); }
+.black-hole-particle--middle { filter: drop-shadow(0 0 3px rgba(186, 230, 253, .7)); }
+.black-hole-particle--inner { filter: drop-shadow(0 0 4px rgba(248, 250, 252, .85)); }
+.black-hole-particle-still { display: none; }
 .black-hole-photon-ring { filter: drop-shadow(0 0 12px rgba(186, 230, 253, .24)); }
 .black-hole-core { filter: drop-shadow(0 0 24px rgba(2, 6, 23, .95)); }
 .black-hole-highlight { filter: drop-shadow(0 0 5px rgba(224, 242, 254, .3)); }
@@ -71,5 +76,5 @@ body { margin: 0; background: #08101f; color: #f8fafc; font-family: Manrope, ui-
 .contribution-skeleton { min-height: 6.5rem; border-radius: .7rem; background: linear-gradient(100deg, rgba(30,41,59,.5) 30%, rgba(51,65,85,.5) 45%, rgba(30,41,59,.5) 60%); background-size: 220% 100%; animation: contribution-loading 1.6s ease-in-out infinite; }
 @keyframes contribution-loading { to { background-position: -220% 0; } }
 @media (max-width: 1023px) { .black-hole { top: 50%; right: -17rem; opacity: .5; } }
-@media (prefers-reduced-motion: reduce) { .black-hole-aura, .black-hole-accretion, .contribution-skeleton { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .black-hole-aura, .black-hole-accretion, .contribution-skeleton { animation: none; } .black-hole-particle-stream { display: none; } .black-hole-particle-still { display: block; } }
 ::selection { background: #dff4ff; color: #0f172a; }

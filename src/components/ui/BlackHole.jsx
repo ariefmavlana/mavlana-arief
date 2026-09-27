@@ -1,3 +1,34 @@
+const ORBIT_LAYERS = [
+  { id: 'outer', radiusX: 256, radiusY: 92, count: 58, duration: 38 },
+  { id: 'middle', radiusX: 218, radiusY: 70, count: 48, duration: 27 },
+  { id: 'inner', radiusX: 174, radiusY: 51, count: 40, duration: 17 },
+]
+
+const PARTICLE_COLORS = ['#f8fafc', '#dbeafe', '#bae6fd', '#a5b4fc']
+
+const PARTICLES = ORBIT_LAYERS.flatMap((orbit, orbitIndex) =>
+  Array.from({ length: orbit.count }, (_, index) => {
+    const phase = (((index * 137.508) + (orbitIndex * 41)) % 360) * (Math.PI / 180)
+    const orbitPhase = ((index * 0.61803398875) + (orbitIndex * 0.173)) % 1
+    const radius = 0.7 + (((index * 7) + (orbitIndex * 3)) % 10) / 10
+    const opacity = 0.28 + (((index * 11) + (orbitIndex * 5)) % 7) / 14
+
+    return {
+      id: `${orbit.id}-${index}`,
+      orbit: orbit.id,
+      radius: Number(radius.toFixed(2)),
+      opacity: Number(opacity.toFixed(2)),
+      duration: Number((orbit.duration + ((index % 5) * 0.65)).toFixed(2)),
+      delay: Number((orbitPhase * orbit.duration).toFixed(2)),
+      color: PARTICLE_COLORS[(index + orbitIndex) % PARTICLE_COLORS.length],
+      x: Number((320 + (Math.cos(phase) * orbit.radiusX)).toFixed(2)),
+      y: Number((316 + (Math.sin(phase) * orbit.radiusY)).toFixed(2)),
+    }
+  }),
+)
+
+const STILL_PARTICLES = PARTICLES.filter((_, index) => index % 2 === 0)
+
 const BlackHole = () => (
   <div
     className="black-hole"
@@ -33,6 +64,9 @@ const BlackHole = () => (
         <filter id="black-hole-glow" x="-40%" y="-130%" width="180%" height="360%">
           <feGaussianBlur stdDeviation="9" />
         </filter>
+        <path id="black-hole-orbit-outer" d="M64 316a256 92 0 1 0 512 0a256 92 0 1 0-512 0" />
+        <path id="black-hole-orbit-middle" d="M102 316a218 70 0 1 0 436 0a218 70 0 1 0-436 0" />
+        <path id="black-hole-orbit-inner" d="M146 316a174 51 0 1 0 348 0a174 51 0 1 0-348 0" />
       </defs>
 
       <circle cx="320" cy="320" r="280" fill="url(#black-hole-space)" />
@@ -42,6 +76,42 @@ const BlackHole = () => (
         <ellipse cx="320" cy="316" rx="230" ry="74" stroke="url(#black-hole-disk)" strokeWidth="30" filter="url(#black-hole-glow)" opacity="0.58" />
         <ellipse cx="320" cy="316" rx="230" ry="74" stroke="url(#black-hole-disk)" strokeWidth="9" opacity="0.9" />
         <ellipse cx="320" cy="316" rx="191" ry="57" stroke="url(#black-hole-falloff)" strokeWidth="12" opacity="0.82" />
+      </g>
+
+      <g className="black-hole-particle-stream">
+        {PARTICLES.map((particle) => (
+          <circle
+            key={particle.id}
+            className={`black-hole-particle black-hole-particle--${particle.orbit}`}
+            r={particle.radius}
+            fill={particle.color}
+            opacity={particle.opacity}
+          >
+            <animateMotion dur={`${particle.duration}s`} begin={`-${particle.delay}s`} repeatCount="indefinite">
+              <mpath href={`#black-hole-orbit-${particle.orbit}`} />
+            </animateMotion>
+            <animate
+              attributeName="opacity"
+              values={`${particle.opacity};${Math.min(particle.opacity + 0.24, 0.95)};${particle.opacity}`}
+              dur={`${Math.max(particle.duration / 3, 5)}s`}
+              begin={`-${particle.delay / 2}s`}
+              repeatCount="indefinite"
+            />
+          </circle>
+        ))}
+      </g>
+      <g className="black-hole-particle-still">
+        {STILL_PARTICLES.map((particle) => (
+          <circle
+            key={particle.id}
+            className={`black-hole-particle black-hole-particle--${particle.orbit}`}
+            cx={particle.x}
+            cy={particle.y}
+            r={particle.radius}
+            fill={particle.color}
+            opacity={particle.opacity}
+          />
+        ))}
       </g>
 
       <ellipse cx="320" cy="316" rx="119" ry="41" fill="#020617" opacity="0.87" />
