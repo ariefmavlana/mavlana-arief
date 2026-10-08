@@ -3,7 +3,21 @@ import { projects } from '../../data/projects'
 
 const SITE_URL = 'https://mavlana.space'
 
-const SEOHead = () => {
+const SEOHead = ({ path }) => {
+  useEffect(() => {
+    const project = projects.find((item) => path === `/projects/${item.id}`)
+    const title =
+      project?.title ||
+      {
+        '/about': 'About',
+        '/projects': 'Selected Work',
+        '/contact': 'Contact',
+      }[path]
+    document.title = title
+      ? `${title} — Arief Maulana`
+      : 'Arief Maulana — Full-stack Developer di Bandung'
+    document.querySelector('link[rel="canonical"]').href = `${SITE_URL}${path}`
+  }, [path])
   useEffect(() => {
     const portfolioItems = projects.map((project, index) => ({
       '@type': 'ListItem',
@@ -26,7 +40,11 @@ const SEOHead = () => {
       url: `${SITE_URL}/#projects`,
       name: 'Karya pilihan Arief Maulana',
       isPartOf: { '@id': `${SITE_URL}/#website` },
-      mainEntity: { '@type': 'ItemList', numberOfItems: portfolioItems.length, itemListElement: portfolioItems },
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: portfolioItems.length,
+        itemListElement: portfolioItems,
+      },
     }
 
     let script = document.getElementById('portfolio-schema')

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="lavender" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#c995ef" />
+      <stop offset="1" stop-color="#7945c5" />
+    </linearGradient>
+  </defs>
+  <path fill="url(#lavender)" d="M0 0h64v64H0z" />
+  <path d="M21 25c2-5 6-7 11-7 8 0 12 6 12 15s-4 14-12 14-12-5-12-13h24" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

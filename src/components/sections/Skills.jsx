@@ -1,12 +1,39 @@
 import { skills } from '../../data/skills'
-import TelemetryHeader from '../ui/TelemetryHeader'
 
 const Skills = () => (
-  <section id="skills" className="section-shell border-y border-white/10">
-    <div className="site-container grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
-      <TelemetryHeader eyebrow="PRAKTIK TEKNIS" title="Teknologi yang diterapkan dalam praktik." subtitle="Teknologi yang digunakan pada repositori dan implementasi publik—dikelompokkan menurut perannya, bukan dinilai secara generik." />
-      <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">
-        {skills.map((skill) => { const Icon = skill.icon; return <div key={skill.name} className="min-h-36 bg-[#0a1020] p-5 transition-colors hover:bg-[#101a31]"><Icon className="size-6 text-sky-200" /><p className="mt-10 text-sm font-medium text-white">{skill.name}</p><p className="mt-1 text-xs text-slate-500">{skill.group}</p></div> })}
+  <section id="skills" className="section-shell skills-section">
+    <div className="site-container">
+      <div className="section-topline">
+        <p className="eyebrow">THE TOOLKIT</p>
+        <span className="eyebrow">04 / TEKNOLOGI</span>
+      </div>
+      <div className="skills-layout">
+        <div>
+          <h2 className="editorial-heading">
+            DI BALIK
+            <br />
+            <em>pengalaman.</em>
+          </h2>
+          <p className="body-copy">
+            Teknologi yang saya gunakan untuk mengubah ide menjadi sesuatu yang
+            nyata.
+          </p>
+        </div>
+        <div className="skill-list">
+          {skills.map((skill, index) => {
+            const Icon = skill.icon
+            return (
+              <div className="skill-row" key={skill.name}>
+                <span className="eyebrow">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <Icon />
+                <h3>{skill.name}</h3>
+                <span className="eyebrow">{skill.group}</span>
+              </div>
+            )
+          })}
+        </div>
       </div>
     </div>
   </section>

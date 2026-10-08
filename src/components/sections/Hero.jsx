@@ -1,29 +1,279 @@
-import { ArrowDown, ArrowUpRight, Github, MapPin } from 'lucide-react'
-import BlackHole from '../ui/BlackHole'
-import { PERSONAL_INFO } from '../../utils/constants'
-import { scrollToSection } from '../../hooks/useScrollSpy'
+import { lazy, Suspense, useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+const ExperienceWorld = lazy(() => import('../experience/ExperienceWorld'))
 
-const Hero = () => (
-  <section id="home" className="hero-shell">
-    <BlackHole />
-    <div className="site-container relative z-10 grid min-h-[calc(100svh-1px)] content-center py-32 lg:grid-cols-[1fr_260px] lg:gap-20">
-      <div className="max-w-4xl">
-        <p className="eyebrow mb-7">PORTFOLIO / BANDUNG / 2026</p>
-        <h1 className="hero-title">Produk digital dengan arah yang jelas.</h1>
-        <p className="hero-copy mt-7">Saya Arief Maulana, full-stack developer dari Bandung. Saya membangun aplikasi web yang menghubungkan kebutuhan bisnis, pengalaman pengguna, dan fondasi teknis yang dapat dipelihara.</p>
-        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <button className="button button-primary" onClick={() => scrollToSection('projects')}>Tinjau karya <ArrowDown className="size-4" /></button>
-          <a className="button button-secondary" href={`https://wa.me/${PERSONAL_INFO.whatsapp}?text=${encodeURIComponent('Halo Arief, saya ingin membicarakan sebuah proyek.')}`} target="_blank" rel="noreferrer">Bahas kebutuhan <ArrowUpRight className="size-4" /></a>
-        </div>
+gsap.registerPlugin(ScrollTrigger)
+
+const slides = [
+  {
+    lead: 'Where',
+    lines: (
+      <>
+        AMBITIOUS IDEAS
+        <br />
+        BECOME INTERFACES
+        <br />
+        PEOPLE REMEMBER
+      </>
+    ),
+    caption: (
+      <>
+        FULL-STACK DEVELOPMENT AND DIGITAL
+        <br />
+        EXPERIENCES FOR IDEAS THAT MATTER
+      </>
+    ),
+  },
+  {
+    lead: 'Beyond',
+    lines: (
+      <>
+        THE ORDINARY.
+        <br />
+        INTO THE
+        <br />
+        EXTRAORDINARY.
+      </>
+    ),
+    caption: (
+      <>
+        A THOUGHTFUL BALANCE OF
+        <br />
+        CREATIVE THINKING AND
+        <br />
+        TECHNICAL PRECISION.
+      </>
+    ),
+  },
+  {
+    lead: 'Made',
+    lines: (
+      <>
+        TO CONNECT.
+        <br />
+        DESIGNED
+        <br />
+        TO INSPIRE.
+      </>
+    ),
+    caption: (
+      <>
+        EACH DETAIL HAS A PURPOSE.
+        <br />
+        EVERY INTERACTION
+        <br />
+        TELLS A STORY.
+      </>
+    ),
+  },
+  {
+    lead: 'With',
+    lines: (
+      <>
+        CURIOSITY.
+        <br />
+        CRAFT.
+        <br />
+        AND FEELING.
+      </>
+    ),
+    caption: (
+      <>
+        BECAUSE THE BEST EXPERIENCES
+        <br />
+        ARE THE ONES THAT
+        <br />
+        MAKE US FEEL SOMETHING.
+      </>
+    ),
+  },
+  {
+    lead: 'Let’s',
+    lines: (
+      <>
+        MAKE
+        <br />
+        SOMETHING
+        <br />
+        MEANINGFUL.
+      </>
+    ),
+    caption: (
+      <>
+        YOUR VISION. MY CRAFT.
+        <br />A NEW POSSIBILITY
+        <br />
+        WAITING TO HAPPEN.
+      </>
+    ),
+  },
+]
+const aboutSlides = [
+  {
+    lead: 'A little',
+    lines: (
+      <>
+        ABOUT THE PERSON
+        <br />
+        BEHIND THE
+        <br />
+        EXPERIENCE.
+      </>
+    ),
+    caption: (
+      <>
+        ARIEF MAULANA / BANDUNG, INDONESIA
+        <br />
+        FULL-STACK DEVELOPER & CREATIVE THINKER
+      </>
+    ),
+  },
+  {
+    lead: 'Built',
+    lines: (
+      <>
+        WITH CURIOSITY.
+        <br />
+        CRAFTED
+        <br />
+        WITH CARE.
+      </>
+    ),
+    caption: (
+      <>
+        FROM UNDERSTANDING THE PROBLEM
+        <br />
+        TO MAKING EVERY DETAIL WORK.
+      </>
+    ),
+  },
+  {
+    lead: 'Always',
+    lines: (
+      <>
+        EXPLORING.
+        <br />
+        LEARNING.
+        <br />
+        CREATING.
+      </>
+    ),
+    caption: (
+      <>
+        WEB DEVELOPMENT, MACHINE LEARNING,
+        <br />
+        AND NEW WAYS TO CONNECT IDEAS.
+      </>
+    ),
+  },
+]
+const contactSlides = [
+  {
+    lead: 'Let’s',
+    lines: (
+      <>
+        BUILD SOMETHING
+        <br />
+        MEANINGFUL.
+      </>
+    ),
+    caption: (
+      <>
+        HAVE AN IDEA, A PRODUCT, OR A VISION?
+        <br />
+        LET’S TALK ABOUT WHAT COMES NEXT.
+      </>
+    ),
+  },
+]
+
+export default function Hero({
+  motion,
+  dark,
+  quality,
+  onProgress,
+  onReady,
+  onError,
+  failure,
+  view,
+}) {
+  const section = useRef(null)
+  const progress = useRef(0)
+  const pageSlides =
+    view === 'about' ? aboutSlides : view === 'contact' ? contactSlides : slides
+  useEffect(() => {
+    const root = section.current
+    progress.current = 0
+    const panels = root.querySelectorAll('.hero-panel')
+    const trigger = ScrollTrigger.create({
+      trigger: root,
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: (self) => {
+        progress.current = self.progress
+        const active = Math.min(
+          panels.length - 1,
+          Math.floor(self.progress * panels.length),
+        )
+        panels.forEach((panel, i) => {
+          panel.classList.toggle('is-active', i === active)
+          panel.inert = i !== active
+          panel.setAttribute('aria-hidden', i !== active)
+        })
+      },
+    })
+    return () => trigger.kill()
+  }, [view])
+  return (
+    <section
+      id="home"
+      ref={section}
+      className={`experience experience-${view}`}
+      aria-label="Dunia kreatif Arief Maulana"
+    >
+      <div className="experience-stage">
+        <Suspense fallback={<div className="world-canvas" />}>
+          <ExperienceWorld
+            progress={progress}
+            dark={dark}
+            motion={motion}
+            quality={quality}
+            onProgress={onProgress}
+            onReady={onReady}
+            onError={onError}
+            view={view}
+          />
+        </Suspense>
+        {failure && (
+          <p className="experience-error" role="status">
+            {failure}
+          </p>
+        )}
+        {pageSlides.map((slide, i) => (
+          <div
+            key={slide.lead}
+            className={`hero-panel hero-panel-${i + 1} ${i === 0 ? 'is-active' : ''}`}
+            aria-hidden={i !== 0}
+            inert={i !== 0}
+          >
+            <div className="hero-content">
+              <p className="hero-caption eyebrow">{slide.caption}</p>
+              {i === 0 ? (
+                <h1 className="hero-heading">
+                  <em>{slide.lead}</em>
+                  <span>{slide.lines}</span>
+                </h1>
+              ) : (
+                <h2 className="hero-heading">
+                  <em>{slide.lead}</em>
+                  <span>{slide.lines}</span>
+                </h2>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
-      <aside className="mt-14 border-t border-white/15 pt-6 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
-        <p className="text-sm font-medium text-white">Arief Maulana</p><p className="mt-1 text-sm text-slate-400">Full-stack Developer</p>
-        <p className="mt-7 flex items-center gap-2 text-sm text-slate-300"><MapPin className="size-4 text-sky-300" /> {PERSONAL_INFO.location}</p>
-        <p className="body-caption mt-5">Fokus: pengalaman web, integrasi sistem, machine learning, dan IoT.</p>
-        <a className="text-link mt-7" href={PERSONAL_INFO.github} target="_blank" rel="noreferrer"><Github className="size-4" /> GitHub</a>
-      </aside>
-    </div>
-  </section>
-)
-
-export default Hero
+    </section>
+  )
+}

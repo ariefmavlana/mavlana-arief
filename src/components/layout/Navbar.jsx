@@ -1,34 +1,184 @@
-import { Menu, X } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { NAV_LINKS, PERSONAL_INFO } from '../../utils/constants'
-import { scrollToSection, useScrollSpy } from '../../hooks/useScrollSpy'
+import {
+  ArrowUpRight,
+  Menu,
+  Settings2,
+  Volume2,
+  VolumeX,
+  X,
+} from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { PERSONAL_INFO } from '../../utils/constants'
 
-const Navbar = () => {
-  const [open, setOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const active = useScrollSpy(['home', ...NAV_LINKS.map(({ id }) => id)])
-
+export default function Navbar({
+  onGuideOpen,
+  motion,
+  onMotionChange,
+  dark,
+  onDarkChange,
+  sound,
+  onSoundChange,
+  quality,
+  onQualityChange,
+  path,
+}) {
+  const menu = useRef(null)
+  const settingsPanel = useRef(null)
+  const [settings, setSettings] = useState(false)
+  const [onPaper, setOnPaper] = useState(false)
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  const go = (id) => { scrollToSection(id); setOpen(false) }
-  return <nav className={`fixed inset-x-0 top-0 z-50 transition-all ${scrolled ? 'border-b border-white/10 bg-[#08101f]/90 backdrop-blur-xl' : ''}`}>
-    <div className="site-container flex h-18 items-center justify-between">
-      <button onClick={() => go('home')} className="text-sm font-semibold tracking-[0.18em] text-white">AM<span className="text-sky-300">.</span></button>
-      <div className="hidden items-center gap-6 lg:flex">
-        {NAV_LINKS.map(({ id, label }) => <button key={id} onClick={() => go(id)} className={`nav-link ${active === id ? 'text-white' : ''}`}>{label}</button>)}
-      </div>
-      <a className="hidden text-link lg:flex" href={`mailto:${PERSONAL_INFO.email}`}>Mari bicara</a>
-      <button className="rounded-lg border border-white/15 p-2 text-white lg:hidden" aria-label={open ? 'Tutup menu' : 'Buka menu'} aria-expanded={open} onClick={() => setOpen(!open)}>{open ? <X className="size-5" /> : <Menu className="size-5" />}</button>
-      {open && <div className="absolute left-4 right-4 top-16 rounded-2xl border border-white/10 bg-[#0d172a] p-3 shadow-2xl lg:hidden">
-        {NAV_LINKS.map(({ id, label }) => <button key={id} onClick={() => go(id)} className="block w-full rounded-lg px-4 py-3 text-left text-sm text-slate-200 hover:bg-white/5">{label}</button>)}
-        <a href={`mailto:${PERSONAL_INFO.email}`} className="mt-2 block rounded-lg bg-sky-200 px-4 py-3 text-sm font-semibold text-slate-950">Mari bicara</a>
-      </div>}
+    if (!settings) return
+    const closeOutside = (event) => {
+      if (!settingsPanel.current.contains(event.target)) setSettings(false)
+    }
+    const closeWithEscape = (event) => {
+      if (event.key === 'Escape') setSettings(false)
+    }
+    window.addEventListener('pointerdown', closeOutside)
+    window.addEventListener('keydown', closeWithEscape)
+    return () => {
+      window.removeEventListener('pointerdown', closeOutside)
+      window.removeEventListener('keydown', closeWithEscape)
+    }
+  }, [settings])
+  useEffect(() => {
+    const checkSection = () =>
+      setOnPaper(
+        (document.querySelector('.experience')?.getBoundingClientRect()
+          .bottom ?? 0) < 70,
+      )
+    checkSection()
+    window.addEventListener('scroll', checkSection, { passive: true })
+    return () => window.removeEventListener('scroll', checkSection)
+  }, [path])
+  const controls = (
+    <div className="settings-controls">
+      <button onClick={onSoundChange} aria-pressed={sound}>
+        Sound <span>{sound ? 'ON' : 'OFF'}</span>
+      </button>
+      <button onClick={onDarkChange} aria-pressed={dark}>
+        Dark mode <span>{dark ? 'ON' : 'OFF'}</span>
+      </button>
+      <button onClick={onMotionChange} aria-pressed={motion}>
+        Animation <span>{motion ? 'ON' : 'OFF'}</span>
+      </button>
+      <label>
+        Quality{' '}
+        <select
+          aria-label="Graphics quality"
+          value={quality}
+          onChange={(event) => onQualityChange(event.target.value)}
+        >
+          <option value="high">HIGH</option>
+          <option value="low">LOW</option>
+        </select>
+      </label>
     </div>
-  </nav>
+  )
+  return (
+    <>
+      <header className={`site-header ${onPaper ? 'on-paper' : ''}`}>
+        <a
+          data-page
+          href="/"
+          className="wordmark"
+          aria-label="Arief Maulana — beranda"
+        >
+          ə<span>arief</span>
+        </a>
+        <nav className="desktop-nav" aria-label="Navigasi utama">
+          <a data-page href="/about">
+            About
+          </a>
+          <a data-page href="/projects">
+            Work
+          </a>
+          <a data-page href="/contact">
+            Contact
+          </a>
+        </nav>
+        <div ref={settingsPanel} className="header-settings">
+          <button
+            className="motion-button"
+            aria-expanded={settings}
+            aria-controls="settings-popover"
+            onClick={() => setSettings(!settings)}
+          >
+            <Settings2 size={14} /> Settings
+          </button>
+          {settings && (
+            <div id="settings-popover" className="settings-popover">
+              {controls}
+            </div>
+          )}
+        </div>
+        <button
+          className="sound-button"
+          onClick={onSoundChange}
+          aria-label={sound ? 'Mute audio' : 'Enable audio'}
+        >
+          {sound ? <Volume2 size={18} /> : <VolumeX size={18} />}
+        </button>
+        <a data-page href="/contact" className="glass-button">
+          Let’s talk <ArrowUpRight size={15} />
+        </a>
+      </header>
+      <div className="mobile-dock">
+        <button onClick={() => menu.current.showModal()} aria-label="Buka menu">
+          <Menu size={22} />
+        </button>
+        <a data-page href="/" className="wordmark" aria-label="Beranda">
+          ə
+        </a>
+        <button
+          className="dock-orb"
+          aria-label="Open portfolio guide"
+          onClick={onGuideOpen}
+        >
+          <ArrowUpRight size={16} />
+        </button>
+      </div>
+      <dialog ref={menu} className="menu-dialog" aria-label="Menu portfolio">
+        <div className="menu-top">
+          <a
+            data-page
+            href="/"
+            className="wordmark"
+            onClick={() => menu.current.close()}
+          >
+            ə<span>arief</span>
+          </a>
+          <button
+            aria-label="Tutup menu"
+            className="close-menu"
+            onClick={() => menu.current.close()}
+          >
+            <X />
+          </button>
+        </div>
+        <nav aria-label="Menu portfolio">
+          {[
+            ['', 'Home'],
+            ['about', 'About'],
+            ['projects', 'Projects'],
+            ['contact', 'Contact'],
+          ].map(([id, label], i) => (
+            <a
+              data-page
+              href={`/${id}`}
+              key={id}
+              onClick={() => menu.current.close()}
+            >
+              <span>0{i + 1}</span>
+              {label}
+              <ArrowUpRight />
+            </a>
+          ))}
+        </nav>
+        {controls}
+        <a className="menu-email" href={`mailto:${PERSONAL_INFO.email}`}>
+          {PERSONAL_INFO.email}
+        </a>
+      </dialog>
+    </>
+  )
 }
-
-export default Navbar
