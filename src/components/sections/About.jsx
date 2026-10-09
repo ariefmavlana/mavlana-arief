@@ -1,8 +1,10 @@
+import { useLanguage } from '../../utils/language'
 import { ArrowUpRight } from 'lucide-react'
 import { PERSONAL_INFO } from '../../utils/constants'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 
 const About = () => {
+  const { t } = useLanguage()
   const { ref, isVisible } = useScrollReveal()
   return (
     <section id="about" className="section-shell about-section">
@@ -11,8 +13,8 @@ const About = () => {
         className={`site-container reveal ${isVisible ? 'is-visible' : ''}`}
       >
         <div className="section-topline">
-          <p className="eyebrow">THE PERSON BEHIND THE PIXELS</p>
-          <span className="eyebrow">01 / TENTANG</span>
+          <p className="eyebrow">{t('THE PERSON BEHIND THE PIXELS')}</p>
+          <span className="eyebrow">{t('01 / TENTANG')}</span>
         </div>
         <div className="about-grid">
           <div className="portrait-wrap">
@@ -27,17 +29,18 @@ const About = () => {
           </div>
           <div className="about-content">
             <h2 className="editorial-heading">
-              <em>Halo, saya</em>
+              <em>{t('Halo, saya')}</em>
               <br />
               ARIEF
               <br />
               MAULANA<span className="violet">↗</span>
             </h2>
             <p className="body-lead">
-              Developer dengan rasa ingin tahu. Membangun dengan logika,
-              merancang dengan empati.
+              {t(
+                'Developer dengan rasa ingin tahu. Membangun dengan logika, merancang dengan empati.',
+              )}
             </p>
-            <p className="body-copy">{PERSONAL_INFO.bio}</p>
+            <p className="body-copy">{t(PERSONAL_INFO.bio)}</p>
             <div className="about-links">
               <a
                 className="pill-link"
@@ -45,7 +48,8 @@ const About = () => {
                 target="_blank"
                 rel="noreferrer"
               >
-                Kenali lebih dekat — CV <ArrowUpRight size={16} />
+                {t('Kenali lebih dekat — CV')}
+                <ArrowUpRight size={16} />
               </a>
               <a
                 className="text-link"

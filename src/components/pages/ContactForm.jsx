@@ -1,35 +1,54 @@
+import { useLanguage } from '../../utils/language'
 import { useState } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import { PERSONAL_INFO } from '../../utils/constants'
 
-export default function ContactForm() {
-  const [draft, setDraft] = useState('')
+export default function ContactForm({ embedded = false }) {
+  const { t, language } = useLanguage()
+  const [draft, setDraft] = useState(null)
+  const Heading = embedded ? 'h2' : 'h1'
   const submit = (event) => {
     event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    const body = `Halo Arief,\n\nSaya ${data.get('name')}.\nEmail: ${data.get('email')}\nProyek: ${data.get('project')}\nBudget: ${data.get('budget')}\n\n${data.get('details')}\n\nMenemukan portfolio melalui: ${data.get('source') || '-'}`
-    setDraft(
-      `mailto:${PERSONAL_INFO.email}?subject=${encodeURIComponent(`Diskusi proyek — ${data.get('name')}`)}&body=${encodeURIComponent(body)}`,
-    )
+    setDraft(Object.fromEntries(new FormData(event.currentTarget)))
   }
+  const body =
+    draft &&
+    (language === 'id'
+      ? `Halo Arief,\n\nSaya ${draft.name}.\nEmail: ${draft.email}\nProyek: ${t(draft.project)}\nAnggaran: ${t(draft.budget)}\n\n${draft.details}\n\nMenemukan portofolio melalui: ${t(draft.source) || 'Tidak disebutkan'}`
+      : `Hello Arief,\n\nI’m ${draft.name}.\nEmail: ${draft.email}\nProject: ${t(draft.project)}\nBudget: ${t(draft.budget)}\n\n${draft.details}\n\nFound your portfolio through: ${t(draft.source) || 'Not specified'}`)
+  const emailHref =
+    draft &&
+    `mailto:${PERSONAL_INFO.email}?subject=${encodeURIComponent(`${language === 'id' ? 'Diskusi proyek' : 'Project enquiry'} — ${draft.name}`)}&body=${encodeURIComponent(body)}`
   return (
-    <section className="contact-form-page">
-      <h1 className="editorial-heading">
-        <em>Let’s</em> BUILD
+    <section
+      id={embedded ? 'contact' : undefined}
+      className={`contact-form-page ${embedded ? 'contact-form-embedded site-container' : ''}`}
+    >
+      <Heading className="editorial-heading">
+        <em>{t('Let’s')}</em> {language === 'id' ? 'WUJUDKAN' : 'BUILD'}
         <br />
-        <span>↪ SOMETHING</span>
-        <br />
-        MEANINGFUL
-      </h1>
+        <span className="contact-title-line">
+          <span className="contact-title-arrow" aria-hidden="true">
+            ↪
+          </span>
+          <span>{language === 'id' ? 'IDE' : 'SOMETHING'}</span>
+        </span>
+        {t('MEANINGFUL')}
+      </Heading>
       <p className="eyebrow">
-        TELL ME ABOUT THE PROJECT.
+        {language === 'id'
+          ? 'CERITAKAN PROYEK YANG INGIN ANDA BANGUN.'
+          : 'TELL ME ABOUT YOUR PROJECT.'}
         <br />
-        LET’S MAKE SOMETHING THAT MATTERS.
+        {language === 'id'
+          ? 'KITA BAHAS KEBUTUHAN DAN LANGKAH BERIKUTNYA.'
+          : 'LET’S DISCUSS THE REQUIREMENTS AND NEXT STEPS.'}
       </p>
-      <form onSubmit={submit} onChange={() => setDraft('')}>
+      <form onSubmit={submit} onChange={() => setDraft(null)}>
         <fieldset className="contact-field">
           <legend>
-            I'm building...<span>*</span>
+            {t("I'm building...")}
+            <span>*</span>
           </legend>
           <div>
             {[
@@ -42,14 +61,15 @@ export default function ContactForm() {
             ].map((value) => (
               <label className="radio-option" key={value}>
                 <input type="radio" name="project" value={value} required />
-                {value}
+                {t(value)}
               </label>
             ))}
           </div>
         </fieldset>
         <fieldset className="contact-field">
           <legend>
-            My budget is...<span>*</span>
+            {t('My budget is...')}
+            <span>*</span>
           </legend>
           <div>
             {[
@@ -62,76 +82,90 @@ export default function ContactForm() {
             ].map((value) => (
               <label className="radio-option" key={value}>
                 <input type="radio" name="budget" value={value} required />
-                {value}
+                {t(value)}
               </label>
             ))}
           </div>
         </fieldset>
         <label className="contact-field">
-          My name is...
+          {t('My name is...')}
           <input
             name="name"
             autoComplete="name"
             required
-            placeholder="Your name"
+            placeholder={t('Your name')}
           />
         </label>
         <label className="contact-field">
-          Reach me at...
+          {t('Reach me at...')}
           <input
             name="email"
             type="email"
             autoComplete="email"
             required
-            placeholder="Your email address"
+            placeholder={t('Your email address')}
           />
         </label>
         <label className="contact-field">
-          What I'm picturing...
+          {t("What I'm picturing...")}
           <textarea
             name="details"
             rows={4}
             required
-            placeholder="Tell me about your idea, goals, and timeline"
+            placeholder={t('Tell me about your idea, goals, and timeline')}
           />
         </label>
-        <label className="contact-field">
-          I found you through...
-          <select name="source" defaultValue="">
-            <option value="">Select an option</option>
-            <option>GitHub</option>
-            <option>LinkedIn</option>
-            <option>Twitter / X</option>
-            <option>Google search</option>
-            <option>Referral</option>
-            <option>Other</option>
-          </select>
-        </label>
+        <fieldset className="contact-field">
+          <legend>{t('I found you through...')}</legend>
+          <div>
+            {[
+              'GitHub',
+              'LinkedIn',
+              'Twitter / X',
+              'Google search',
+              'Referral',
+              'Other',
+            ].map((value) => (
+              <label className="radio-option" key={value}>
+                <input type="radio" name="source" value={value} />
+                {t(value)}
+              </label>
+            ))}
+          </div>
+        </fieldset>
         <div className="form-submit">
           <p className="eyebrow">
-            PESAN DISIAPKAN SEBAGAI DRAF EMAIL.
+            {t('PESAN DISIAPKAN SEBAGAI DRAF EMAIL.')}
             <br />
-            ANDA MENGIRIMNYA DARI APLIKASI EMAIL.
+            {t('ANDA MENGIRIMNYA DARI APLIKASI EMAIL.')}
           </p>
           <button className="pill-link" type="submit">
-            Prepare email <ArrowUpRight size={16} />
+            {t('Prepare email')}
+            <ArrowUpRight size={16} />
           </button>
         </div>
         {draft && (
           <div className="email-draft" role="status">
             <p>
-              Draf siap. Buka aplikasi email untuk meninjau dan mengirimnya.
+              {t(
+                'Draf siap. Buka aplikasi email untuk meninjau dan mengirimnya.',
+              )}
             </p>
-            <a className="pill-link" href={draft}>
-              Open email app <ArrowUpRight size={16} />
+            <a className="pill-link" href={emailHref}>
+              {t('Open email app')}
+              <ArrowUpRight size={16} />
             </a>
           </div>
         )}
       </form>
-      <h2 className="direct-contact">Or reach out directly</h2>
-      <a className="contact-email" href={`mailto:${PERSONAL_INFO.email}`}>
-        {PERSONAL_INFO.email} ↗
-      </a>
+      {!embedded && (
+        <>
+          <h2 className="direct-contact">{t('Or reach out directly')}</h2>
+          <a className="contact-email" href={`mailto:${PERSONAL_INFO.email}`}>
+            {PERSONAL_INFO.email} ↗
+          </a>
+        </>
+      )}
     </section>
   )
 }

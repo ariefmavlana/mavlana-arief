@@ -1,3 +1,4 @@
+import { useLanguage } from '../../utils/language'
 import { ArrowUpRight } from 'lucide-react'
 import { projects } from '../../data/projects'
 import { PERSONAL_INFO } from '../../utils/constants'
@@ -5,6 +6,7 @@ import ProjectCard from '../ui/ProjectCard'
 import { useState } from 'react'
 
 const Projects = ({ catalog = false }) => {
+  const { t } = useLanguage()
   const [filter, setFilter] = useState('All')
   const Heading = catalog ? 'h1' : 'h2'
   const visible = projects.filter(
@@ -22,32 +24,32 @@ const Projects = ({ catalog = false }) => {
       <div className="site-container">
         <div className="section-topline">
           <p className="eyebrow">
-            SELECTED WORK / {projects.length.toString().padStart(2, '0')}{' '}
-            PROJECTS
+            {t('SELECTED WORK /')} {projects.length.toString().padStart(2, '0')}{' '}
+            {t('PROJECTS')}
           </p>
-          <span className="eyebrow">03 / KARYA</span>
+          <span className="eyebrow">{t('03 / KARYA')}</span>
         </div>
         <div className="projects-heading">
           <Heading className="editorial-heading">
-            SOME
+            {t('SOME')}
             <br />
-            <em>of my projects</em> <span className="violet">⟶</span>
+            <em>{t('of my projects')}</em> <span className="violet">⟶</span>
           </Heading>
           <p className="eyebrow">
-            EKSPLORASI DI PERTEMUAN
+            {t('EKSPLORASI DI PERTEMUAN')}
             <br />
-            DESAIN, TEKNOLOGI, DAN IDE.
+            {t('DESAIN, TEKNOLOGI, DAN IDE.')}
           </p>
         </div>
         {catalog && (
-          <div className="project-filters" aria-label="Filter proyek">
+          <div className="project-filters" aria-label={t('Filter proyek')}>
             {['All', 'Web', 'Machine learning', 'Open source'].map((value) => (
               <button
                 key={value}
                 onClick={() => setFilter(value)}
                 aria-pressed={value === filter}
               >
-                {value}
+                {t(value)}
               </button>
             ))}
           </div>
@@ -58,14 +60,17 @@ const Projects = ({ catalog = false }) => {
           ))}
         </div>
         <div className="projects-end">
-          <span className="eyebrow">IDE BERIKUTNYA BISA JADI MILIK ANDA.</span>
+          <span className="eyebrow">
+            {t('IDE BERIKUTNYA BISA JADI MILIK ANDA.')}
+          </span>
           <a
             className="pill-link"
             href={PERSONAL_INFO.github}
             target="_blank"
             rel="noreferrer"
           >
-            Semua repositori <ArrowUpRight size={16} />
+            {t('Semua repositori')}
+            <ArrowUpRight size={16} />
           </a>
         </div>
       </div>

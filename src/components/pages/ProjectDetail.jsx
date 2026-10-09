@@ -1,19 +1,21 @@
+import { useLanguage } from '../../utils/language'
 import { ArrowUpRight } from 'lucide-react'
 import { projects } from '../../data/projects'
 import ProjectCard from '../ui/ProjectCard'
 
 export default function ProjectDetail({ slug }) {
+  const { t } = useLanguage()
   const project = projects.find((item) => item.id === slug)
   if (!project)
     return (
       <section className="not-found site-container">
         <h1 className="editorial-heading">
-          Project
+          {t('Project')}
           <br />
-          <em>not found.</em>
+          <em>{t('not found.')}</em>
         </h1>
         <a data-page href="/projects" className="pill-link">
-          Explore projects ↗
+          {t('Explore projects ↗')}
         </a>
       </section>
     )
@@ -21,7 +23,9 @@ export default function ProjectDetail({ slug }) {
   return (
     <article className="project-page site-container">
       <div className="project-page-heading">
-        <p className="eyebrow">SELECTED WORK / {project.year}</p>
+        <p className="eyebrow">
+          {t('SELECTED WORK /')} {project.year}
+        </p>
         <h1 className="editorial-heading">{project.title}</h1>
         <span className="eyebrow">{project.stack.join(' / ')}</span>
       </div>
@@ -30,23 +34,23 @@ export default function ProjectDetail({ slug }) {
       </div>
       <section className="project-overview">
         <h2 className="editorial-heading">
-          <em>About</em>
+          <em>{t('About')}</em>
           <br />
-          THE PROJECT
+          {t('THE PROJECT')}
         </h2>
         <div>
-          <p className="body-lead">{project.summary}</p>
+          <p className="body-lead">{t(project.summary)}</p>
           <dl>
             <div>
-              <dt>YEAR</dt>
+              <dt>{t('YEAR')}</dt>
               <dd>{project.year}</dd>
             </div>
             <div>
-              <dt>TECHNOLOGIES</dt>
+              <dt>{t('TECHNOLOGIES')}</dt>
               <dd>{project.stack.join(', ')}</dd>
             </div>
             <div>
-              <dt>PROJECT</dt>
+              <dt>{t('PROJECT')}</dt>
               <dd>{project.title}</dd>
             </div>
           </dl>
@@ -56,7 +60,8 @@ export default function ProjectDetail({ slug }) {
             target="_blank"
             rel="noreferrer"
           >
-            Explore source code <ArrowUpRight size={16} />
+            {t('Explore source code')}
+            <ArrowUpRight size={16} />
           </a>
           {project.liveUrl && (
             <a
@@ -65,13 +70,14 @@ export default function ProjectDetail({ slug }) {
               target="_blank"
               rel="noreferrer"
             >
-              Visit website <ArrowUpRight size={16} />
+              {t('Visit website')}
+              <ArrowUpRight size={16} />
             </a>
           )}
         </div>
       </section>
       <div className="next-project">
-        <span className="eyebrow">NEXT PROJECT</span>
+        <span className="eyebrow">{t('NEXT PROJECT')}</span>
         <a data-page href={`/projects/${next.id}`}>
           {next.title} <ArrowUpRight />
         </a>

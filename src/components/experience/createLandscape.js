@@ -105,7 +105,18 @@ export async function createLandscape({ scene, manager, gltf, ktx, quality }) {
     }
   })
 
-  const water = new Water(new THREE.PlaneGeometry(650, 650), {
+  const waterGeometry = new THREE.PlaneGeometry(650, 650, 128, 128)
+  const waterVertices = waterGeometry.attributes.position
+  const waterDepth = new Float32Array(waterVertices.count)
+  for (let i = 0; i < waterVertices.count; i++) {
+    waterDepth[i] =
+      waterLevel - heightAt(waterVertices.getX(i), -waterVertices.getY(i))
+  }
+  waterGeometry.setAttribute(
+    'waterDepth',
+    new THREE.BufferAttribute(waterDepth, 1),
+  )
+  const water = new Water(waterGeometry, {
     color: '#b8a8e8',
     scale: 65,
     flowDirection: new THREE.Vector2(1, 1),
@@ -118,6 +129,60 @@ export async function createLandscape({ scene, manager, gltf, ktx, quality }) {
   })
   water.rotation.x = -Math.PI / 2
   water.position.y = waterLevel
+  Object.assign(water.material.uniforms, {
+    time: { value: 0 },
+    night: { value: 0 },
+    visibility: { value: 1 },
+    deepColor: { value: new THREE.Color(1706544) },
+    shallowColor: { value: new THREE.Color(7028640) },
+  })
+  water.material.depthWrite = false
+  water.material.vertexShader = `attribute float waterDepth;
+    varying float vWaterDepth; varying vec2 vWorldXZ;
+    ${water.material.vertexShader}`.replace(
+    'void main() {',
+    `void main() {
+      vWaterDepth = waterDepth; vWorldXZ = vec2(position.x,-position.y);
+    `,
+  )
+  water.material.fragmentShader = `
+    #include <common>
+    #include <fog_pars_fragment>
+    uniform sampler2D tReflectionMap, tNormalMap0, tNormalMap1;
+    uniform vec3 deepColor, shallowColor;
+    uniform float time, night, reflectivity, visibility;
+    varying vec4 vCoord;
+    varying vec3 vToEye;
+    varying vec2 vWorldXZ;
+    varying float vWaterDepth;
+    void main() {
+      if (vWaterDepth < 0.) discard;
+      float t = time * .1;
+      vec3 n1 = texture2D(tNormalMap0,vWorldXZ * .1 + vec2(t * 1.2,t * .8)).rgb * 2. - 1.;
+      vec3 n2 = texture2D(tNormalMap1,vWorldXZ * .075 + vec2(-t * .9,t * 1.1)).rgb * 2. - 1.;
+      vec3 wave = normalize(vec3(n1.x+n2.x,n1.z+n2.z,n1.y+n2.y));
+      vec3 N = normalize(mix(vec3(0.,1.,0.),wave,mix(.5,.9,night)));
+      vec3 V = normalize(vToEye);
+      float fresnel = reflectivity + (1.-reflectivity) * pow(1.-max(dot(N,V),.001),5.);
+      float depth = pow(clamp(vWaterDepth / 8.,0.,1.),2.);
+      vec3 body = mix(shallowColor,deepColor,depth);
+      vec2 uv = vCoord.xy / vCoord.w;
+      uv.x = 1.-uv.x;
+      uv += N.xz * (.02 + .14 * night);
+      vec3 reflection = texture2D(tReflectionMap,clamp(uv,.001,.999)).rgb;
+      vec3 color = mix(body,reflection,fresnel);
+      color += shallowColor * pow(max(N.y,0.),9.) * (1.-depth) * .15 * (1.-night);
+      float gate = smoothstep(0.,.25,depth);
+      float crest = pow(smoothstep(.15,.55,length(wave.xz)),2.);
+      color += vec3(.70,.58,.95) * crest * night * .9 * gate;
+      vec3 halfDir = normalize(V + normalize(vec3(.6,.22,.45)));
+      float highlight = clamp(dot(N,halfDir),0.,1.);
+      color += vec3(.82,.68,.98) * (pow(highlight,56.) + pow(highlight,12.) * .35) * night * gate;
+      gl_FragColor = vec4(min(color,vec3(1.)),smoothstep(0.,1.5,vWaterDepth) * mix(.6,1.,depth) * visibility);
+      #include <colorspace_fragment>
+      #include <fog_fragment>
+    }
+  `
   group.add(water)
 
   const quad = new THREE.PlaneGeometry(1.8, 1.6, 1, 3)
@@ -159,7 +224,8 @@ export async function createLandscape({ scene, manager, gltf, ktx, quality }) {
     uniforms: {
       map: { value: grassTexture },
       time: { value: 0 },
-      night: { value: 0 },
+      baseColor: { value: new THREE.Color('#3b1a60') },
+      tipColor: { value: new THREE.Color('#9134b7') },
       fogColor: { value: scene.fog.color },
       fogNear: { value: 120 },
       fogFar: { value: 420 },
@@ -182,7 +248,8 @@ export async function createLandscape({ scene, manager, gltf, ktx, quality }) {
       }`,
     fragmentShader: `
       uniform sampler2D map;
-      uniform float night;
+      uniform vec3 baseColor;
+      uniform vec3 tipColor;
       uniform vec3 fogColor;
       uniform float fogNear;
       uniform float fogFar;
@@ -190,10 +257,10 @@ export async function createLandscape({ scene, manager, gltf, ktx, quality }) {
       varying float distanceToCamera;
       void main() {
         vec4 blade = texture2D(map,vUv);
-        if(blade.a < .45) discard;
-        vec3 base = mix(vec3(.042,.006,.09),vec3(.21,.025,.35),vUv.y);
-        base *= .8 + dot(blade.rgb, vec3(.333)) * .5;
-        base = mix(base,base*vec3(.3,.25,.55),night);
+        float mipFill = 1. + smoothstep(25.,160.,distanceToCamera) * .9;
+        if(blade.a * mipFill < .4) discard;
+        float luminance = dot(blade.rgb,vec3(.299,.587,.114));
+        vec3 base = mix(baseColor,tipColor,luminance) * mix(.5,.95,vUv.y);
         gl_FragColor = vec4(mix(base,fogColor,smoothstep(fogNear,fogFar,distanceToCamera)),1.);
         #include <colorspace_fragment>
       }`,
@@ -209,27 +276,117 @@ export async function createLandscape({ scene, manager, gltf, ktx, quality }) {
   office.scene.position.set(100, -5.5, 70)
   office.scene.scale.setScalar(3)
   group.add(office.scene)
-  for (const [x, y, z] of [
-    [100, 13, 60],
-    [87, 8, 49],
-    [118, 9, 72],
+  const officeLights = []
+  for (const [
+    position,
+    distance,
+    dayColor,
+    nightColor,
+    dayIntensity,
+    nightIntensity,
+  ] of [
+    [[63.9, -1.1, 77.9], 45, '#ffb27a', '#ffa25c', 45, 95],
+    [[77.8, 0, 96.3], 45, '#ffb27a', '#ffa25c', 45, 95],
+    [[66.7, 7.4, 87.4], 55, '#ffc79a', '#ffb87f', 60, 125],
   ]) {
-    const light = new THREE.PointLight('#d4b7ff', 180, 65, 1.5)
-    light.position.set(x, y, z)
+    const light = new THREE.PointLight(dayColor, dayIntensity, distance, 2)
+    light.position.fromArray(position)
+    officeLights.push({
+      light,
+      dayColor: new THREE.Color(dayColor),
+      nightColor: new THREE.Color(nightColor),
+      dayIntensity,
+      nightIntensity,
+    })
     group.add(light)
   }
+  const officeFill = new THREE.HemisphereLight('#b9a3ff', '#4a2a70', 0.45)
+  officeFill.position.set(100, 14, 70)
+  const officeSun = new THREE.DirectionalLight('#cbb6ff', 0.55)
+  officeSun.position.set(87.8, 2.1, 43.1)
+  officeSun.target.position.set(87.8, -5.5, 62)
+  const officeSpot = new THREE.SpotLight('#efe6ff', 230, 70, 0.95, 0.85, 2)
+  officeSpot.position.set(101, 12, 62)
+  officeSpot.target.position.set(101, -5.5, 62)
+  for (const [light, nightColor, nightIntensity] of [
+    [officeFill, '#6a5aa8', 0.24],
+    [officeSun, '#7f6ccc', 0.18],
+    [officeSpot, '#8f7fd8', 100],
+  ]) {
+    officeLights.push({
+      light,
+      dayColor: light.color.clone(),
+      nightColor: new THREE.Color(nightColor),
+      dayIntensity: light.intensity,
+      nightIntensity,
+    })
+  }
+  group.add(
+    officeFill,
+    officeSun,
+    officeSun.target,
+    officeSpot,
+    officeSpot.target,
+  )
+  const dayOfficeGround = officeFill.groundColor.clone()
+  const nightOfficeGround = new THREE.Color('#1c0f38')
   scene.add(group)
+  const dayGround = new THREE.Color('#6F368D')
+  const nightGround = new THREE.Color('#22183d')
+  const dayGrassBase = new THREE.Color('#3b1a60')
+  const nightGrassBase = new THREE.Color('#160e35')
+  const dayGrassTip = new THREE.Color('#9134b7')
+  const nightGrassTip = new THREE.Color('#5a3878')
+  const dayDeepWater = new THREE.Color(1706544)
+  const nightDeepWater = new THREE.Color(2626930)
+  const dayShallowWater = new THREE.Color(7028640)
+  const nightShallowWater = new THREE.Color(4465296)
   return {
     group,
-    update(time, dark) {
+    update(time, dark, view, travelChapter) {
+      const officeWeight =
+        travelChapter === undefined
+          ? Number(view === 'about')
+          : THREE.MathUtils.smoothstep(travelChapter, 4, 4.8) *
+            (1 - THREE.MathUtils.smoothstep(travelChapter, 5.1, 5.8))
+      const waterWeight =
+        travelChapter === undefined
+          ? Number(view === 'home')
+          : 1 - THREE.MathUtils.smoothstep(travelChapter, 4.2, 4.8)
       grassMaterial.uniforms.time.value = time
-      grassMaterial.uniforms.night.value = dark
-      groundMaterial.color.set(dark > 0.5 ? '#22183d' : '#6F368D')
+      grassMaterial.uniforms.baseColor.value
+        .copy(dayGrassBase)
+        .lerp(nightGrassBase, dark)
+      grassMaterial.uniforms.tipColor.value
+        .copy(dayGrassTip)
+        .lerp(nightGrassTip, dark)
+      groundMaterial.color.copy(dayGround).lerp(nightGround, dark)
+      officeFill.groundColor.copy(dayOfficeGround).lerp(nightOfficeGround, dark)
+      for (const {
+        light,
+        dayColor,
+        nightColor,
+        dayIntensity,
+        nightIntensity,
+      } of officeLights) {
+        light.color.copy(dayColor).lerp(nightColor, dark)
+        light.intensity =
+          officeWeight *
+          THREE.MathUtils.lerp(dayIntensity, nightIntensity, dark)
+        light.visible = officeWeight > 0
+      }
       for (const { material, color } of mountainColors)
         material.color.copy(color).multiplyScalar(1 - dark * 0.65)
-      water.material.uniforms.color.value.set(
-        dark > 0.5 ? '#3a2575' : '#b8a8e8',
-      )
+      water.material.uniforms.time.value = time
+      water.material.uniforms.night.value = dark
+      water.material.uniforms.deepColor.value
+        .copy(dayDeepWater)
+        .lerp(nightDeepWater, dark)
+      water.material.uniforms.shallowColor.value
+        .copy(dayShallowWater)
+        .lerp(nightShallowWater, dark)
+      water.material.uniforms.visibility.value = waterWeight
+      water.visible = waterWeight > 0
       duck.scene.position.x = -3 + Math.sin(time * 0.04) * 7
       duck.scene.position.z = 4 + Math.cos(time * 0.04) * 4
       duck.scene.rotation.y = -time * 0.04

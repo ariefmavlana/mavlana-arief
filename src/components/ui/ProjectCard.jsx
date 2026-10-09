@@ -1,3 +1,4 @@
+import { useLanguage } from '../../utils/language'
 import {
   ArrowUpRight,
   CarFront,
@@ -17,6 +18,7 @@ const projectIcons = {
 }
 
 const ProjectCard = ({ project, preview = false }) => {
+  const { t } = useLanguage()
   const Icon = projectIcons[project.id]
   const Visual = preview ? 'div' : 'a'
   const link = preview
@@ -24,32 +26,36 @@ const ProjectCard = ({ project, preview = false }) => {
     : {
         'data-page': true,
         href: `/projects/${project.id}`,
-        'aria-label': `Lihat ${project.title}`,
+        'aria-label': `${t('View project')}: ${project.title}`,
       }
   return (
     <article className={`project-card project-${project.id}`}>
       <Visual className="project-visual" {...link}>
-        <span className="project-index">PRJCT / {project.number}</span>
+        <span className="project-index">
+          {t('PROJECT')} / {project.number}
+        </span>
         {projectImages[project.id] ? (
           <>
             <img
               src={projectImages[project.id]}
-              alt={`Ilustrasi konsep ${project.title}`}
+              alt={`${t('Ilustrasi konsep')}: ${project.title}`}
               loading="lazy"
               width="1000"
               height="1000"
             />
-            <span className="project-visual-caption">Ilustrasi konsep</span>
+            <span className="project-visual-caption">
+              {t('Ilustrasi konsep')}
+            </span>
           </>
         ) : (
           <div className="project-art">
             <Icon strokeWidth={0.7} />
             <span>
               {project.id === 'car-dealer'
-                ? 'DRIVE THE NEXT.'
+                ? t('DRIVE THE NEXT.')
                 : project.id === 'accounting'
-                  ? 'Make numbers matter.'
-                  : 'Always learning.'}
+                  ? t('Make numbers matter.')
+                  : t('Always learning.')}
             </span>
             <small>{project.stack.join(' / ')}</small>
           </div>
@@ -66,10 +72,11 @@ const ProjectCard = ({ project, preview = false }) => {
         <h3>{project.title}</h3>
         <ArrowUpRight size={24} />
       </div>
-      <p className="project-summary">{project.summary}</p>
+      <p className="project-summary">{t(project.summary)}</p>
       <div className="project-links">
         <a href={project.repository} target="_blank" rel="noreferrer">
-          Lihat kode <ArrowUpRight size={13} />
+          {t('Lihat kode')}
+          <ArrowUpRight size={13} />
         </a>
         {project.secondaryRepository && (
           <a
@@ -82,7 +89,8 @@ const ProjectCard = ({ project, preview = false }) => {
         )}
         {project.liveUrl && (
           <a href={project.liveUrl} target="_blank" rel="noreferrer">
-            Coba aplikasi <ArrowUpRight size={13} />
+            {t('Coba aplikasi')}
+            <ArrowUpRight size={13} />
           </a>
         )}
       </div>

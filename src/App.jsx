@@ -12,17 +12,55 @@ import ProjectDetail from './components/pages/ProjectDetail'
 import ContactForm from './components/pages/ContactForm'
 import FAQ from './components/sections/FAQ'
 import PortfolioGuide from './components/ui/PortfolioGuide'
+import { LanguageContext, translators } from './utils/language'
+import { readPreference, savePreference } from './utils/preferences'
 
 export default function App() {
   const [motion, setMotion] = useState(
-    () => !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    () =>
+      readPreference(
+        'motion',
+        ['on', 'off'],
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? 'off'
+          : 'on',
+      ) === 'on',
   )
-  const [dark, setDark] = useState(false)
+  const [dark, setDark] = useState(
+    () =>
+      readPreference(
+        'theme',
+        ['light', 'dark'],
+        window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light',
+      ) === 'dark',
+  )
+  const [language, setLanguage] = useState(() =>
+    readPreference('language', ['id', 'en'], 'id'),
+  )
+  const t = translators[language]
+  useEffect(() => {
+    document.documentElement.lang = language
+    savePreference('language', language)
+  }, [language])
+  useEffect(() => {
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light'
+    document.querySelector('meta[name="theme-color"]').content = dark
+      ? '#121212'
+      : '#f5efff'
+    savePreference('theme', dark ? 'dark' : 'light')
+  }, [dark])
   const [quality, setQuality] = useState(() =>
-    window.innerWidth < 768 ? 'low' : 'high',
+    readPreference(
+      'quality',
+      ['low', 'high'],
+      window.innerWidth < 768 ? 'low' : 'high',
+    ),
   )
+  useEffect(() => savePreference('motion', motion ? 'on' : 'off'), [motion])
+  useEffect(() => savePreference('quality', quality), [quality])
   const [sound, setSound] = useState(false)
-  const [entered, setEntered] = useState(false)
   const [ready, setReady] = useState(false)
   const [loading, setLoading] = useState(0)
   const [failure, setFailure] = useState('')
@@ -32,17 +70,9 @@ export default function App() {
   const markReady = useCallback(() => setReady(true), [])
   const reportError = useCallback((error) => {
     console.error('The 3D experience could not load:', error)
-    setFailure(
-      'Pengalaman 3D tidak dapat dimuat. Anda tetap bisa menjelajahi portfolio.',
-    )
+    setFailure('sceneError')
     setReady(true)
   }, [])
-  useEffect(() => {
-    document.body.style.overflow = entered ? '' : 'hidden'
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [entered])
   useEffect(() => {
     const restorePage = () => {
       setPath(window.location.pathname)
@@ -74,141 +104,96 @@ export default function App() {
         setSound(true)
       } catch {
         setSound(false)
-        setFailure('Audio tidak tersedia di browser ini.')
+        setFailure('audioError')
       }
     } else {
       audio.current.pause()
       setSound(false)
     }
   }
-  const enter = (withAudio) => {
-    setEntered(true)
-    if (withAudio) toggleSound(true)
-  }
   const worldPage = path === '/' || path === '/about' || path === '/contact'
   const view =
     path === '/about' ? 'about' : path === '/contact' ? 'contact' : 'home'
   return (
-    <div
-      className={`site-shell ${dark ? 'is-dark' : ''} ${motion ? '' : 'motion-paused'} ${!worldPage ? 'content-page' : ''} ${path === '/contact' ? 'contact-page' : ''}`}
-      onClick={navigate}
-    >
-      <SEOHead path={path} />
-      <audio ref={audio} src="/experience/main.webm" loop preload="none" />
-      {!entered && (
-        <div
-          className="entry-screen"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Masuk ke portfolio"
-        >
-          <div className="entry-brand">
-            <span className="entry-symbol">ə</span>
-            <span>
-              ARIEF MAULANA
-              <br />
-              DESIGN & DEVELOPMENT
-            </span>
-          </div>
-          <p className="entry-message">
-            Creating digital experiences
-            <br />
-            that make you <em>feel.</em>
-          </p>
-          <div className="entry-controls">
-            {ready || !worldPage ? (
+    <LanguageContext value={{ language, setLanguage, t }}>
+      <div
+        className={`site-shell ${dark ? 'is-dark' : ''} ${motion ? '' : 'motion-paused'} ${!worldPage ? 'content-page' : ''} ${path === '/contact' ? 'contact-page' : ''}`}
+        onClick={navigate}
+      >
+        <SEOHead path={path} />
+        <audio ref={audio} src="/experience/main.webm" loop preload="none" />
+        <div>
+          <a className="skip-link" href="#main">
+            {t('Lewati navigasi')}
+          </a>
+          <Navbar
+            onGuideOpen={() => guide.current.showModal()}
+            motion={motion}
+            onMotionChange={() => setMotion(!motion)}
+            dark={dark}
+            onDarkChange={() => setDark(!dark)}
+            sound={sound}
+            onSoundChange={() => toggleSound(!sound)}
+            quality={quality}
+            onQualityChange={setQuality}
+            path={path}
+          />
+          <main id="main">
+            {worldPage && (
+              <Hero
+                motion={motion}
+                dark={dark}
+                quality={quality}
+                onProgress={setLoading}
+                onReady={markReady}
+                onError={reportError}
+                failure={failure ? t(failure) : ''}
+                view={view}
+                ready={ready}
+                loading={loading}
+              />
+            )}
+            {path === '/contact' && <ContactForm />}
+            {path === '/' && (
               <>
-                <button className="glass-button" onClick={() => enter(true)}>
-                  Enter with audio <span>↗</span>
-                </button>
-                <button className="entry-silent" onClick={() => enter(false)}>
-                  Enter without audio
-                </button>
+                <Projects />
+                <About />
+                <Skills />
+                <ContactForm embedded />
               </>
-            ) : (
-              <span className="loading-number" role="status">
-                {loading}%
-              </span>
             )}
-          </div>
-          <span className="entry-note">
-            FOR THE FULL EXPERIENCE, TURN YOUR SOUND ON
-          </span>
-          {failure && (
-            <p className="experience-error" role="status">
-              {failure}
-            </p>
-          )}
+            {path === '/about' && (
+              <>
+                <About />
+                <Services />
+                <Skills />
+                <FAQ />
+              </>
+            )}
+            {path === '/projects' && <Projects catalog />}
+            {path.startsWith('/projects/') && (
+              <ProjectDetail slug={path.slice('/projects/'.length)} />
+            )}
+            {!worldPage &&
+              path !== '/projects' &&
+              !path.startsWith('/projects/') && (
+                <section className="not-found site-container">
+                  <h1 className="editorial-heading">
+                    404
+                    <br />
+                    <em>{t('Lost in thought?')}</em>
+                  </h1>
+                  <a data-page href="/" className="pill-link">
+                    {t('Back to home ↗')}
+                  </a>
+                </section>
+              )}
+            {path !== '/contact' && path !== '/' && <Contact />}
+          </main>
+          <Footer path={path} />
+          <PortfolioGuide dialogRef={guide} />
         </div>
-      )}
-      <div inert={!entered}>
-        <a className="skip-link" href="#main">
-          Lewati navigasi
-        </a>
-        <Navbar
-          onGuideOpen={() => guide.current.showModal()}
-          motion={motion}
-          onMotionChange={() => setMotion(!motion)}
-          dark={dark}
-          onDarkChange={() => setDark(!dark)}
-          sound={sound}
-          onSoundChange={() => toggleSound(!sound)}
-          quality={quality}
-          onQualityChange={setQuality}
-          path={path}
-        />
-        <main id="main">
-          {worldPage && (
-            <Hero
-              motion={motion}
-              dark={dark}
-              quality={quality}
-              onProgress={setLoading}
-              onReady={markReady}
-              onError={reportError}
-              failure={failure}
-              view={view}
-            />
-          )}
-          {path === '/contact' && <ContactForm />}
-          {path === '/' && (
-            <>
-              <Services />
-              <Projects />
-              <Skills />
-            </>
-          )}
-          {path === '/about' && (
-            <>
-              <About />
-              <Services />
-              <Skills />
-              <FAQ />
-            </>
-          )}
-          {path === '/projects' && <Projects catalog />}
-          {path.startsWith('/projects/') && (
-            <ProjectDetail slug={path.slice('/projects/'.length)} />
-          )}
-          {!worldPage &&
-            path !== '/projects' &&
-            !path.startsWith('/projects/') && (
-              <section className="not-found site-container">
-                <h1 className="editorial-heading">
-                  404
-                  <br />
-                  <em>Lost in thought?</em>
-                </h1>
-                <a data-page href="/" className="pill-link">
-                  Back to home ↗
-                </a>
-              </section>
-            )}
-          {path !== '/contact' && <Contact />}
-        </main>
-        <Footer path={path} />
-        <PortfolioGuide dialogRef={guide} />
       </div>
-    </div>
+    </LanguageContext>
   )
 }

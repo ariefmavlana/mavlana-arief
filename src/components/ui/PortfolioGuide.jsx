@@ -1,12 +1,13 @@
+import { useLanguage } from '../../utils/language'
 import { useState } from 'react'
 import { ArrowUpRight, Send, X } from 'lucide-react'
 import { projects } from '../../data/projects'
 import { PERSONAL_INFO } from '../../utils/constants'
 
 export default function PortfolioGuide({ dialogRef: dialog }) {
+  const { t } = useLanguage()
   const [messages, setMessages] = useState([])
   const [question, setQuestion] = useState('')
-  const [greeting, setGreeting] = useState(true)
   const answer = (text) => {
     const query = text.toLowerCase()
     const project = projects.find(
@@ -21,7 +22,7 @@ export default function PortfolioGuide({ dialogRef: dialog }) {
       }
     if (/contact|kontak|email|hubung|hire|proyek baru|budget|biaya/.test(query))
       return {
-        text: `Mari diskusikan ide Anda melalui ${PERSONAL_INFO.email}.`,
+        text: `${t('Discuss your idea by email:')} ${PERSONAL_INFO.email}.`,
         href: '/contact',
         label: 'Start a conversation',
       }
@@ -51,34 +52,15 @@ export default function PortfolioGuide({ dialogRef: dialog }) {
   }
   const ask = (text) => {
     if (!text.trim()) return
-    setMessages((items) => [
-      ...items,
-      { question: text.trim(), answer: answer(text) },
-    ])
+    setMessages((items) => [...items, { question: text.trim() }])
     setQuestion('')
   }
   return (
     <>
-      {greeting && (
-        <div className="guide-greeting">
-          <span>
-            HI! EXPLORE MY WORK,
-            <br />
-            OR LET’S START A CONVERSATION.
-          </span>
-          <button
-            aria-label="Dismiss greeting"
-            onClick={() => setGreeting(false)}
-          >
-            <X size={12} />
-          </button>
-        </div>
-      )}
       <button
         className="contact-orb"
-        aria-label="Open portfolio guide"
+        aria-label={t('Open portfolio guide')}
         onClick={() => {
-          setGreeting(false)
           dialog.current.showModal()
         }}
       >
@@ -87,41 +69,47 @@ export default function PortfolioGuide({ dialogRef: dialog }) {
       <dialog
         ref={dialog}
         className="guide-dialog"
-        aria-label="Portfolio guide"
+        aria-label={t('Portfolio guide')}
       >
         <div className="guide-top">
           <span>
-            Portfolio guide<small>Answers from this portfolio</small>
+            {t('Portfolio guide')}
+            <small>{t('Answers from this portfolio')}</small>
           </span>
           <button
-            aria-label="Close portfolio guide"
+            aria-label={t('Close portfolio guide')}
             onClick={() => dialog.current.close()}
           >
             <X size={20} />
           </button>
         </div>
         <div className="guide-messages" aria-live="polite">
-          <p className="guide-answer">Hello! What would you like to explore?</p>
-          {messages.map((message, i) => (
-            <div key={i}>
-              <p className="guide-question">{message.question}</p>
-              <div className="guide-answer">
-                <p>{message.answer.text}</p>
-                <a
-                  data-page
-                  href={message.answer.href}
-                  onClick={() => dialog.current.close()}
-                >
-                  {message.answer.label} ↗
-                </a>
+          <p className="guide-answer">
+            {t('Hello! What would you like to explore?')}
+          </p>
+          {messages.map((message, i) => {
+            const response = answer(message.question)
+            return (
+              <div key={i}>
+                <p className="guide-question">{message.question}</p>
+                <div className="guide-answer">
+                  <p>{t(response.text)}</p>
+                  <a
+                    data-page
+                    href={response.href}
+                    onClick={() => dialog.current.close()}
+                  >
+                    {t(response.label)} ↗
+                  </a>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
         <div className="guide-suggestions">
           {['About Arief', 'Projects', 'Tech stack', 'Contact'].map((text) => (
-            <button key={text} onClick={() => ask(text)}>
-              {text}
+            <button key={text} onClick={() => ask(t(text))}>
+              {t(text)}
             </button>
           ))}
         </div>
@@ -134,11 +122,11 @@ export default function PortfolioGuide({ dialogRef: dialog }) {
           <input
             value={question}
             onChange={(event) => setQuestion(event.target.value)}
-            aria-label="Ask about the portfolio"
-            placeholder="Ask about my work…"
+            aria-label={t('Ask about the portfolio')}
+            placeholder={t('Ask about my work…')}
             maxLength={500}
           />
-          <button aria-label="Send question" type="submit">
+          <button aria-label={t('Send question')} type="submit">
             <Send size={17} />
           </button>
         </form>

@@ -1,8 +1,10 @@
+import { useLanguage } from '../../utils/language'
 import { ArrowUpRight, Copy, Check } from 'lucide-react'
 import { useState } from 'react'
 import { PERSONAL_INFO } from '../../utils/constants'
 
 export default function Footer({ path }) {
+  const { t } = useLanguage()
   const [copied, setCopied] = useState(false)
   const [copyError, setCopyError] = useState(false)
   const copyEmail = async () => {
@@ -25,7 +27,7 @@ export default function Footer({ path }) {
       <div className="site-container">
         <div className="footer-grid">
           <div>
-            <p className="eyebrow">SOCIAL</p>
+            <p className="eyebrow">{t('SOCIAL')}</p>
             {[
               ['GitHub', PERSONAL_INFO.github],
               ['LinkedIn', PERSONAL_INFO.linkedin],
@@ -33,12 +35,12 @@ export default function Footer({ path }) {
             ].map(([label, url], i) => (
               <a key={url} href={url} target="_blank" rel="noreferrer">
                 <span className="eyebrow">[0{i + 1}]</span>
-                {label} <ArrowUpRight size={14} />
+                {t(label)} <ArrowUpRight size={14} />
               </a>
             ))}
           </div>
           <div>
-            <p className="eyebrow">PAGES</p>
+            <p className="eyebrow">{t('PAGES')}</p>
             {[
               ['', 'Home'],
               ['about', 'About'],
@@ -47,53 +49,56 @@ export default function Footer({ path }) {
             ].map(([url, label], i) => (
               <a data-page key={url} href={`/${url}`}>
                 <span className="eyebrow">[0{i + 1}]</span>
-                {label}
+                {t(label)}
               </a>
             ))}
           </div>
           <div>
-            <p className="eyebrow">LOCATION</p>
+            <p className="eyebrow">{t('LOCATION')}</p>
             <p className="eyebrow">
-              BORN AND WORKING IN
+              {t('BORN AND WORKING IN')}
               <br />
               BANDUNG, INDONESIA
             </p>
             <a href={PERSONAL_INFO.resume} target="_blank" rel="noreferrer">
-              Download CV <ArrowUpRight size={14} />
+              {t('Download CV')}
+              <ArrowUpRight size={14} />
             </a>
           </div>
           <div>
-            <p className="eyebrow">E-MAIL</p>
+            <p className="eyebrow">{t('E-MAIL')}</p>
             <div className="footer-email">
               <a href={`mailto:${PERSONAL_INFO.email}`}>
                 {PERSONAL_INFO.email}
               </a>
               <button
                 onClick={copyEmail}
-                aria-label={copied ? 'Email copied' : 'Copy email address'}
+                aria-label={t(copied ? 'Email copied' : 'Copy email address')}
               >
                 {copied ? <Check size={15} /> : <Copy size={15} />}
               </button>
             </div>
             {copyError && (
-              <p role="status">Pilih alamat email untuk menyalinnya.</p>
+              <p role="status">{t('Pilih alamat email untuk menyalinnya.')}</p>
             )}
           </div>
         </div>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()}. Arief Maulana</span>
-          {path !== '/contact' && <span>KEEP SCROLLING ↓</span>}
+          {path !== '/contact' && path !== '/' && (
+            <span>{t('KEEP SCROLLING ↓')}</span>
+          )}
           <a data-page href="/">
-            BACK TO HOME ↗
+            {t('BACK TO HOME ↗')}
           </a>
         </div>
       </div>
-      {path !== '/contact' && (
+      {path !== '/contact' && path !== '/' && (
         <div className="footer-next">
-          <span className="eyebrow">(JUST CONTINUE TO REVEAL)</span>
+          <span className="eyebrow">{t('(JUST CONTINUE TO REVEAL)')}</span>
           <a data-page href={`/${next[0]}`}>
-            <span className="eyebrow">[ NEXT PAGE ]</span>
-            <span className="next-label">{next[1]}</span>
+            <span className="eyebrow">{t('[ NEXT PAGE ]')}</span>
+            <span className="next-label">{t(next[1])}</span>
             <span className="next-ring" aria-hidden="true" />
           </a>
         </div>

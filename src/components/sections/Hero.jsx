@@ -1,192 +1,12 @@
+import { heroSlides } from '../../data/heroSlides'
+import { useLanguage } from '../../utils/language'
 import { lazy, Suspense, useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { tourState } from '../../utils/tour'
 const ExperienceWorld = lazy(() => import('../experience/ExperienceWorld'))
 
 gsap.registerPlugin(ScrollTrigger)
-
-const slides = [
-  {
-    lead: 'Where',
-    lines: (
-      <>
-        AMBITIOUS IDEAS
-        <br />
-        BECOME INTERFACES
-        <br />
-        PEOPLE REMEMBER
-      </>
-    ),
-    caption: (
-      <>
-        FULL-STACK DEVELOPMENT AND DIGITAL
-        <br />
-        EXPERIENCES FOR IDEAS THAT MATTER
-      </>
-    ),
-  },
-  {
-    lead: 'Beyond',
-    lines: (
-      <>
-        THE ORDINARY.
-        <br />
-        INTO THE
-        <br />
-        EXTRAORDINARY.
-      </>
-    ),
-    caption: (
-      <>
-        A THOUGHTFUL BALANCE OF
-        <br />
-        CREATIVE THINKING AND
-        <br />
-        TECHNICAL PRECISION.
-      </>
-    ),
-  },
-  {
-    lead: 'Made',
-    lines: (
-      <>
-        TO CONNECT.
-        <br />
-        DESIGNED
-        <br />
-        TO INSPIRE.
-      </>
-    ),
-    caption: (
-      <>
-        EACH DETAIL HAS A PURPOSE.
-        <br />
-        EVERY INTERACTION
-        <br />
-        TELLS A STORY.
-      </>
-    ),
-  },
-  {
-    lead: 'With',
-    lines: (
-      <>
-        CURIOSITY.
-        <br />
-        CRAFT.
-        <br />
-        AND FEELING.
-      </>
-    ),
-    caption: (
-      <>
-        BECAUSE THE BEST EXPERIENCES
-        <br />
-        ARE THE ONES THAT
-        <br />
-        MAKE US FEEL SOMETHING.
-      </>
-    ),
-  },
-  {
-    lead: 'Let’s',
-    lines: (
-      <>
-        MAKE
-        <br />
-        SOMETHING
-        <br />
-        MEANINGFUL.
-      </>
-    ),
-    caption: (
-      <>
-        YOUR VISION. MY CRAFT.
-        <br />A NEW POSSIBILITY
-        <br />
-        WAITING TO HAPPEN.
-      </>
-    ),
-  },
-]
-const aboutSlides = [
-  {
-    lead: 'A little',
-    lines: (
-      <>
-        ABOUT THE PERSON
-        <br />
-        BEHIND THE
-        <br />
-        EXPERIENCE.
-      </>
-    ),
-    caption: (
-      <>
-        ARIEF MAULANA / BANDUNG, INDONESIA
-        <br />
-        FULL-STACK DEVELOPER & CREATIVE THINKER
-      </>
-    ),
-  },
-  {
-    lead: 'Built',
-    lines: (
-      <>
-        WITH CURIOSITY.
-        <br />
-        CRAFTED
-        <br />
-        WITH CARE.
-      </>
-    ),
-    caption: (
-      <>
-        FROM UNDERSTANDING THE PROBLEM
-        <br />
-        TO MAKING EVERY DETAIL WORK.
-      </>
-    ),
-  },
-  {
-    lead: 'Always',
-    lines: (
-      <>
-        EXPLORING.
-        <br />
-        LEARNING.
-        <br />
-        CREATING.
-      </>
-    ),
-    caption: (
-      <>
-        WEB DEVELOPMENT, MACHINE LEARNING,
-        <br />
-        AND NEW WAYS TO CONNECT IDEAS.
-      </>
-    ),
-  },
-]
-const contactSlides = [
-  {
-    lead: 'Let’s',
-    lines: (
-      <>
-        BUILD SOMETHING
-        <br />
-        MEANINGFUL.
-      </>
-    ),
-    caption: (
-      <>
-        HAVE AN IDEA, A PRODUCT, OR A VISION?
-        <br />
-        LET’S TALK ABOUT WHAT COMES NEXT.
-      </>
-    ),
-  },
-]
 
 export default function Hero({
   motion,
@@ -197,40 +17,69 @@ export default function Hero({
   onError,
   failure,
   view,
+  ready,
+  loading,
 }) {
+  const { language, t } = useLanguage()
   const section = useRef(null)
   const progress = useRef(0)
-  const pageSlides =
-    view === 'about' ? aboutSlides : view === 'contact' ? contactSlides : slides
+  const pageSlides = heroSlides[language][view]
   useEffect(() => {
     const root = section.current
-    progress.current = 0
     const panels = root.querySelectorAll('.hero-panel')
-    const trigger = ScrollTrigger.create({
-      trigger: root,
-      start: 'top top',
-      end: 'bottom bottom',
-      onUpdate: (self) => {
-        progress.current = self.progress
-        const active = Math.min(
-          panels.length - 1,
-          Math.floor(self.progress * panels.length),
-        )
-        panels.forEach((panel, i) => {
-          panel.classList.toggle('is-active', i === active)
-          panel.inert = i !== active
-          panel.setAttribute('aria-hidden', i !== active)
-        })
-      },
+    const arrival = { opacity: motion ? 0 : 1 }
+    const update = () => {
+      const state = tourState(progress.current, panels.length)
+      root.style.setProperty('--tour-outro', motion ? state.outro : 0)
+      panels.forEach((panel, i) => {
+        const active = i === state.index
+        panel.classList.toggle('is-active', active)
+        panel.style.opacity = active
+          ? motion
+            ? state.opacity * arrival.opacity
+            : 1
+          : 0
+        panel.style.transform = motion
+          ? `translateY(${(i - state.chapter) * 30}px)`
+          : 'none'
+        panel.inert = !active
+        panel.setAttribute('aria-hidden', !active)
+      })
+    }
+    if (view === 'contact') return
+    const reveal = gsap.to(arrival, {
+      opacity: 1,
+      duration: motion ? 1.2 : 0,
+      onUpdate: update,
     })
-    return () => trigger.kill()
-  }, [view])
+    const tween = gsap.fromTo(
+      progress,
+      { current: 0 },
+      {
+        current: 1,
+        ease: 'none',
+        onUpdate: update,
+        scrollTrigger: {
+          trigger: root,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: motion ? 0.65 : true,
+        },
+      },
+    )
+    update()
+    return () => {
+      tween.scrollTrigger.kill()
+      tween.kill()
+      reveal.kill()
+    }
+  }, [view, motion])
   return (
     <section
       id="home"
       ref={section}
       className={`experience experience-${view}`}
-      aria-label="Dunia kreatif Arief Maulana"
+      aria-label={t('Dunia kreatif Arief Maulana')}
     >
       <div className="experience-stage">
         <Suspense fallback={<div className="world-canvas" />}>
@@ -243,8 +92,16 @@ export default function Hero({
             onReady={onReady}
             onError={onError}
             view={view}
+            ready={ready}
+            chapters={pageSlides.length}
           />
         </Suspense>
+        {!ready && !failure && (
+          <p className="scene-loading eyebrow" role="status">
+            {language === 'id' ? 'Memuat pemandangan' : 'Loading the scene'} ·{' '}
+            {loading}%
+          </p>
+        )}
         {failure && (
           <p className="experience-error" role="status">
             {failure}
@@ -252,7 +109,7 @@ export default function Hero({
         )}
         {pageSlides.map((slide, i) => (
           <div
-            key={slide.lead}
+            key={`${view}-${i}`}
             className={`hero-panel hero-panel-${i + 1} ${i === 0 ? 'is-active' : ''}`}
             aria-hidden={i !== 0}
             inert={i !== 0}
@@ -273,6 +130,7 @@ export default function Hero({
             </div>
           </div>
         ))}
+        {view !== 'contact' && <div className="tour-exit" aria-hidden="true" />}
       </div>
     </section>
   )

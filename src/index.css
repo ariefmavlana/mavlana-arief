@@ -91,7 +91,7 @@ a:focus-visible,
   font-size: 14px;
   line-height: 1.85;
   max-width: 48ch;
-  color: #716579;
+  color: var(--muted);
 }
 .body-lead {
   font-size: clamp(18px, 1.6vw, 24px);
@@ -395,7 +395,7 @@ body:has(.menu-dialog[open]) {
 .service-list p {
   margin-top: 10px;
   max-width: 48ch;
-  color: #716579;
+  color: var(--muted);
   font-size: 12px;
   line-height: 1.7;
 }
@@ -554,7 +554,7 @@ body:has(.menu-dialog[open]) {
   max-width: 52ch;
   font-size: 12px;
   line-height: 1.7;
-  color: #716579;
+  color: var(--muted);
 }
 .project-links {
   display: flex;
@@ -578,7 +578,7 @@ body:has(.menu-dialog[open]) {
   margin-top: 75px;
 }
 .skills-section {
-  background: #e9e0f1;
+  background: var(--surface);
 }
 .skills-layout {
   display: grid;
@@ -606,7 +606,7 @@ body:has(.menu-dialog[open]) {
 }
 .skill-row > span:last-child {
   margin-left: auto;
-  color: #716579;
+  color: var(--muted);
 }
 #activity {
   background: #30213f;
@@ -743,7 +743,7 @@ body:has(.menu-dialog[open]) {
   gap: 40px;
 }
 .footer-grid .eyebrow {
-  color: #716579;
+  color: var(--muted);
   margin-bottom: 22px;
 }
 .footer-grid a {
@@ -763,7 +763,7 @@ body:has(.menu-dialog[open]) {
 }
 .footer-note {
   margin-top: 10px;
-  color: #716579;
+  color: var(--muted);
 }
 .footer-bottom {
   display: flex;

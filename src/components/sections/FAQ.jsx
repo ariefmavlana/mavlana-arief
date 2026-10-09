@@ -1,3 +1,4 @@
+import { useLanguage } from '../../utils/language'
 const questions = [
   [
     'Siapa Arief Maulana?',
@@ -26,21 +27,20 @@ const questions = [
 ]
 
 export default function FAQ() {
+  const { t } = useLanguage()
   return (
     <section className="faq-section site-container">
-      <h2 className="editorial-heading">
-        FAQ<em>(s)</em>
-      </h2>
+      <h2 className="editorial-heading">{t('FAQ')}</h2>
       <div className="faq-list">
         {questions.map(([question, answer], i) => (
-          <details key={question}>
+          <details key={t(question)}>
             <summary>
               <span>
                 <small className="eyebrow">0{i + 1} / </small>
-                {question}
+                {t(question)}
               </span>
             </summary>
-            <p>{answer}</p>
+            <p>{t(answer)}</p>
           </details>
         ))}
       </div>

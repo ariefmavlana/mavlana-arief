@@ -1,5 +1,7 @@
+import { useLanguage } from '../../utils/language'
 import {
   ArrowUpRight,
+  CornerDownLeft,
   Menu,
   Settings2,
   Volume2,
@@ -21,6 +23,7 @@ export default function Navbar({
   onQualityChange,
   path,
 }) {
+  const { t, language, setLanguage } = useLanguage()
   const menu = useRef(null)
   const settingsPanel = useRef(null)
   const [settings, setSettings] = useState(false)
@@ -31,7 +34,10 @@ export default function Navbar({
       if (!settingsPanel.current.contains(event.target)) setSettings(false)
     }
     const closeWithEscape = (event) => {
-      if (event.key === 'Escape') setSettings(false)
+      if (event.key === 'Escape') {
+        setSettings(false)
+        settingsPanel.current.querySelector('button').focus()
+      }
     }
     window.addEventListener('pointerdown', closeOutside)
     window.addEventListener('keydown', closeWithEscape)
@@ -52,24 +58,43 @@ export default function Navbar({
   }, [path])
   const controls = (
     <div className="settings-controls">
-      <button onClick={onSoundChange} aria-pressed={sound}>
-        Sound <span>{sound ? 'ON' : 'OFF'}</span>
+      <p className="eyebrow settings-title">{t('Settings')}</p>
+      <label>
+        {t('Language')}
+        <select
+          aria-label={t('Language')}
+          value={language}
+          onChange={(event) => setLanguage(event.target.value)}
+        >
+          <option value="id" lang="id">
+            Bahasa Indonesia
+          </option>
+          <option value="en" lang="en">
+            English
+          </option>
+        </select>
+      </label>
+      <button onClick={onSoundChange} role="switch" aria-checked={sound}>
+        {t('Sound')}
+        <span className="setting-switch" aria-hidden="true" />
       </button>
-      <button onClick={onDarkChange} aria-pressed={dark}>
-        Dark mode <span>{dark ? 'ON' : 'OFF'}</span>
+      <button onClick={onDarkChange} role="switch" aria-checked={dark}>
+        {t('Dark mode')}
+        <span className="setting-switch" aria-hidden="true" />
       </button>
-      <button onClick={onMotionChange} aria-pressed={motion}>
-        Animation <span>{motion ? 'ON' : 'OFF'}</span>
+      <button onClick={onMotionChange} role="switch" aria-checked={motion}>
+        {t('Animation')}
+        <span className="setting-switch" aria-hidden="true" />
       </button>
       <label>
-        Quality{' '}
+        {t('Quality')}{' '}
         <select
-          aria-label="Graphics quality"
+          aria-label={t('Graphics quality')}
           value={quality}
           onChange={(event) => onQualityChange(event.target.value)}
         >
-          <option value="high">HIGH</option>
-          <option value="low">LOW</option>
+          <option value="high">{t('HIGH')}</option>
+          <option value="low">{t('LOW')}</option>
         </select>
       </label>
     </div>
@@ -81,19 +106,31 @@ export default function Navbar({
           data-page
           href="/"
           className="wordmark"
-          aria-label="Arief Maulana — beranda"
+          aria-label={t('Arief Maulana — beranda')}
         >
           ə<span>arief</span>
         </a>
-        <nav className="desktop-nav" aria-label="Navigasi utama">
-          <a data-page href="/about">
-            About
+        <nav className="desktop-nav" aria-label={t('Navigasi utama')}>
+          <a
+            data-page
+            href="/about"
+            aria-current={path === '/about' ? 'page' : undefined}
+          >
+            {t('About')}
           </a>
-          <a data-page href="/projects">
-            Work
+          <a
+            data-page
+            href="/projects"
+            aria-current={path.startsWith('/projects') ? 'page' : undefined}
+          >
+            {t('Work')}
           </a>
-          <a data-page href="/contact">
-            Contact
+          <a
+            data-page
+            href="/contact"
+            aria-current={path === '/contact' ? 'page' : undefined}
+          >
+            {t('Contact')}
           </a>
         </nav>
         <div ref={settingsPanel} className="header-settings">
@@ -103,7 +140,8 @@ export default function Navbar({
             aria-controls="settings-popover"
             onClick={() => setSettings(!settings)}
           >
-            <Settings2 size={14} /> Settings
+            <Settings2 size={14} />
+            {t('Settings')}
           </button>
           {settings && (
             <div id="settings-popover" className="settings-popover">
@@ -114,30 +152,46 @@ export default function Navbar({
         <button
           className="sound-button"
           onClick={onSoundChange}
-          aria-label={sound ? 'Mute audio' : 'Enable audio'}
+          aria-label={t(sound ? 'Mute audio' : 'Enable audio')}
         >
           {sound ? <Volume2 size={18} /> : <VolumeX size={18} />}
         </button>
-        <a data-page href="/contact" className="glass-button">
-          Let’s talk <ArrowUpRight size={15} />
+        <a
+          data-page
+          href={path === '/contact' ? '/' : '/contact'}
+          className="glass-button"
+        >
+          {t(path === '/contact' ? 'Close' : 'Let’s talk')}
+          {path === '/contact' ? (
+            <CornerDownLeft size={15} />
+          ) : (
+            <ArrowUpRight size={15} />
+          )}
         </a>
       </header>
       <div className="mobile-dock">
-        <button onClick={() => menu.current.showModal()} aria-label="Buka menu">
+        <button
+          onClick={() => menu.current.showModal()}
+          aria-label={t('Buka menu')}
+        >
           <Menu size={22} />
         </button>
-        <a data-page href="/" className="wordmark" aria-label="Beranda">
-          ə
+        <a data-page href="/" className="wordmark" aria-label={t('Beranda')}>
+          ə<span>arief</span>
         </a>
         <button
           className="dock-orb"
-          aria-label="Open portfolio guide"
+          aria-label={t('Open portfolio guide')}
           onClick={onGuideOpen}
         >
           <ArrowUpRight size={16} />
         </button>
       </div>
-      <dialog ref={menu} className="menu-dialog" aria-label="Menu portfolio">
+      <dialog
+        ref={menu}
+        className="menu-dialog"
+        aria-label={t('Menu portfolio')}
+      >
         <div className="menu-top">
           <a
             data-page
@@ -148,14 +202,14 @@ export default function Navbar({
             ə<span>arief</span>
           </a>
           <button
-            aria-label="Tutup menu"
+            aria-label={t('Tutup menu')}
             className="close-menu"
             onClick={() => menu.current.close()}
           >
             <X />
           </button>
         </div>
-        <nav aria-label="Menu portfolio">
+        <nav aria-label={t('Menu portfolio')}>
           {[
             ['', 'Home'],
             ['about', 'About'],
@@ -169,7 +223,7 @@ export default function Navbar({
               onClick={() => menu.current.close()}
             >
               <span>0{i + 1}</span>
-              {label}
+              {t(label)}
               <ArrowUpRight />
             </a>
           ))}

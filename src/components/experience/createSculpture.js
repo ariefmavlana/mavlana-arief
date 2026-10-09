@@ -17,15 +17,20 @@ export async function createSculpture(gltf, quality) {
     12.5 / Math.max(size.x, size.y, size.z),
     18.75 / Math.max(size.x, size.y, size.z),
   )
-  const cube = new THREE.BoxGeometry(8, 8, 8)
+  const cube = new THREE.BoxGeometry(6, 6, 6)
   const sphere = new THREE.SphereGeometry(6, 32, 24)
   const torus = new THREE.TorusGeometry(4.5, 1.5, 20, 64)
   const samplers = [letter, cube, sphere, torus].map((geometry) =>
     new MeshSurfaceSampler(new THREE.Mesh(geometry)).build(),
   )
-  const count = quality === 'high' ? 78400 : 30000
+  const count = quality === 'high' ? 78400 : 48400
   const arrays = Array.from({ length: 5 }, () => new Float32Array(count * 3))
   const seeds = new Float32Array(count)
+  const colors = new Float32Array(count * 3)
+  const palette = ['#9047ff', '#8844ee', '#cc66ff', '#6622cc', '#e7f5f5'].map(
+    (value) => new THREE.Color(value),
+  )
+  const color = new THREE.Color()
   const point = new THREE.Vector3()
   const heartRotation = new THREE.Quaternion().setFromAxisAngle(
     new THREE.Vector3(0, 1, 0),
@@ -34,23 +39,51 @@ export async function createSculpture(gltf, quality) {
   for (let i = 0; i < count; i++) {
     for (let shape = 0; shape < 4; shape++) {
       samplers[shape].sample(point)
+      if (shape === 2) point.multiplyScalar(Math.cbrt(Math.random()))
+      if (shape === 3) {
+        const around = Math.random() * Math.PI * 2
+        const tube = Math.random() * Math.PI * 2
+        const radius = 1.5 * Math.cbrt(Math.random())
+        point.set(
+          (4.5 + radius * Math.cos(tube)) * Math.cos(around),
+          (4.5 + radius * Math.cos(tube)) * Math.sin(around),
+          radius * Math.sin(tube),
+        )
+      }
       point.toArray(arrays[shape === 3 ? 4 : shape], i * 3)
     }
     const angle = Math.random() * Math.PI * 2
-    const depth = Math.random() * 2 - 1
-    const radius = Math.sqrt(1 - depth * depth)
+    const jitter = Math.cbrt(Math.random()) * 0.6
     point.set(
-      (16 * Math.sin(angle) ** 3 * radius) / 3,
-      ((13 * Math.cos(angle) -
+      16 * Math.sin(angle) ** 3 * 0.245 + (Math.random() - 0.5) * jitter * 1.5,
+      (13 * Math.cos(angle) -
         5 * Math.cos(2 * angle) -
         2 * Math.cos(3 * angle) -
         Math.cos(4 * angle)) *
-        radius) /
-        3,
-      depth * 2.5,
+        0.245 +
+        (Math.random() - 0.5) * jitter * 1.5,
+      (Math.random() - 0.5) * 4.9 + (Math.random() - 0.5) * jitter,
     )
     point.applyQuaternion(heartRotation).toArray(arrays[3], i * 3)
     seeds[i] = Math.random()
+    if (Math.random() < 0.11)
+      color.copy(palette[4]).lerp(palette[0], Math.random() * 0.4)
+    else {
+      const band = Math.random()
+      if (band < 0.3)
+        color
+          .copy(palette[0])
+          .lerp(palette[2], Math.sin((i / count) * Math.PI * 4) * 0.3 + 0.5)
+      else if (band < 0.6)
+        color
+          .copy(palette[0])
+          .lerp(palette[1], Math.sin((i / count) * Math.PI * 3) * 0.4 + 0.5)
+      else
+        color
+          .copy(palette[1])
+          .lerp(palette[3], Math.sin((i / count) * Math.PI * 5) * 0.3 + 0.4)
+    }
+    color.toArray(colors, i * 3)
   }
   const geometry = new THREE.BufferGeometry()
   geometry.setAttribute('position', new THREE.BufferAttribute(arrays[0], 3))
@@ -63,42 +96,60 @@ export async function createSculpture(gltf, quality) {
       ),
     )
   geometry.setAttribute('seed', new THREE.BufferAttribute(seeds, 1))
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
   const material = new THREE.ShaderMaterial({
     uniforms: {
       time: { value: 0 },
+      lightDirView: { value: new THREE.Vector3() },
+      halfDirView: { value: new THREE.Vector3() },
+      centerColor: { value: new THREE.Color(14006783) },
+      tintColor: { value: new THREE.Color(15915519) },
+      rimCool: { value: new THREE.Color(6740479) },
+      rimWarm: { value: new THREE.Color(15892735) },
+      specColor: { value: new THREE.Color(12556799) },
       progress: { value: 0 },
       pixelRatio: { value: 1 },
       pointer: { value: new THREE.Vector2(10, 10) },
     },
     vertexShader: `
       attribute vec3 shape1; attribute vec3 shape2; attribute vec3 shape3; attribute vec3 shape4;
-      attribute float seed;
+      attribute float seed; attribute vec3 color;
       uniform float time; uniform float progress; uniform float pixelRatio; uniform vec2 pointer;
-      varying float shade; varying float energy;
+      varying float shade; varying float energy; varying vec3 vColor;
       void main() {
-        vec3 p = mix(position,shape1,smoothstep(.12,.23,progress));
-        p = mix(p,shape2,smoothstep(.32,.44,progress));
-        p = mix(p,shape3,smoothstep(.57,.7,progress));
-        p = mix(p,shape4,smoothstep(.8,.92,progress));
+        vec3 p = mix(position,shape1,smoothstep(.03,.22,progress));
+        p = mix(p,shape2,smoothstep(.28,.47,progress));
+        p = mix(p,shape3,smoothstep(.53,.72,progress));
+        p = mix(p,shape4,smoothstep(.78,.97,progress));
         p += vec3(sin(time*.5+seed*90.),cos(time*.4+seed*120.),sin(time*.6+seed*70.))*.45;
         vec4 view = modelViewMatrix * vec4(p,1.);
         vec4 clip = projectionMatrix * view;
         vec2 away = clip.xy/clip.w-pointer;
         view.xy += normalize(away+vec2(.001)) * exp(-dot(away,away)*45.) * .8;
         gl_Position = projectionMatrix * view;
-        gl_PointSize = clamp((.3+seed*.8)*pixelRatio*150./-view.z, .8, 5.);
+        gl_PointSize = clamp(.6 * pixelRatio * 350. / -view.z, 2., 100.) * .84;
         shade = seed;
-        energy = (1.-smoothstep(0.,5.,length(p))) * (.5+.5*sin(time*.7));
+        energy = pow(1.-smoothstep(0.,7.,length(p)),2.);
+        vColor = color;
       }`,
     fragmentShader: `
-      varying float shade; varying float energy;
+      varying float shade; varying float energy; varying vec3 vColor;
+      uniform float time;
+      uniform vec3 lightDirView, halfDirView, centerColor, tintColor, rimCool, rimWarm, specColor;
       void main() {
-        float d=length(gl_PointCoord-.5);
-        if(d>.5) discard;
-        vec3 color=mix(vec3(.24,.002,.75),vec3(.65,.035,1.),shade);
-        color=mix(color,vec3(.94,.92,1.),pow(shade,8.));
-        color=mix(color,vec3(1.,.7,1.),energy*.8);
-        gl_FragColor=vec4(color,(1.-smoothstep(.15,.5,d))*.88);
+        vec2 uv = (gl_PointCoord - .5) * .84;
+        float d = length(uv);
+        if (d > .42) discard;
+        vec3 normal = vec3(uv.x,-uv.y,sqrt(max(0.,.25-d*d))) * 2.;
+        float diffuse = max(dot(normal,lightDirView),0.);
+        float rim = 1. - max(normal.z,0.);
+        vec3 color = vColor * (diffuse * .4 + .6) * (smoothstep(-.3,.4,normal.y) * .25 + .75) * 1.2;
+        color += vColor * pow(1.-diffuse,2.) * .18;
+        color += mix(rimWarm,rimCool,rim*rim) * pow(rim,3.) * .4;
+        color += specColor * pow(max(dot(normal,halfDirView),0.),24.) * .25;
+        color += centerColor * energy;
+        color *= (1. + .05 * sin(time * 1.5 + shade * 6.28318)) * tintColor * 1.3 * (1. + energy * .3);
+        gl_FragColor=vec4(color,1.-smoothstep(.36,.42,d));
         #include <colorspace_fragment>
       }`,
     transparent: true,
