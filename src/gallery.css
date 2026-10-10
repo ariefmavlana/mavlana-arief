@@ -1,0 +1,356 @@
+.gallery-page {
+  background: #050307;
+}
+.gallery-page .site-header.on-paper {
+  color: #fff9f5;
+  background: transparent;
+  backdrop-filter: none;
+}
+.gallery-page .site-header.on-paper .glass-button {
+  color: #fff9f5;
+  border-color: #cfa7ef66;
+}
+.work-gallery {
+  position: relative;
+  height: 100svh;
+  min-height: 640px;
+  overflow: clip;
+  color: #fff9f5;
+  background:
+    radial-gradient(ellipse at 50% 62%, #30104c55, transparent 52%), #050307;
+  isolation: isolate;
+}
+.gallery-heading {
+  position: absolute;
+  top: 100px;
+  left: 48px;
+  font: 300 30px/1 var(--display);
+}
+.gallery-heading span {
+  font: 10px var(--mono);
+  margin-left: 10px;
+  color: #b0a2c2;
+}
+.gallery-ceiling,
+.gallery-floor {
+  position: absolute;
+  left: -20%;
+  width: 140%;
+  height: 65%;
+  pointer-events: none;
+  z-index: -1;
+  background-image:
+    linear-gradient(#8b3fca38 1px, transparent 1px),
+    linear-gradient(90deg, #8b3fca38 1px, transparent 1px);
+  background-size: 100px 100px;
+  mask-image: radial-gradient(ellipse, #0009, transparent 68%);
+}
+.gallery-ceiling {
+  top: -25%;
+  transform: perspective(550px) rotateX(-55deg);
+}
+.gallery-floor {
+  bottom: -28%;
+  transform: perspective(550px) rotateX(60deg);
+  opacity: 0.4;
+}
+.gallery-stage {
+  position: absolute;
+  inset: 16% 0 27%;
+  perspective: 1300px;
+  touch-action: pan-y;
+  cursor: grab;
+}
+.gallery-stage:active {
+  cursor: grabbing;
+}
+.gallery-stage:focus-visible {
+  outline: 1px solid #c48aff;
+  outline-offset: -12px;
+}
+.gallery-card {
+  --card-width: clamp(165px, 15vw, 215px);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--card-width);
+  height: calc(var(--card-width) * 1.3);
+  transform-style: preserve-3d;
+  transform: translate(-50%, -50%)
+    translateX(calc(var(--offset) * (var(--card-width) + 24px)))
+    translateY(calc(var(--distance) * -8px))
+    translateZ(calc(var(--distance) * -65px))
+    rotateY(calc(var(--offset) * -8deg));
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.gallery-card-front,
+.gallery-reflection .project-visual {
+  border-radius: 17px;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  border: 2px solid #9d58d0;
+  box-shadow:
+    inset 0 0 24px #9d58d0aa,
+    0 0 16px #9348bd66;
+  padding: 0;
+  user-select: none;
+}
+.gallery-card-front::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    90deg,
+    #fff0 0 3px,
+    #ffffff0a 4px,
+    #0002 6px
+  );
+  box-shadow: inset 0 0 18px 7px #a95aeebb;
+  transition: opacity 0.4s;
+}
+.gallery-card.is-selected .gallery-card-front {
+  border-color: #e3aeff;
+  box-shadow:
+    0 0 22px #b954f666,
+    inset 0 0 25px #ddacff;
+}
+.gallery-card.is-selected .gallery-card-front::after {
+  opacity: 0.6;
+}
+.gallery-card-front > img,
+.gallery-reflection img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+.gallery-card-front:hover > img {
+  transform: scale(1.03);
+}
+.gallery-card .project-art {
+  padding: 15px;
+}
+.gallery-card .project-art > svg {
+  width: 68px;
+  height: 68px;
+  margin-bottom: 20px;
+}
+.gallery-card .project-art > span {
+  font-size: 32px;
+}
+.gallery-card .project-art > small {
+  display: none;
+}
+.gallery-card .project-visual-caption {
+  bottom: 36px;
+  left: 12px;
+  font-size: 7px;
+}
+.gallery-card-name {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  font: 10px var(--mono);
+  text-align: left;
+  color: #fff;
+  text-shadow: 0 1px 5px #000;
+  z-index: 1;
+}
+.gallery-reflection {
+  position: absolute;
+  top: calc(100% + 12px);
+  width: 100%;
+  height: 100%;
+  opacity: 0.32;
+  pointer-events: none;
+  mask-image: linear-gradient(#0008, transparent 80%);
+}
+.gallery-reflection .project-visual {
+  transform: scaleY(-1);
+  filter: blur(2px);
+}
+.gallery-details {
+  position: absolute;
+  top: 73%;
+  left: 20px;
+  right: 20px;
+  text-align: center;
+}
+.gallery-details > p {
+  color: #c4afd7;
+  font-size: 9px;
+  margin: 0 0 10px;
+}
+.gallery-details > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font: 300 32px/1.1 var(--display);
+}
+.gallery-controls {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+.gallery-filter {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 13px;
+}
+.gallery-filter-toggle {
+  border: 1px solid #c99ee780;
+  border-radius: 40px;
+  padding: 13px 25px;
+  color: #fff;
+  background: linear-gradient(130deg, #381656aa, #732bb3aa);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 13px;
+  backdrop-filter: blur(16px);
+}
+.gallery-filter-options {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 230px;
+  border: 1px solid #bd86df80;
+  border-radius: 20px;
+  background: #24122aee;
+  backdrop-filter: blur(20px);
+  padding: 8px;
+  z-index: 4;
+}
+.gallery-filter-options button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  color: #fff;
+  border: 0;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 13px;
+}
+.gallery-filter-options button:hover,
+.gallery-filter-options button[aria-pressed='true'] {
+  background: #8e44c455;
+}
+.gallery-navigation {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: 11px var(--mono);
+}
+.gallery-navigation > button {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  color: inherit;
+  border: 0;
+  background: none;
+}
+.gallery-navigation > button:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+.gallery-ticks {
+  display: flex;
+}
+.gallery-ticks button {
+  padding: 10px 6px;
+  height: 40px;
+  width: 22px;
+  background: none;
+  border: 0;
+}
+.gallery-ticks button span {
+  display: block;
+  width: 2px;
+  height: 16px;
+  margin: auto;
+  background: #ffffff60;
+  border-radius: 2px;
+  transition:
+    background 0.3s,
+    transform 0.3s;
+}
+.gallery-ticks button[aria-current] span {
+  background: #d9a4ff;
+  transform: scaleX(3);
+  box-shadow: 0 0 8px #c578ff;
+}
+@media (max-width: 640px) {
+  .work-gallery {
+    min-height: 560px;
+  }
+  .gallery-heading {
+    top: 30px;
+    left: 20px;
+  }
+  .gallery-stage {
+    inset: 12% 0 37%;
+  }
+  .gallery-card {
+    --card-width: clamp(150px, 46vw, 210px);
+  }
+  .gallery-details {
+    top: 62%;
+  }
+  .gallery-details > a {
+    font-size: 30px;
+  }
+  .gallery-details > p {
+    max-width: 280px;
+    margin: 0 auto 10px;
+    line-height: 1.4;
+  }
+  .gallery-controls {
+    bottom: 105px;
+  }
+  .gallery-navigation {
+    gap: 6px;
+  }
+  .gallery-filter {
+    margin-bottom: 3px;
+  }
+}
+.motion-paused .gallery-card,
+.motion-paused .gallery-card-front > img {
+  transition: none;
+}
+@media (max-width: 640px) and (max-height: 700px) {
+  .gallery-stage {
+    inset: 10% 0 49%;
+  }
+  .gallery-card {
+    --card-width: clamp(140px, 42vw, 175px);
+  }
+  .gallery-details {
+    top: auto;
+    bottom: 220px;
+  }
+  .gallery-card .project-art > svg {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 12px;
+  }
+  .gallery-card .project-art > span {
+    font-size: 23px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gallery-card,
+  .gallery-card-front > img,
+  .gallery-ticks button span {
+    transition: none;
+  }
+}

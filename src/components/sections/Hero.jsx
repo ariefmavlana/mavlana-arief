@@ -115,7 +115,16 @@ export default function Hero({
             inert={i !== 0}
           >
             <div className="hero-content">
-              <p className="hero-caption eyebrow">{slide.caption}</p>
+              {i > 0 && (
+                <p className="hero-topic eyebrow">
+                  {slide.caption.split('\n')[0]}
+                </p>
+              )}
+              <p className="hero-caption eyebrow">
+                {i === 0
+                  ? slide.caption
+                  : slide.caption.split('\n').slice(1).join('\n')}
+              </p>
               {i === 0 ? (
                 <h1 className="hero-heading">
                   <em>{slide.lead}</em>

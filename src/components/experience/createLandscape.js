@@ -169,7 +169,12 @@ export async function createLandscape({ scene, manager, gltf, ktx, quality }) {
       vec2 uv = vCoord.xy / vCoord.w;
       uv.x = 1.-uv.x;
       uv += N.xz * (.02 + .14 * night);
-      vec3 reflection = texture2D(tReflectionMap,clamp(uv,.001,.999)).rgb;
+      vec2 soften = vec2(.0014) * clamp(vWaterDepth / 6.,0.,1.);
+      vec3 reflection = texture2D(tReflectionMap,clamp(uv,.001,.999)).rgb * .4;
+      reflection += texture2D(tReflectionMap,clamp(uv+vec2(soften.x,0.),.001,.999)).rgb * .15;
+      reflection += texture2D(tReflectionMap,clamp(uv-vec2(soften.x,0.),.001,.999)).rgb * .15;
+      reflection += texture2D(tReflectionMap,clamp(uv+vec2(0.,soften.y),.001,.999)).rgb * .15;
+      reflection += texture2D(tReflectionMap,clamp(uv-vec2(0.,soften.y),.001,.999)).rgb * .15;
       vec3 color = mix(body,reflection,fresnel);
       color += shallowColor * pow(max(N.y,0.),9.) * (1.-depth) * .15 * (1.-night);
       float gate = smoothstep(0.,.25,depth);

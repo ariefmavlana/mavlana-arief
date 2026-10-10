@@ -70,12 +70,12 @@ export default function ExperienceWorld({
     renderer.outputColorSpace = THREE.SRGBColorSpace
     renderer.toneMapping = THREE.LinearToneMapping
     renderer.shadowMap.enabled = true
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    renderer.shadowMap.type = THREE.PCFShadowMap
     const bloomTarget = new THREE.WebGLRenderTarget(1, 1, {
       samples: quality === 'high' ? 4 : 2,
     })
     const composer = new EffectComposer(renderer, bloomTarget)
-    const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.08, 0.1, 0.85)
+    const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.08, 0.3, 0.75)
     const output = new OutputPass()
     composer.addPass(new RenderPass(scene, camera))
     composer.addPass(bloom)
@@ -212,6 +212,7 @@ export default function ExperienceWorld({
       }
       flight = settings.current.motion ? Math.min(1, flight + delta / 1.6) : 1
       const mobile = window.innerWidth <= 640
+      const compact = mobile && container.clientHeight < 700
       const proximity = Math.sin(smoothProgress * Math.PI) ** 2
       const angle = Math.atan2(5.44, 35.66) + smoothProgress * Math.PI * 2
       const radius =
@@ -223,7 +224,11 @@ export default function ExperienceWorld({
       )
       const segment = smoothProgress * 4
       const offset = (1 - Math.abs((segment % 2) - 1)) * 5
-      lookAt.set(0, mobile ? -0.5 : offset, mobile ? -7 : offset)
+      lookAt.set(
+        0,
+        mobile ? (compact ? -5 : -0.5) : offset,
+        mobile ? -7 : offset,
+      )
       if (homeTour && chapter > 4) {
         const travel = THREE.MathUtils.smootherstep(chapter, 4, 5)
         officePath.getPoint(0, landmarkPosition)
@@ -308,6 +313,7 @@ export default function ExperienceWorld({
       atmosphere.material.uniforms.night.value = night
       atmosphere.material.uniforms.pixelRatio.value = renderer.getPixelRatio()
       if (sculpture) {
+        sculpture.scale.setScalar(compact ? 0.78 : 1)
         sculpture.material.uniforms.time.value = time
         sculpture.material.uniforms.lightDirView.value
           .copy(sun.position)
@@ -337,7 +343,7 @@ export default function ExperienceWorld({
         !document.hidden
       ) {
         if (sceneView === 'contact') {
-          bloom.strength = THREE.MathUtils.lerp(0.15, 0.08, night)
+          bloom.strength = THREE.MathUtils.lerp(0.3, 0.12, night)
           composer.render(delta)
         } else renderer.render(scene, camera)
         needsRender = false

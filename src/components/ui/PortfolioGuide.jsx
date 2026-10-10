@@ -1,5 +1,5 @@
 import { useLanguage } from '../../utils/language'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ArrowUpRight, Send, X } from 'lucide-react'
 import { projects } from '../../data/projects'
 import { PERSONAL_INFO } from '../../utils/constants'
@@ -8,6 +8,10 @@ export default function PortfolioGuide({ dialogRef: dialog }) {
   const { t } = useLanguage()
   const [messages, setMessages] = useState([])
   const [question, setQuestion] = useState('')
+  const conversation = useRef(null)
+  useEffect(() => {
+    conversation.current.scrollTop = conversation.current.scrollHeight
+  }, [messages])
   const answer = (text) => {
     const query = text.toLowerCase()
     const project = projects.find(
@@ -83,7 +87,7 @@ export default function PortfolioGuide({ dialogRef: dialog }) {
             <X size={20} />
           </button>
         </div>
-        <div className="guide-messages" aria-live="polite">
+        <div ref={conversation} className="guide-messages" aria-live="polite">
           <p className="guide-answer">
             {t('Hello! What would you like to explore?')}
           </p>

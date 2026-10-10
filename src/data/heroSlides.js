@@ -14,14 +14,14 @@ export const heroSlides = {
           'PENDEKATAN\nTUJUAN PRODUK DAN KEBUTUHAN PENGGUNA\nMENJADI DASAR SETIAP KEPUTUSAN.',
       },
       {
-        lead: 'Susun',
-        lines: 'ALUR YANG\nJELAS. MUDAH\nDIGUNAKAN.',
+        lead: 'Dirancang',
+        lines: 'UNTUK MANUSIA.',
         caption:
           'RANCANG SOLUSINYA\nDARI KEBUTUHAN, TENTUKAN FITUR\nDAN ALUR YANG AKAN DILALUI PENGGUNA.',
       },
       {
-        lead: 'Lalu',
-        lines: 'BANGUN.\nHUBUNGKAN.\nUJI.',
+        lead: 'Dibangun',
+        lines: 'DENGAN TUJUAN.',
         caption:
           'WUJUDKAN RANCANGANNYA\nANTARMUKA, DATA, DAN LAYANAN\nDIHUBUNGKAN DAN DIUJI SEBAGAI SATU SISTEM.',
       },
@@ -86,13 +86,13 @@ export const heroSlides = {
       },
       {
         lead: 'Design',
-        lines: 'A CLEAR PATH.\nMAKE IT EASY\nTO USE.',
+        lines: 'FOR PEOPLE.',
         caption:
           'PLAN THE SOLUTION\nTURN REQUIREMENTS INTO FEATURES\nAND A CLEAR JOURNEY FOR THE USER.',
       },
       {
-        lead: 'Then',
-        lines: 'BUILD.\nCONNECT.\nTEST.',
+        lead: 'Build',
+        lines: 'WITH PURPOSE.',
         caption:
           'BRING THE DESIGN TO LIFE\nCONNECT INTERFACES, DATA, AND SERVICES.\nTEST HOW THEY WORK TOGETHER.',
       },

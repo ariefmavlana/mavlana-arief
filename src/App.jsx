@@ -9,6 +9,7 @@ import Services from './components/sections/Services'
 import Contact from './components/sections/Contact'
 import SEOHead from './components/seo/SEOHead'
 import ProjectDetail from './components/pages/ProjectDetail'
+import WorkGallery from './components/pages/WorkGallery'
 import ContactForm from './components/pages/ContactForm'
 import FAQ from './components/sections/FAQ'
 import PortfolioGuide from './components/ui/PortfolioGuide'
@@ -117,7 +118,7 @@ export default function App() {
   return (
     <LanguageContext value={{ language, setLanguage, t }}>
       <div
-        className={`site-shell ${dark ? 'is-dark' : ''} ${motion ? '' : 'motion-paused'} ${!worldPage ? 'content-page' : ''} ${path === '/contact' ? 'contact-page' : ''}`}
+        className={`site-shell ${dark ? 'is-dark' : ''} ${motion ? '' : 'motion-paused'} ${!worldPage ? 'content-page' : ''} ${path === '/contact' ? 'contact-page' : ''} ${path === '/projects' ? 'gallery-page' : ''}`}
         onClick={navigate}
       >
         <SEOHead path={path} />
@@ -170,7 +171,7 @@ export default function App() {
                 <FAQ />
               </>
             )}
-            {path === '/projects' && <Projects catalog />}
+            {path === '/projects' && <WorkGallery />}
             {path.startsWith('/projects/') && (
               <ProjectDetail slug={path.slice('/projects/'.length)} />
             )}
@@ -188,9 +189,11 @@ export default function App() {
                   </a>
                 </section>
               )}
-            {path !== '/contact' && path !== '/' && <Contact />}
+            {path !== '/contact' && path !== '/' && path !== '/projects' && (
+              <Contact />
+            )}
           </main>
-          <Footer path={path} />
+          {path !== '/projects' && <Footer path={path} />}
           <PortfolioGuide dialogRef={guide} />
         </div>
       </div>

@@ -53,6 +53,7 @@ export async function createSculpture(gltf, quality) {
       point.toArray(arrays[shape === 3 ? 4 : shape], i * 3)
     }
     const angle = Math.random() * Math.PI * 2
+    const fill = Math.sqrt(Math.random())
     const jitter = Math.cbrt(Math.random()) * 0.6
     point.set(
       16 * Math.sin(angle) ** 3 * 0.245 + (Math.random() - 0.5) * jitter * 1.5,
@@ -64,6 +65,9 @@ export async function createSculpture(gltf, quality) {
         (Math.random() - 0.5) * jitter * 1.5,
       (Math.random() - 0.5) * 4.9 + (Math.random() - 0.5) * jitter,
     )
+    point.x *= fill
+    point.y *= fill
+    point.z *= Math.sqrt(1 - fill * fill)
     point.applyQuaternion(heartRotation).toArray(arrays[3], i * 3)
     seeds[i] = Math.random()
     if (Math.random() < 0.11)
@@ -121,7 +125,17 @@ export async function createSculpture(gltf, quality) {
         p = mix(p,shape2,smoothstep(.28,.47,progress));
         p = mix(p,shape3,smoothstep(.53,.72,progress));
         p = mix(p,shape4,smoothstep(.78,.97,progress));
-        p += vec3(sin(time*.5+seed*90.),cos(time*.4+seed*120.),sin(time*.6+seed*70.))*.45;
+        float phase = seed * 6.28318;
+        vec3 flow = vec3(
+          sin(p.y*.8 + time*.5 + phase) + cos(p.z*.6 - time*.3),
+          sin(p.z*.7 + time*.4 + phase) + cos(p.x*.8 + time*.35),
+          sin(p.x*.6 - time*.45 + phase) + cos(p.y*.7 + time*.25)
+        );
+        float drift = mix(.22, .85, seed * seed);
+        float morph = sin(fract(progress * 4.) * 3.14159);
+        float heart = smoothstep(.53,.72,progress) * (1.-smoothstep(.78,.97,progress));
+        p += flow * (drift + morph * .35) * mix(1.,.25,heart);
+        p += normalize(p + vec3(.01)) * pow(seed, 18.) * mix(1.8,.5,heart);
         vec4 view = modelViewMatrix * vec4(p,1.);
         vec4 clip = projectionMatrix * view;
         vec2 away = clip.xy/clip.w-pointer;
@@ -129,7 +143,9 @@ export async function createSculpture(gltf, quality) {
         gl_Position = projectionMatrix * view;
         gl_PointSize = clamp(.6 * pixelRatio * 350. / -view.z, 2., 100.) * .84;
         shade = seed;
-        energy = pow(1.-smoothstep(0.,7.,length(p)),2.);
+        vec3 center = (modelViewMatrix * vec4(0.,0.,0.,1.)).xyz;
+        energy = pow(1.-smoothstep(0.,7.,length(view.xy-center.xy)),2.);
+        energy *= mix(1.,.6,heart);
         vColor = color;
       }`,
     fragmentShader: `
@@ -147,13 +163,13 @@ export async function createSculpture(gltf, quality) {
         color += vColor * pow(1.-diffuse,2.) * .18;
         color += mix(rimWarm,rimCool,rim*rim) * pow(rim,3.) * .4;
         color += specColor * pow(max(dot(normal,halfDirView),0.),24.) * .25;
-        color += centerColor * energy;
+        color += centerColor * energy * 1.65;
         color *= (1. + .05 * sin(time * 1.5 + shade * 6.28318)) * tintColor * 1.3 * (1. + energy * .3);
         gl_FragColor=vec4(color,1.-smoothstep(.36,.42,d));
         #include <colorspace_fragment>
       }`,
     transparent: true,
-    depthWrite: false,
+    depthWrite: true,
     blending: THREE.NormalBlending,
   })
   const points = new THREE.Points(geometry, material)

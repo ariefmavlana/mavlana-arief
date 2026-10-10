@@ -3,14 +3,16 @@ import { createTreePetals } from './createTreePetals'
 
 export function createAtmosphere() {
   const geometry = new THREE.BufferGeometry()
-  const count = 650
+  const count = 1500
   const positions = new Float32Array(count * 3)
   const phases = new Float32Array(count)
   for (let i = 0; i < count; i++) {
-    positions[i * 3] = (Math.random() - 0.5) * 160
+    const nearby = i > 650
+    positions[i * 3] = (Math.random() - 0.5) * (nearby ? 45 : 160)
     positions[i * 3 + 1] = Math.random() * 35 - 10
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 160
-    phases[i] = Math.random()
+    positions[i * 3 + 2] =
+      (Math.random() - 0.5) * (nearby ? 45 : 160) - (nearby ? 7 : 0)
+    phases[i] = nearby ? 0.81 + Math.random() * 0.19 : Math.random()
   }
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
   geometry.setAttribute('phase', new THREE.BufferAttribute(phases, 1))
@@ -33,7 +35,7 @@ export function createAtmosphere() {
     fragmentShader: `
       varying float glow; uniform float night;
       void main(){float d=length(gl_PointCoord-.5);if(d>.5)discard;
-        vec3 color=glow>.8?mix(vec3(.78,.62,1.),vec3(1.,.85,.5),night):mix(vec3(.35,.23,.43),vec3(.14,.08,.25),night);
+        vec3 color=glow>.8?mix(vec3(1.,.70,.97),vec3(1.,.85,.5),night):mix(vec3(.35,.23,.43),vec3(.14,.08,.25),night);
         gl_FragColor=sRGBTransferEOTF(vec4(color,(1.-smoothstep(.05,.5,d))*.6));
         #include <colorspace_fragment>
       }`,
@@ -111,8 +113,10 @@ export async function createSakura(gltf, quality) {
   tree.branchesMesh.geometry.computeBoundingBox()
   tree.scale.setScalar(50 / tree.branchesMesh.geometry.boundingBox.max.y)
   tree.position.y = -4
-  tree.leavesMesh.material.emissive.set('#8f4fc6')
+  tree.leavesMesh.material.emissive.set('#b36be2')
   tree.leavesMesh.material.emissiveIntensity = 0.9
+  tree.branchesMesh.material.emissive.set('#603881')
+  tree.branchesMesh.material.emissiveIntensity = 0.4
   const leafShader = tree.leavesMesh.material.onBeforeCompile
   tree.leavesMesh.material.onBeforeCompile = (shader, renderer) => {
     leafShader.call(tree.leavesMesh.material, shader, renderer)
@@ -221,6 +225,11 @@ export async function createSakura(gltf, quality) {
         night,
       )
       tree.branchesMesh.material.color.copy(dayBark).lerp(nightBark, night)
+      tree.branchesMesh.material.emissiveIntensity = THREE.MathUtils.lerp(
+        0.4,
+        0.12,
+        night,
+      )
       tree.leavesMesh.material.color.copy(dayLeaves).lerp(nightLeaves, night)
       tree.leavesMesh.material.emissive
         .copy(dayEmissive)

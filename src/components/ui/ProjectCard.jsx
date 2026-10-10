@@ -1,25 +1,9 @@
 import { useLanguage } from '../../utils/language'
-import {
-  ArrowUpRight,
-  CarFront,
-  Code2,
-  ChartNoAxesCombined,
-} from 'lucide-react'
-
-const projectImages = {
-  weather: '/projects/weather.png',
-  coin: '/projects/coin.png',
-  healthcare: '/projects/healthcare.png',
-}
-const projectIcons = {
-  'car-dealer': CarFront,
-  accounting: ChartNoAxesCombined,
-  mjs: Code2,
-}
+import { ArrowUpRight } from 'lucide-react'
+import ProjectArtwork from './ProjectArtwork'
 
 const ProjectCard = ({ project, preview = false }) => {
   const { t } = useLanguage()
-  const Icon = projectIcons[project.id]
   const Visual = preview ? 'div' : 'a'
   const link = preview
     ? {}
@@ -34,32 +18,7 @@ const ProjectCard = ({ project, preview = false }) => {
         <span className="project-index">
           {t('PROJECT')} / {project.number}
         </span>
-        {projectImages[project.id] ? (
-          <>
-            <img
-              src={projectImages[project.id]}
-              alt={`${t('Ilustrasi konsep')}: ${project.title}`}
-              loading="lazy"
-              width="1000"
-              height="1000"
-            />
-            <span className="project-visual-caption">
-              {t('Ilustrasi konsep')}
-            </span>
-          </>
-        ) : (
-          <div className="project-art">
-            <Icon strokeWidth={0.7} />
-            <span>
-              {project.id === 'car-dealer'
-                ? t('DRIVE THE NEXT.')
-                : project.id === 'accounting'
-                  ? t('Make numbers matter.')
-                  : t('Always learning.')}
-            </span>
-            <small>{project.stack.join(' / ')}</small>
-          </div>
-        )}
+        <ProjectArtwork project={project} />
         <span className="project-open">
           <ArrowUpRight size={26} />
         </span>
